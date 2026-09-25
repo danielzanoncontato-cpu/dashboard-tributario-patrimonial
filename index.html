@@ -1187,13 +1187,30 @@ function alterarFinanciamentoImovel(idx, val) {
   }
 }
 
-function setObjetivoImovel(idx, objNome) {
+function toggleObjetivoImovel(idx, objNome) {
   if (state.imoveis[idx]) {
-    state.imoveis[idx].objetivo = objNome;
-    state.imoveis[idx].objetivos = [objNome];
+    if (!Array.isArray(state.imoveis[idx].objetivos)) {
+      if (state.imoveis[idx].objetivo) {
+        state.imoveis[idx].objetivos = state.imoveis[idx].objetivo.split(' + ').map(s => s.trim());
+      } else {
+        state.imoveis[idx].objetivos = ['Locação'];
+      }
+    }
+    const objs = state.imoveis[idx].objetivos;
+    const pos = objs.indexOf(objNome);
+    if (pos > -1) {
+      objs.splice(pos, 1);
+    } else {
+      objs.push(objNome);
+    }
+    state.imoveis[idx].objetivo = objs.join(' + ');
   }
   renderizarImoveis();
   recalcularTudo();
+}
+
+function setObjetivoImovel(idx, objNome) {
+  toggleObjetivoImovel(idx, objNome);
 }
 
 function renderizarImoveis() {
@@ -1217,8 +1234,10 @@ function renderizarImoveis() {
     const isQuitado = (im.financiado === 'NAO' || im.financiado === 'QUITADO' || !im.financiado);
     if (!isQuitado) totSaldoDevedor += (im.saldoDevedor || 0);
 
-    let obj = im.objetivo || 'Locação';
-    if (obj === 'Uso Próprio') obj = 'Sucessão';
+    let objs = Array.isArray(im.objetivos) ? im.objetivos : (im.objetivo ? im.objetivo.split(' + ').map(s => s.trim()) : ['Locação']);
+    const isLoc = objs.includes('Locação');
+    const isVen = objs.includes('Venda');
+    const isSuc = objs.includes('Sucessão') || objs.includes('Uso Próprio');
     const cm = im.clausulasMatricula || {
       inalienabilidade: true,
       impenhorabilidade: true,
@@ -1266,10 +1285,10 @@ function renderizarImoveis() {
         </div>
       </td>
       <td class="p-2 text-center whitespace-nowrap">
-        <div class="inline-flex rounded-lg border border-slate-300 dark:border-zinc-700 p-0.5 bg-slate-100 dark:bg-zinc-900">
-          <button type="button" onclick="setObjetivoImovel(${idx}, 'Locação')" class="px-2 py-1 text-[11px] font-bold rounded-md transition ${obj === 'Locação' ? 'bg-black text-white dark:bg-white dark:text-black shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-black dark:hover:text-white'}">Locação</button>
-          <button type="button" onclick="setObjetivoImovel(${idx}, 'Venda')" class="px-2 py-1 text-[11px] font-bold rounded-md transition ${obj === 'Venda' ? 'bg-black text-white dark:bg-white dark:text-black shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-black dark:hover:text-white'}">Venda</button>
-          <button type="button" onclick="setObjetivoImovel(${idx}, 'Sucessão')" class="px-2 py-1 text-[11px] font-bold rounded-md transition ${obj === 'Sucessão' ? 'bg-black text-white dark:bg-white dark:text-black shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-black dark:hover:text-white'}">Sucessão</button>
+        <div class="inline-flex rounded-lg border border-slate-300 dark:border-zinc-700 p-0.5 bg-slate-100 dark:bg-zinc-900 gap-0.5" title="Objetivos do Imóvel (Selecione Locação, Venda e/ou Sucessão simultaneamente)">
+          <button type="button" onclick="toggleObjetivoImovel(${idx}, 'Locação')" class="px-2 py-1 text-[11px] rounded-md transition cursor-pointer ${isLoc ? 'bg-black text-white dark:bg-white dark:text-black font-black shadow-xs' : 'text-slate-500 dark:text-slate-400 font-bold hover:bg-slate-200 dark:hover:bg-zinc-800 hover:text-black dark:hover:text-white'}" title="Locação (Geração de Renda Mensal)">Locação</button>
+          <button type="button" onclick="toggleObjetivoImovel(${idx}, 'Venda')" class="px-2 py-1 text-[11px] rounded-md transition cursor-pointer ${isVen ? 'bg-black text-white dark:bg-white dark:text-black font-black shadow-xs' : 'text-slate-500 dark:text-slate-400 font-bold hover:bg-slate-200 dark:hover:bg-zinc-800 hover:text-black dark:hover:text-white'}" title="Venda / Desinvestimento">Venda</button>
+          <button type="button" onclick="toggleObjetivoImovel(${idx}, 'Sucessão')" class="px-2 py-1 text-[11px] rounded-md transition cursor-pointer ${isSuc ? 'bg-black text-white dark:bg-white dark:text-black font-black shadow-xs' : 'text-slate-500 dark:text-slate-400 font-bold hover:bg-slate-200 dark:hover:bg-zinc-800 hover:text-black dark:hover:text-white'}" title="Sucessão / Planejamento Sucessório">Sucessão</button>
         </div>
       </td>
       <td class="p-2 text-center whitespace-nowrap">
