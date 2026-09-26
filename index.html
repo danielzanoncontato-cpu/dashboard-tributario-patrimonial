@@ -461,7 +461,7 @@
             <th class="p-2.5 text-center">Valor de Mercado</th>
             <th class="p-2.5 text-center" title="Aluguel mensal atual em reais hoje">Aluguel Hoje (R$/m)</th>
             <th class="p-2.5 text-center" title="Quantidade de meses de vacância no ano (0 a 12 meses digitado)">Vacância (meses)</th>
-            <th class="p-2.5 text-center" title="Taxa de administração imobiliária sobre a locação (0% a 10%)">Taxa Adm. (%)</th>
+            
             <th class="p-2.5 text-center" title="IPTU mensal do imóvel">IPTU (R$/m)</th>
             <th class="p-2.5 text-center" title="Condomínio mensal do imóvel">Condomínio (R$/m)</th>
             <th class="p-2.5 text-center">Ações</th>
@@ -483,7 +483,7 @@
               <span id="lbl-tot-aluguel-anual-condensado">R$ 306.000,00/ano</span>
             </td>
             <td class="p-2.5 text-center font-mono font-bold text-xs" id="lbl-tot-vacancia-condensado">0,3 meses (méd.)</td>
-            <td class="p-2.5 text-center font-mono font-bold text-xs" id="lbl-tot-taxa-adm-condensado">8,0%</td>
+            
             <td class="p-2.5 text-center font-mono font-bold text-xs" id="lbl-tot-iptu-condensado">R$ 950,00/m</td>
             <td class="p-2.5 text-center font-mono font-bold text-xs" id="lbl-tot-condominio-condensado">R$ 2.300,00/m</td>
             <td class="p-2.5 text-center">-</td>
@@ -777,11 +777,11 @@
             </button>
           </div>
 
-          <!-- CARD 4: ADMINISTRAÇÃO DE ALUGUEL & IPTU (LOCAÇÃO) -->
+          <!-- CARD 4: CUSTEIO DA LOCAÇÃO, MESES NÃO LOCADOS & IPTU -->
           <div class="card-deducao-quadrado bg-white dark:bg-zinc-950/60 rounded-xl p-4 border border-black dark:border-zinc-700 space-y-3 flex flex-col justify-between shadow-2xs hover:border-black transition">
             <div class="space-y-2">
               <div class="flex justify-between items-center pb-2 border-b border-slate-200 dark:border-zinc-700">
-                <span class="font-black text-xs text-slate-900 dark:text-white">🏢 Adm. Aluguel &amp; IPTU</span>
+                <span class="font-black text-xs text-slate-900 dark:text-white">🏢 Custeio Locação &amp; IPTU</span>
                 <select id="sel-deducao-locacao-ativo" onchange="atualizarDeducaoLocacaoTab1()" class="p-1 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-slate-900 dark:text-white text-xs font-bold">
                   <option value="SIM" selected>SIM</option>
                   <option value="NAO">NÃO</option>
@@ -800,27 +800,7 @@
               </div>
               <div id="painel-deducao-locacao-detalhes" class="space-y-2 text-xs">
                 <div>
-                  <div class="flex justify-between items-center mb-1">
-                    <label class="block text-slate-700 dark:text-slate-300 text-[10px] font-bold">Taxa Adm. Imobiliária:</label>
-                    <span class="font-mono font-bold text-slate-900 dark:text-white text-[10px] whitespace-nowrap" id="lbl-deducao-adm-valor">R$ 0,00/ano</span>
-                  </div>
-                  <select id="sel-deducao-taxa-adm" onchange="selecionarTaxaAdm(this.value)" class="w-full p-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-slate-900 dark:text-white font-mono font-bold text-xs focus:outline-none focus:border-black dark:border-zinc-700 shadow-2xs cursor-pointer">
-                    <option value="0.00">0%</option>
-                    <option value="0.01">1%</option>
-                    <option value="0.02">2%</option>
-                    <option value="0.03">3%</option>
-                    <option value="0.04">4%</option>
-                    <option value="0.05">5%</option>
-                    <option value="0.06">6%</option>
-                    <option value="0.07">7%</option>
-                    <option value="0.08" selected>8%</option>
-                    <option value="0.09">9%</option>
-                    <option value="0.10">10%</option>
-                  </select>
-                  <input type="hidden" id="rng-deducao-taxa-adm" value="0.08">
-                </div>
-                <div>
-                  <label class="block text-slate-700 dark:text-slate-300 text-[10px] font-bold">IPTU Anual do Locador:</label>
+                  <label class="block text-slate-700 dark:text-slate-300 text-[10px] font-bold">IPTU Anual Suportado p/ Locador:</label>
                   <div class="flex items-center gap-1.5">
                     <input type="text" inputmode="numeric" id="inp-deducao-iptu-anual" value="9.600,00" onfocus="this.select()" oninput="aplicarMascaraMoedaInput(this, () => atualizarDeducaoLocacaoTab1())" onblur="formatarMoedaBlur(this, () => atualizarDeducaoLocacaoTab1())" class="w-full p-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-slate-900 dark:text-white font-black text-xs font-mono text-right" title="IPTU pago diretamente pelo locador (Art. 31 Lei 7.713/88)">
                     <span class="text-xs text-slate-400 select-none flex-shrink-0" title="Preenchimento editável">✏️</span>
@@ -831,7 +811,7 @@
                   <div>
                     <label class="block text-slate-700 dark:text-slate-300 text-[10px] font-bold">Meses Não Locados:</label>
                     <div class="flex items-center gap-1">
-                      <input type="number" id="inp-card4-meses-nao-locados" min="0" max="12" step="1" value="0" oninput="atualizarMesesNaoLocadosSimulacao(this.value)" onchange="atualizarMesesNaoLocadosSimulacao(this.value)" class="w-full p-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-slate-900 dark:text-white font-black text-xs font-mono text-center">
+                      <input type="number" id="inp-card4-meses-nao-locados" min="0" max="12" step="1" value="0" oninput="atualizarMesesNaoLocadosSimulacao(this.value)" onchange="atualizarMesesNaoLocadosSimulacao(this.value)" class="w-full p-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-slate-900 dark:text-white font-black text-xs font-mono text-center" title="Quantidade de meses não locados no ano">
                     </div>
                   </div>
                   <div>
@@ -840,11 +820,12 @@
                       <span>🏷️</span> R$ de Época
                     </button>
                   </div>
-                </div></div>
+                </div>
+              </div>
             </div>
             <div class="text-[10px] text-slate-600 dark:text-slate-400 pt-1.5 border-t border-slate-200 dark:border-zinc-700 flex justify-between items-center">
               <span id="lbl-locacao-rotulo-tab1">Abatido da Renda (Art. 31):</span>
-              <b class="font-mono text-black dark:text-white font-black" id="lbl-deducao-locacao-total">R$ 0,00/ano</b>
+              <b class="font-mono text-black dark:text-white font-black" id="lbl-deducao-locacao-total">R$ 9.600,00/ano</b>
             </div>
             <button type="button" onclick="abrirMemoriaCalculo('livro_caixa_locacao')" class="w-full mt-2 py-1.5 px-2 rounded-lg bg-black hover:bg-zinc-800 text-white dark:bg-white dark:text-black dark:hover:bg-zinc-200 border border-black dark:border-white font-bold text-[10px] flex items-center justify-center gap-1 transition cursor-pointer shadow-xs">
               🔍 Ver Memória de Cálculo &amp; Raciocínio
@@ -1166,81 +1147,45 @@
         </div>
         </div>
         <!-- SÍNTESE DE RESULTADOS: ECONOMIA FISCAL DAS DEDUÇÕES (RECEITA FEDERAL) --> <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-800 space-y-3"> <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pb-2.5 border-b border-slate-200"> <div class="flex items-center gap-2"> <span class="px-2.5 py-0.5 rounded-full bg-black text-white dark:bg-white dark:text-black text-white font-black text-[10px] uppercase shadow-xs"> Receita Federal • Deduções &amp; Economia Fiscal </span> <h4 class="font-black text-xs text-slate-900">Abatimentos Legais no IRPF &amp; Despesas Operacionais no Lucro Real PJ</h4> </div> <span class="text-[10px] text-white font-bold bg-slate-900/80 px-2 py-0.5 rounded-lg border border-slate-800"> ⚖️ Lei nº 9.250/95 • Art. 311 RIR/18 </span> </div> <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs"> <!-- 1. ECONOMIA FISCAL NO IRPF --> <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex justify-between items-center shadow-2xs"> <div class="space-y-0.5"> <span class="text-[10px] text-white block font-bold uppercase tracking-wider">Economia Fiscal no IRPF (Pessoa Física):</span> <div class="font-black text-white font-mono text-lg" id="lbl-resultado-eco-irpf">R$ 21.450,00/ano</div> <span class="text-[10px] text-white block">Abatimento de saúde, PGBL 12%, dependentes, educação, pensão, INSS, livro-caixa e doações.</span> </div> <span class="text-[10px] px-2.5 py-1 rounded-full bg-slate-100 dark:bg-zinc-900 text-white font-black shrink-0 shadow-2xs">27,5% s/ Base</span> </div> <!-- 2. ECONOMIA NO LUCRO REAL PJ --> <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 flex justify-between items-center shadow-2xs"> <div class="space-y-0.5"> <span class="text-[10px] text-white block font-bold uppercase tracking-wider">Economia no Lucro Real PJ (Despesa Operacional):</span> <div class="font-black text-white font-mono text-lg" id="lbl-resultado-eco-pj">R$ 18.360,00/ano</div> <span class="text-[10px] text-white block">Redução de IRPJ (25%) e CSLL (9%) como despesa operacional dedutível (Opex).</span> </div> <span class="text-[10px] px-2.5 py-1 rounded-full bg-slate-100 dark:bg-zinc-900 text-white font-black shrink-0 shadow-2xs">34% s/ Despesa</span> </div> </div> </div> <!-- PAINEL DE CONTROLES E SLIDERS DE RENDA --> <!-- PAINEL DE CONTROLES E PARÂMETROS DE SIMULAÇÃO & CUSTEIO DA LOCAÇÃO -->
+        <!-- PAINEL DE CONTROLES E PARÂMETROS DE SIMULAÇÃO & CUSTEIO DA LOCAÇÃO (ESTRUTURA DE CADASTRO ÚNICO) -->
         <div class="bg-white dark:bg-zinc-950/60 rounded-2xl p-4 shadow-sm border border-black dark:border-zinc-700 space-y-4">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pb-2.5 border-b border-black dark:border-zinc-700">
             <div class="flex items-center gap-2">
               <span class="px-2.5 py-0.5 rounded-full bg-black text-white dark:bg-white dark:text-black font-black text-[10px] uppercase shadow-xs">
-                🏢 Locação • Simulação &amp; Custeio
+                🏢 Módulo Locação • Cadastro &amp; Simulação Unificada
               </span>
               <h4 class="font-black text-xs text-black dark:text-white uppercase tracking-wider">
                 ⚙️ Parâmetros de Simulação &amp; Custeio da Locação
               </h4>
             </div>
             <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300">
-              Ajuste os parâmetros para recalcular os 4 regimes instantaneamente
+              Dados consolidados do acervo: Data/Ano, Aluguéis de Época, Meses Não Locados &amp; Custeio
             </span>
           </div>
 
+          <!-- GRID DE 4 COLUNAS EM ESTRUTURA DE CADASTRO ÚNICO PADRONIZADO -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
             
-            <!-- 1. SELETOR TAXA DE ADMINISTRAÇÃO IMOBILIÁRIA (CRECI) -->
-            <div class="space-y-1.5 p-3 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-black dark:border-zinc-700 flex flex-col justify-between">
+            <!-- 1. DATA & PERÍODO DE REFERÊNCIA DO CADASTRO -->
+            <div class="space-y-1.5 p-3 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-black dark:border-zinc-700 flex flex-col justify-between shadow-2xs">
               <div>
                 <div class="flex justify-between items-center mb-1">
-                  <label class="block text-black dark:text-white text-[10px] font-black uppercase">Taxa Adm. Imobiliária (CRECI):</label>
-                  <span class="font-mono font-bold text-black dark:text-white text-[10px]" id="lbl-renda-taxa-adm-val">8,0%</span>
+                  <label class="block text-black dark:text-white text-[10px] font-black uppercase">📅 Data &amp; Ano de Referência:</label>
+                  <span class="font-mono font-bold text-black dark:text-white text-[10px]" id="lbl-renda-ano-referencia">2026 (Atual)</span>
                 </div>
                 <div class="flex items-center gap-1.5">
-                  <select id="sel-renda-taxa-adm" onchange="selecionarTaxaAdm(this.value)" class="w-full p-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-mono font-bold text-xs focus:outline-none focus:border-black dark:border-zinc-700 shadow-2xs cursor-pointer">
-                    <option value="0.00">0% (Administração Própria)</option>
-                    <option value="0.01">1%</option>
-                    <option value="0.02">2%</option>
-                    <option value="0.03">3%</option>
-                    <option value="0.04">4%</option>
-                    <option value="0.05">5%</option>
-                    <option value="0.06">6%</option>
-                    <option value="0.07">7%</option>
-                    <option value="0.08" selected>8% (Padrão de Mercado)</option>
-                    <option value="0.09">9%</option>
-                    <option value="0.10">10% (Completa com Garantia)</option>
-                  </select>
-                  <input type="hidden" id="rng-renda-taxa-adm" value="0.08">
+                  <input type="number" min="1950" max="2040" value="2026" id="inp-renda-ano-base" onchange="recalcularTudo()" class="w-full p-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-mono font-black text-xs text-center" title="Ano de referência para simulação de fluxo e vacância">
+                  <span class="text-xs text-slate-400 select-none flex-shrink-0" title="Ano de apuração">✏️</span>
                 </div>
               </div>
               <div class="pt-1.5 border-t border-black/20 dark:border-zinc-700 text-[10px] flex justify-between items-center text-slate-700 dark:text-slate-300">
-                <span>Custo Adm. Dedutível:</span>
-                <b class="font-mono font-black text-black dark:text-white" id="lbl-renda-custo-adm-total">R$ 0,00/ano</b>
+                <span>Período da Carteira:</span>
+                <b class="font-mono font-black text-black dark:text-white" id="lbl-renda-periodo-carteira">Aquisição ➔ 2026</b>
               </div>
             </div>
 
-            <!-- 2. ÁREA PARA PREENCHIMENTO DE QUANTOS MESES NÃO LOCADOS (VACÂNCIA ANUAL) -->
-            <div class="space-y-1.5 p-3 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-black dark:border-zinc-700 flex flex-col justify-between">
-              <div>
-                <div class="flex justify-between items-center mb-1">
-                  <label class="block text-black dark:text-white text-[10px] font-black uppercase">🗓️ Meses Não Locados (Vacância):</label>
-                  <span class="font-mono font-bold text-black dark:text-white text-[10px]" id="lbl-renda-vacancia-val">0,0%</span>
-                </div>
-                <div class="flex items-center gap-1.5">
-                  <button type="button" onclick="alterarMesesNaoLocadosSimulacao(-1)" class="w-7 h-7 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-black text-xs hover:bg-slate-200 dark:hover:bg-zinc-800 transition cursor-pointer flex items-center justify-center select-none" title="Diminuir 1 mês de vacância">−</button>
-                  <input type="number" id="inp-renda-meses-nao-locados" min="0" max="12" step="1" value="0" oninput="atualizarMesesNaoLocadosSimulacao(this.value)" onchange="atualizarMesesNaoLocadosSimulacao(this.value)" class="w-full p-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-mono font-black text-xs text-center" title="Digite a quantidade de meses não locados no ano (0 a 12 meses)">
-                  <button type="button" onclick="alterarMesesNaoLocadosSimulacao(1)" class="w-7 h-7 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-black text-xs hover:bg-slate-200 dark:hover:bg-zinc-800 transition cursor-pointer flex items-center justify-center select-none" title="Aumentar 1 mês de vacância">+</button>
-                  <input type="hidden" id="rng-renda-vacancia" value="0.00">
-                </div>
-              </div>
-              <div class="pt-1.5 border-t border-black/20 dark:border-zinc-700 text-[10px] space-y-0.5">
-                <div class="flex justify-between items-center text-slate-700 dark:text-slate-300">
-                  <span>Meses Locados:</span>
-                  <b class="font-mono font-black text-black dark:text-white" id="lbl-renda-meses-locados-efetivo">12 meses</b>
-                </div>
-                <div class="flex justify-between items-center text-slate-700 dark:text-slate-300">
-                  <span>Perda de Vacância:</span>
-                  <b class="font-mono font-black text-black dark:text-white" id="lbl-renda-perda-vacancia-anual">R$ 0,00/ano</b>
-                </div>
-              </div>
-            </div>
-
-            <!-- 3. BOTÃO AO LADO COM VALOR DESSES ALUGUÉIS NA ÉPOCA (AQUISIÇÃO / HISTÓRICO) -->
-            <div class="space-y-1.5 p-3 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-black dark:border-zinc-700 flex flex-col justify-between">
+            <!-- 2. ALUGUÉIS NA ÉPOCA (HISTÓRICO / AQUISIÇÃO) & BOTÃO PERÍODOS -->
+            <div class="space-y-1.5 p-3 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-black dark:border-zinc-700 flex flex-col justify-between shadow-2xs">
               <div>
                 <div class="flex justify-between items-center mb-1">
                   <label class="block text-black dark:text-white text-[10px] font-black uppercase">🏷️ Aluguéis na Época (Histórico):</label>
@@ -1255,7 +1200,7 @@
               </div>
               <div class="pt-1.5 border-t border-black/20 dark:border-zinc-700 text-[10px] space-y-0.5">
                 <div class="flex justify-between items-center text-slate-700 dark:text-slate-300">
-                  <span>Aluguel Atual:</span>
+                  <span>Aluguel Atual Hoje:</span>
                   <b class="font-mono font-black text-black dark:text-white" id="lbl-renda-aluguel-atual-comparativo">R$ 0,00/mês</b>
                 </div>
                 <div class="flex justify-between items-center text-slate-700 dark:text-slate-300">
@@ -1265,8 +1210,34 @@
               </div>
             </div>
 
-            <!-- 4. IPTU ANUAL & MANUTENÇÃO / OPEX ANUAL -->
-            <div class="space-y-1.5 p-3 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-black dark:border-zinc-700 flex flex-col justify-between">
+            <!-- 3. ÁREA PARA PREENCHIMENTO DE QUANTOS MESES NÃO LOCADOS (VACÂNCIA ANUAL) -->
+            <div class="space-y-1.5 p-3 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-black dark:border-zinc-700 flex flex-col justify-between shadow-2xs">
+              <div>
+                <div class="flex justify-between items-center mb-1">
+                  <label class="block text-black dark:text-white text-[10px] font-black uppercase">🗓️ Meses Não Locados (Vacância):</label>
+                  <span class="font-mono font-bold text-black dark:text-white text-[10px]" id="lbl-renda-vacancia-val">0,0%</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <button type="button" onclick="alterarMesesNaoLocadosSimulacao(-1)" class="w-7 h-7 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-black text-xs hover:bg-slate-200 dark:hover:bg-zinc-800 transition cursor-pointer flex items-center justify-center select-none" title="Diminuir 1 mês de vacância">−</button>
+                  <input type="number" id="inp-renda-meses-nao-locados" min="0" max="12" step="1" value="0" oninput="atualizarMesesNaoLocadosSimulacao(this.value)" onchange="atualizarMesesNaoLocadosSimulacao(this.value)" class="w-full p-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-mono font-black text-xs text-center" title="Digite a quantidade de meses não locados no ano (0 a 12 meses)">
+                  <button type="button" onclick="alterarMesesNaoLocadosSimulacao(1)" class="w-7 h-7 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-black text-xs hover:bg-slate-200 dark:hover:bg-zinc-800 transition cursor-pointer flex items-center justify-center select-none" title="Aumentar 1 mês de vacância">+</button>
+                  <input type="hidden" id="rng-renda-vacancia" value="0.00">
+                </div>
+              </div>
+              <div class="pt-1.5 border-t border-black/20 dark:border-zinc-700 text-[10px] space-y-0.5">
+                <div class="flex justify-between items-center text-slate-700 dark:text-slate-300">
+                  <span>Meses Locados Efetivos:</span>
+                  <b class="font-mono font-black text-black dark:text-white" id="lbl-renda-meses-locados-efetivo">12 meses</b>
+                </div>
+                <div class="flex justify-between items-center text-slate-700 dark:text-slate-300">
+                  <span>Perda Financeira Anual:</span>
+                  <b class="font-mono font-black text-black dark:text-white" id="lbl-renda-perda-vacancia-anual">R$ 0,00/ano</b>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. CUSTEIO DA LOCAÇÃO (IPTU ANUAL & MANUTENÇÃO / OPEX) -->
+            <div class="space-y-1.5 p-3 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-black dark:border-zinc-700 flex flex-col justify-between shadow-2xs">
               <div>
                 <div class="grid grid-cols-2 gap-2">
                   <div>
@@ -1994,24 +1965,7 @@ function renderizarImoveis() {
           <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400" title="Meses efetivamente locados">(${(12 - (im.vacanciaMeses || 0))}m)</span>
         </div>
       </td>
-      <td class="p-2 text-center whitespace-nowrap">
-        <div class="flex items-center justify-center gap-1">
-          <select onchange="state.imoveis[${idx}].taxaAdm=parseFloat(this.value); recalcularTudo();" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer w-16" title="Selecione a taxa de administração imobiliária (0% a 10%)">
-            <option value="0.00" ${(im.taxaAdm === 0 || im.taxaAdm === 0.00) ? 'selected' : ''}>0%</option>
-            <option value="0.01" ${im.taxaAdm === 0.01 ? 'selected' : ''}>1%</option>
-            <option value="0.02" ${im.taxaAdm === 0.02 ? 'selected' : ''}>2%</option>
-            <option value="0.03" ${im.taxaAdm === 0.03 ? 'selected' : ''}>3%</option>
-            <option value="0.04" ${im.taxaAdm === 0.04 ? 'selected' : ''}>4%</option>
-            <option value="0.05" ${im.taxaAdm === 0.05 ? 'selected' : ''}>5%</option>
-            <option value="0.06" ${im.taxaAdm === 0.06 ? 'selected' : ''}>6%</option>
-            <option value="0.07" ${im.taxaAdm === 0.07 ? 'selected' : ''}>7%</option>
-            <option value="0.08" ${(im.taxaAdm === undefined || im.taxaAdm === 0.08 || im.taxaAdm === 8) ? 'selected' : ''}>8%</option>
-            <option value="0.09" ${im.taxaAdm === 0.09 ? 'selected' : ''}>9%</option>
-            <option value="0.10" ${im.taxaAdm === 0.10 ? 'selected' : ''}>10%</option>
-          </select>
-          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Selecionar taxa de administração">✏️</span>
-        </div>
-      </td>
+      
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
           <input type="text" value="${formatMoney(im.iptu || 0)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].iptu || 0)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].iptu=parseMoneyBR(this.value); recalcularTudo();" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-bold text-xs focus:outline-none w-20 shadow-2xs font-mono text-center" title="IPTU mensal do imóvel">
@@ -2061,14 +2015,7 @@ function renderizarImoveis() {
   if (elAlug) elAlug.innerText = formatMoney(totAluguel) + '/m';
   const elAnual = document.getElementById('lbl-tot-aluguel-anual-condensado');
   if (elAnual) elAnual.innerText = formatMoney(totAluguelAnual) + '/ano';
-  let totTaxaAdmValor = 0;
-  state.imoveis.forEach(im => {
-    const t = (im.taxaAdm !== undefined ? im.taxaAdm : 0.08);
-    totTaxaAdmValor += ((im.aluguel || 0) * 12 * t);
-  });
-  const taxaPonderada = totAluguelAnual > 0 ? (totTaxaAdmValor / totAluguelAnual) : 0.08;
-  const elTaxaAdm = document.getElementById('lbl-tot-taxa-adm-condensado');
-  if (elTaxaAdm) elTaxaAdm.innerText = (taxaPonderada * 100).toFixed(1) + '%';
+  // Taxa Adm removida
   const elIptu = document.getElementById('lbl-tot-iptu-condensado');
   if (elIptu) elIptu.innerText = formatMoney(totIptu) + '/m';
   const elCond = document.getElementById('lbl-tot-condominio-condensado');
@@ -3547,23 +3494,21 @@ function obterResumoTitulares(im) {
         `;
       } else if (tipo === 'livro_caixa_locacao') {
         const aluguelAnual = totalAluguelMensal * 12;
-        const taxaAdmValor = aluguelAnual * taxaAdmAluguelPct;
         const iptuLocador = parseMoneyBR(document.getElementById('inp-deducao-iptu-anual')?.value) || 0;
-        const totalDedLoc = taxaAdmValor + iptuLocador;
+        const totalDedLoc = iptuLocador;
         const baseTributavel = Math.max(0, aluguelAnual - totalDedLoc);
         const ecoCarneLeao = totalDedLoc * 0.275;
 
         badge.className = "px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-zinc-900 text-black dark:text-white text-[10px] font-black uppercase tracking-wider border border-slate-300 dark:border-zinc-700";
-        badge.innerText = "🏢 LOCAÇÃO • DEDUÇÕES DO CARNÊ-LEÃO";
-        titulo.innerText = "Memória de Cálculo: Abatimentos de Taxa de Administração e IPTU do Aluguel";
-        subtitulo.innerText = "Redução legal da base de cálculo do Carnê-Leão antes da aplicação da tabela progressiva.";
+        badge.innerText = "🏢 LOCAÇÃO • CUSTEIO &amp; DEDUÇÕES DO CARNÊ-LEÃO";
+        titulo.innerText = "Memória de Cálculo: Custeio e Abatimentos de IPTU do Aluguel";
+        subtitulo.innerText = "Redução legal da base de cálculo do Carnê-Leão (Art. 31 Lei 7.713/88) antes da aplicação da tabela progressiva.";
 
         html = `
           <div class="space-y-3 text-xs">
             <div class="p-3.5 rounded-xl bg-slate-100 dark:bg-zinc-900 border border-slate-300 dark:border-zinc-700 space-y-1.5">
               <div class="flex justify-between"><span>Aluguel Bruto Recebido:</span><b class="font-mono text-slate-900">${formatMoney(aluguelAnual)}/ano</b></div>
-              <div class="flex justify-between text-black dark:text-white"><span>1. Taxa Adm. Imobiliária (${(taxaAdmAluguelPct*100).toFixed(1)}%):</span><b class="font-mono">(-) ${formatMoney(taxaAdmValor)}/ano</b></div>
-              <div class="flex justify-between text-black dark:text-white"><span>2. IPTU Pago pelo Locador:</span><b class="font-mono">(-) ${formatMoney(iptuLocador)}/ano</b></div>
+              <div class="flex justify-between text-black dark:text-white"><span>1. IPTU Suportado pelo Locador:</span><b class="font-mono">(-) ${formatMoney(iptuLocador)}/ano</b></div>
               <div class="flex justify-between pt-1 border-t border-slate-300 dark:border-zinc-700 font-black text-black dark:text-white">
                 <span>BASE LÍQUIDA TRIBUTÁVEL:</span>
                 <span class="font-mono text-slate-900">${formatMoney(baseTributavel)}/ano</span>
@@ -3575,7 +3520,7 @@ function obterResumoTitulares(im) {
             </div>
             <div class="p-3 rounded-xl bg-slate-100 dark:bg-zinc-900 border border-slate-300 dark:border-zinc-700 text-[11px] text-black dark:text-white space-y-1 leading-relaxed">
               <b class="block font-black text-black dark:text-white">⚖️ Bases Legais Oficiais:</b>
-              <p>• <b>Art. 31 da Lei nº 7.713/1988:</b> Permite deduzir do rendimento bruto de aluguéis os impostos, taxas e comissões de corretagem/administração pagos para a cobrança do rendimento.</p>
+              <p>• <b>Art. 31 da Lei nº 7.713/1988:</b> Permite deduzir do rendimento bruto de aluguéis os impostos e encargos suportados pelo locador.</p>
               <p>• <b>Art. 68 do RIR/2018 (Decreto nº 9.580/18):</b> Disciplina a exclusão dos encargos suportados pelo proprietário.</p>
             </div>
           </div>
@@ -4341,7 +4286,7 @@ function atualizarDoacoesTab1() {
 /* Holding no Estoque (SC COSIT 07/21): ~5,93% s/ receita bruta */
  const tributoVendaHolding = valorMercado * 0.0593; const tributoVendaRET = valorMercado * 0.0400; 
 /* 5. Cálculos de Renda / Locação: // PF Carnê-Leão: ~21,166% alíquota efetiva média (deduzida taxa adm e IPTU) */
- const irpfCarneLeaoAnual = aluguelAnualContratos * (1 - taxaAdmAluguelPct) * 0.23; 
+ const irpfCarneLeaoAnual = Math.max(0, aluguelAnualContratos - (iptuMensal * 12)) * 0.23; 
 /* Holding Lucro Presumido: 11,33% sobre a receita bruta */
  const tributoLocacaoHoldingAnual = aluguelAnualContratos * 0.1133; const economiaRendaAnual = Math.max(0, irpfCarneLeaoAnual - tributoLocacaoHoldingAnual); 
 /* 6. Regime Tributário Selecionado no Bloco 2 */
@@ -4369,9 +4314,6 @@ function atualizarDoacoesTab1() {
 /* 9. Atualização dos Top 3 KPIs (Formato Alíquotas Comparativas) */
  const ecoVenda = Math.max(0, gcapNormalPF - tributoVendaEleito); const ecoVendaPct = gcapNormalPF > 0 ? (ecoVenda / gcapNormalPF) * 100 : 0; const aliqEfetivaVenda = valorMercado > 0 ? (tributoVendaEleito / valorMercado) * 100 : 5.93; const aliqEfetivaRenda = aluguelAnualContratos > 0 ? (tributoLocacaoEleito / aluguelAnualContratos) * 100 : 11.33; const aliqEfetivaRendaPF = aluguelAnualContratos > 0 ? (irpfCarneLeaoAnual / aluguelAnualContratos) * 100 : 21.17; const ecoRendaPct = irpfCarneLeaoAnual > 0 ? (economiaRendaAnual / irpfCarneLeaoAnual) * 100 : 46.5; if (document.getElementById('kpi-sucessao-eleito-aliq')) document.getElementById('kpi-sucessao-eleito-aliq').innerText = `${pctHoldingSucessao.toFixed(2).replace('.', ',')}%`; if (document.getElementById('kpi-sucessao-pf-aliq')) document.getElementById('kpi-sucessao-pf-aliq').innerText = `${pctPFSucessao.toFixed(2).replace('.', ',')}%`; if (document.getElementById('kpi-sucessao-estresse-aliq')) document.getElementById('kpi-sucessao-estresse-aliq').innerText = `${pctEstresseSucessao.toFixed(2).replace('.', ',')}%`; if (document.getElementById('kpi-sucessao-eco-aliq')) document.getElementById('kpi-sucessao-eco-aliq').innerText = `-${((1 - (pctHoldingSucessao / pctEstresseSucessao)) * 100).toFixed(1).replace('.', ',')}%`; if (document.getElementById('kpi-melhor-venda-nome')) document.getElementById('kpi-melhor-venda-nome').innerText = nomeRegimeVenda; if (document.getElementById('kpi-venda-eleito-aliq')) document.getElementById('kpi-venda-eleito-aliq').innerText = `${aliqEfetivaVenda.toFixed(2).replace('.', ',')}%`; if (document.getElementById('kpi-venda-pf-aliq')) document.getElementById('kpi-venda-pf-aliq').innerText = `15,00% a 22,50%`; if (document.getElementById('lbl-venda-base-legal')) document.getElementById('lbl-venda-base-legal').innerText = baseLegalVenda; if (document.getElementById('lbl-venda-badge-tax')) document.getElementById('lbl-venda-badge-tax').innerText = badgeTaxVenda; if (document.getElementById('kpi-melhor-renda-nome')) document.getElementById('kpi-melhor-renda-nome').innerText = nomeRegimeRenda; if (document.getElementById('kpi-renda-eleito-aliq')) document.getElementById('kpi-renda-eleito-aliq').innerText = `${aliqEfetivaRenda.toFixed(2).replace('.', ',')}%`; if (document.getElementById('kpi-renda-pf-aliq')) document.getElementById('kpi-renda-pf-aliq').innerText = `${aliqEfetivaRendaPF.toFixed(2).replace('.', ',')}%`; if (document.getElementById('kpi-renda-eco-aliq')) document.getElementById('kpi-renda-eco-aliq').innerText = `-${ecoRendaPct.toFixed(1).replace('.', ',')}%`; 
 /* 9.1 Sincronização da Aba de Renda / Locação & Parâmetros de Simulação */
- const rawTaxaRenda = document.getElementById('sel-renda-taxa-adm')?.value ?? document.getElementById('rng-renda-taxa-adm')?.value;
- const taxaAdmRendaPct = isNaN(parseFloat(rawTaxaRenda)) ? taxaAdmAluguelPct : parseFloat(rawTaxaRenda);
-
  const inpMesesVac = document.getElementById('inp-renda-meses-nao-locados');
  const inpCard4Meses = document.getElementById('inp-card4-meses-nao-locados');
  const mesesNaoLocados = (inpMesesVac && !isNaN(parseInt(inpMesesVac.value))) 
@@ -4389,15 +4331,16 @@ function atualizarDoacoesTab1() {
  const inpIptuRenda = parseMoneyBR(document.getElementById('inp-renda-iptu-anual')?.value);
  const iptuRendaAnual = (!isNaN(inpIptuRenda) && inpIptuRenda > 0) ? inpIptuRenda : (iptuMensal * 12);
  const manutencaoRendaAnual = parseMoneyBR(document.getElementById('inp-renda-manutencao-anual')?.value) || 0;
- const custoAdmRenda = aluguelAnualContratos * taxaAdmRendaPct;
- const totalDeducoesRenda = custoAdmRenda + iptuRendaAnual;
+ const totalDeducoesRenda = iptuRendaAnual;
  const totalCusteioOpex = iptuRendaAnual + manutencaoRendaAnual;
  const qtdLocados = state.imoveis.filter(i => (i.aluguel || 0) > 0).length;
 
  // Total Aluguel na Época (Aquisição / Histórico)
  let totalAluguelEpoca = 0;
+ let anoMin = 2026;
  state.imoveis.forEach(im => {
    totalAluguelEpoca += (im.aluguelAquisicao || 0);
+   if (im.ano && im.ano < anoMin) anoMin = im.ano;
  });
 
  const inpAluguelEpocaEl = document.getElementById('inp-renda-aluguel-epoca');
@@ -4408,15 +4351,13 @@ function atualizarDoacoesTab1() {
  const evolucaoRendaPct = totalAluguelEpoca > 0 ? ((rendaAluguelMensal - totalAluguelEpoca) / totalAluguelEpoca) * 100 : 0;
 
  /* Labels e Badges dos Parâmetros de Simulação & Custeio */
- if (document.getElementById('lbl-renda-taxa-adm-val')) document.getElementById('lbl-renda-taxa-adm-val').innerText = `${(taxaAdmRendaPct * 100).toFixed(1).replace('.', ',')}%`;
- if (document.getElementById('lbl-renda-custo-adm-total')) document.getElementById('lbl-renda-custo-adm-total').innerText = `${formatMoney(custoAdmRenda)}/ano`;
+ if (document.getElementById('lbl-renda-periodo-carteira')) document.getElementById('lbl-renda-periodo-carteira').innerText = `${anoMin} ➔ 2026`;
  if (document.getElementById('lbl-renda-vacancia-val')) document.getElementById('lbl-renda-vacancia-val').innerText = `${(vacanciaRendaPct * 100).toFixed(1).replace('.', ',')}%`;
  if (document.getElementById('lbl-renda-meses-locados-efetivo')) document.getElementById('lbl-renda-meses-locados-efetivo').innerText = `${mesesLocadosEfetivos} ${mesesLocadosEfetivos === 1 ? 'mês' : 'meses'}`;
  if (document.getElementById('lbl-renda-perda-vacancia-anual')) document.getElementById('lbl-renda-perda-vacancia-anual').innerText = `${formatMoney(perdaVacanciaAnual)}/ano`;
  if (document.getElementById('lbl-renda-aluguel-atual-comparativo')) document.getElementById('lbl-renda-aluguel-atual-comparativo').innerText = `${formatMoney(rendaAluguelMensal)}/mês`;
  if (document.getElementById('lbl-renda-evolucao-aluguel-pct')) document.getElementById('lbl-renda-evolucao-aluguel-pct').innerText = `${evolucaoRendaPct >= 0 ? '+' : ''}${evolucaoRendaPct.toFixed(1).replace('.', ',')}%`;
  if (document.getElementById('lbl-renda-total-custeio-opex')) document.getElementById('lbl-renda-total-custeio-opex').innerText = `${formatMoney(totalCusteioOpex)}/ano`;
- if (document.getElementById('lbl-deducao-adm-valor')) document.getElementById('lbl-deducao-adm-valor').innerText = `${formatMoney(custoAdmRenda)}/ano`;
 
 /* Barra de Métricas de Renda */
  if (document.getElementById('lbl-renda-qtd-locados')) document.getElementById('lbl-renda-qtd-locados').innerText = `${qtdLocados} ${qtdLocados === 1 ? 'imóvel' : 'imóveis'}`; if (document.getElementById('lbl-renda-acervo-mensal')) document.getElementById('lbl-renda-acervo-mensal').innerText = formatMoney(rendaAluguelMensal); if (document.getElementById('lbl-renda-acervo-anual')) document.getElementById('lbl-renda-acervo-anual').innerText = formatMoney(aluguelAnualContratos); if (document.getElementById('lbl-renda-acervo-deducoes')) document.getElementById('lbl-renda-acervo-deducoes').innerText = formatMoney(totalDeducoesRenda); if (document.getElementById('lbl-renda-acervo-eco')) document.getElementById('lbl-renda-acervo-eco').innerText = `+ ${formatMoney(economiaRendaAnual)}`; 
@@ -4506,21 +4447,12 @@ function atualizarDoacoesTab1() {
     }
   }
 
-  // 4. LOCAÇÃO (Taxa Adm. & IPTU - Art. 31 Lei 7.713/88)
-  const rawTaxaDed = document.getElementById('sel-deducao-taxa-adm')?.value ?? document.getElementById('rng-deducao-taxa-adm')?.value ?? document.getElementById('rng-taxa-adm')?.value;
-  const taxaAdmSlider = isNaN(parseFloat(rawTaxaDed)) ? 0.08 : parseFloat(rawTaxaDed);
-  const custoAdmAluguelAnual = aluguelAnualContratos * taxaAdmSlider;
+  // 4. LOCAÇÃO (Custeio e IPTU - Art. 31 Lei 7.713/88)
   const inpIptuDeducao = parseMoneyBR(document.getElementById('inp-deducao-iptu-anual')?.value);
   const iptuAnualDedutivel = (!isNaN(inpIptuDeducao) && inpIptuDeducao > 0) ? inpIptuDeducao : (iptuMensal * 12);
   const locacaoDeducaoAtiva = document.getElementById('sel-deducao-locacao-ativo')?.value !== 'NAO';
-  const totalDeducoesLocacao = locacaoDeducaoAtiva ? (custoAdmAluguelAnual + iptuAnualDedutivel) : 0;
+  const totalDeducoesLocacao = locacaoDeducaoAtiva ? iptuAnualDedutivel : 0;
 
-  if (document.getElementById('lbl-deducao-taxa-adm-pct')) {
-    document.getElementById('lbl-deducao-taxa-adm-pct').innerText = `${(taxaAdmSlider * 100).toFixed(1).replace('.0', '').replace('.', ',')}%`;
-  }
-  if (document.getElementById('lbl-deducao-adm-valor')) {
-    document.getElementById('lbl-deducao-adm-valor').innerText = `${formatMoney(custoAdmAluguelAnual)}/ano`;
-  }
   if (document.getElementById('lbl-deducao-locacao-total')) {
     document.getElementById('lbl-deducao-locacao-total').innerText = `${formatMoney(totalDeducoesLocacao)}/ano`;
   }
