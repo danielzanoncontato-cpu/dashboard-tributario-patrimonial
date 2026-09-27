@@ -1663,8 +1663,6 @@
                   <th class="p-2.5 text-center">Ano / Período</th>
                   <th class="p-2.5 text-center">Aluguel Mensal (R$/m)</th>
                   <th class="p-2.5 text-center" title="Quantidade de meses de vacância no ano (0 a 12 meses)">Vacância (meses)</th>
-                  <th class="p-2.5 text-center" title="Meses efetivamente locados no período (12 - vacância)">Meses Locados</th>
-                  <th class="p-2.5 text-center" title="Receita líquida anual de aluguel: Aluguel Mensal x Meses Locados">Receita Anual Efetiva (R$)</th>
                   <th class="p-2.5 text-center" title="Yield Anual sobre o Valor de Mercado">Yield s/ Mercado (% a.a.)</th>
                   <th class="p-2.5 text-center">Ações</th>
                 </tr>
@@ -1680,7 +1678,7 @@
             <div class="text-xs text-slate-700 dark:text-slate-300 flex items-center gap-3 flex-wrap font-bold">
               <span>Média de Vacância: <b id="modal-aluguel-media-vacancia" class="text-black dark:text-white font-mono font-black">0 meses/ano</b></span>
               <span>•</span>
-              <span>Receita Anual do Ano Vigente: <b id="modal-aluguel-receita-vigente" class="text-black dark:text-white font-mono font-black">R$ 0,00/ano</b></span>
+              <span>Total de Períodos: <b id="modal-aluguel-total-periodos" class="text-black dark:text-white font-mono font-black">0 anos</b></span>
             </div>
 
             <div class="flex items-center gap-2 ml-auto">
@@ -2810,17 +2808,11 @@ function obterResumoTitulares(im) {
             </div>
           </td>
           <td class="p-2 text-center font-bold font-mono text-xs">
-            ${mesesLocados} meses
-          </td>
-          <td class="p-2 text-center font-black font-mono text-xs">
-            ${formatMoney(receitaAnual)}
-          </td>
-          <td class="p-2 text-center font-bold font-mono text-xs">
             ${yieldMercado.toFixed(2).replace('.', ',')}% a.a.
           </td>
           <td class="p-2 text-center">
-            <button type="button" onclick="removerPeriodoAluguelModal(${pIdx})" class="p-1 px-2 rounded-lg text-slate-500 hover:text-black dark:hover:text-white hover:bg-slate-100 dark:hover:bg-zinc-800 font-black text-xs transition cursor-pointer border border-transparent hover:border-black dark:hover:border-white" title="Remover este ano">
-              🗑️
+            <button type="button" onclick="removerPeriodoAluguelModal(${pIdx})" class="px-2.5 py-1 rounded-lg bg-white dark:bg-zinc-950 hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-xs border border-black dark:border-zinc-700 hover:border-black dark:hover:border-white transition shadow-2xs cursor-pointer" title="Excluir este período">
+              Excluir
             </button>
           </td>
         `;
@@ -2928,15 +2920,11 @@ function obterResumoTitulares(im) {
       });
       const mediaVac = somaVac / im.periodosAluguel.length;
 
-      const ultimoPeriodo = im.periodosAluguel[im.periodosAluguel.length - 1];
-      const vacVigente = ultimoPeriodo.vacanciaMeses !== undefined ? ultimoPeriodo.vacanciaMeses : 0;
-      const receitaVigente = (ultimoPeriodo.aluguel || 0) * (12 - vacVigente);
-
       const elMedia = document.getElementById('modal-aluguel-media-vacancia');
       if (elMedia) elMedia.innerText = `${mediaVac.toFixed(1).replace('.', ',')} meses/ano`;
 
-      const elRec = document.getElementById('modal-aluguel-receita-vigente');
-      if (elRec) elRec.innerText = `${formatMoney(receitaVigente)}/ano (Ano ${ultimoPeriodo.ano})`;
+      const elTot = document.getElementById('modal-aluguel-total-periodos');
+      if (elTot) elTot.innerText = `${im.periodosAluguel.length} ${im.periodosAluguel.length === 1 ? 'ano' : 'anos'}`;
     }
 
     function salvarModalAluguel() {
