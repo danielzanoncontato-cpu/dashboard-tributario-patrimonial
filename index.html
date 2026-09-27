@@ -1869,11 +1869,13 @@ function renderizarImoveis() {
         </div>
       </td>
 
-      <!-- 6. CLÁUSULAS NA MATRÍCULA -->
+      <!-- 6. CLÁUSULAS NA MATRÍCULA (APENAS EMOJI) -->
       <td class="p-2 text-center whitespace-nowrap">
-        <button type="button" onclick="abrirModalClausulasImovel(${idx})" class="px-2.5 py-1 rounded-xl border border-black dark:border-zinc-700 bg-white dark:bg-zinc-950 hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-xs transition shadow-2xs cursor-pointer flex items-center justify-center gap-1.5 hover:border-black dark:hover:border-white" title="Clique para abrir e configurar as cláusulas gravadas na matrícula">
-          <span>📜</span> Cláusulas (${qtdClausulasAtivas}/10)
-        </button>
+        <div class="flex items-center justify-center">
+          <button type="button" onclick="abrirModalClausulasImovel(${idx})" class="w-8 h-8 rounded-lg border border-black dark:border-white bg-white dark:bg-black hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-base transition shadow-2xs cursor-pointer flex items-center justify-center hover:scale-110" title="Cláusulas na Matrícula (${qtdClausulasAtivas}/10 ativas) - Clique para abrir e preencher">
+            📜
+          </button>
+        </div>
       </td>
 
       <!-- 7. REGIME FISCAL ATUAL -->
@@ -1889,18 +1891,22 @@ function renderizarImoveis() {
         </div>
       </td>
 
-      <!-- 8. PROPRIETÁRIO(S) & TITULARIDADE -->
+      <!-- 8. PROPRIETÁRIO(S) & TITULARIDADE (APENAS EMOJI) -->
       <td class="p-2 text-center whitespace-nowrap">
-        <button type="button" onclick="abrirModalTitulares(${idx})" class="px-2.5 py-1 rounded-xl border border-black dark:border-zinc-700 bg-white dark:bg-zinc-950 hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-xs transition shadow-2xs cursor-pointer flex items-center justify-center gap-1.5 hover:border-black dark:hover:border-white" title="Clique para abrir e preencher a partilha de titularidade / proprietários">
-          <span>👥</span> Titulares (${totalTit.toFixed(0)}%)
-        </button>
+        <div class="flex items-center justify-center">
+          <button type="button" onclick="abrirModalTitulares(${idx})" class="w-8 h-8 rounded-lg border border-black dark:border-white bg-white dark:bg-black hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-base transition shadow-2xs cursor-pointer flex items-center justify-center hover:scale-110" title="Proprietários & Titularidade (${totalTit.toFixed(0)}%) - Clique para abrir e preencher">
+            👥
+          </button>
+        </div>
       </td>
 
-      <!-- 9. USUFRUTO & VOTOS (%) -->
+      <!-- 9. USUFRUTO & VOTOS (%) (APENAS EMOJI) -->
       <td class="p-2 text-center whitespace-nowrap">
-        <button type="button" onclick="abrirModalUsufruto(${idx})" class="px-2.5 py-1 rounded-xl border border-black dark:border-zinc-700 bg-white dark:bg-zinc-950 hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-xs transition shadow-2xs cursor-pointer flex items-center justify-center gap-1.5 hover:border-black dark:hover:border-white" title="Clique para abrir e preencher o poder de voto e usufruto">
-          <span>⚙️</span> Votos (${totalUsuf.toFixed(0)}%)
-        </button>
+        <div class="flex items-center justify-center">
+          <button type="button" onclick="abrirModalUsufruto(${idx})" class="w-8 h-8 rounded-lg border border-black dark:border-white bg-white dark:bg-black hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-base transition shadow-2xs cursor-pointer flex items-center justify-center hover:scale-110" title="Usufruto & Poder de Voto (${totalUsuf.toFixed(0)}%) - Clique para abrir e preencher">
+            ⚙️
+          </button>
+        </div>
       </td>
 
       <!-- 10. ANO -->
