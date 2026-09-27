@@ -1472,17 +1472,16 @@
               ✓ Salvar Usufruto &amp; Votos
             </button>
           </div>
-        </div>
-      </div<!-- 4. MODAL DE CARTÓRIO, RGI, ESTADOS & CUSTAS DE REGISTRO -->
+  <!-- 4. MODAL DE CARTÓRIO, RGI, ESTADOS & CUSTAS DE REGISTRO -->
       <div id="modal-localidade-imovel" class="hidden fixed inset-0 bg-black/70 backdrop-blur-xs z-50 flex items-center justify-center p-4">
         <div class="bg-white dark:bg-zinc-950 rounded-2xl max-w-md w-full p-5 shadow-2xl border border-black dark:border-zinc-700 space-y-4">
           <div class="flex justify-between items-center pb-3 border-b border-black dark:border-zinc-700">
             <div>
               <span class="px-2.5 py-0.5 rounded-full bg-black text-white dark:bg-white dark:text-black text-[10px] font-black uppercase">
-                🏛️ Cartório &amp; Registro de Imóveis (RGI)
+                🏛️ Cartório, Região &amp; Custas de Registro
               </span>
               <h3 class="font-black text-sm text-black dark:text-white mt-1" id="modal-localidade-imovel-nome">
-                Cartório &amp; Custas de Registro
+                Cartório &amp; Região de Registro
               </h3>
             </div>
             <button type="button" onclick="fecharModalLocalidade()" class="p-1 rounded-lg text-black dark:text-white hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer border border-transparent hover:border-black dark:hover:border-white">
@@ -1491,12 +1490,12 @@
           </div>
 
           <p class="text-xs text-slate-700 dark:text-slate-300 text-[11px] leading-tight">
-            As custas de registro e averbação mudam de cartório para cartório e por Estado da Federação. Selecione o Estado (UF), Cartório e configure as custas:
+            Anexe qualquer Estado (UF) e Região/Comarca ao imóvel e personalize as custas notariais e registrais que compõem o custo de aquisição e transferência:
           </p>
 
-          <!-- Presets de Escolha Rápida de Estado (UF) -->
+          <!-- Presets de Escolha Rápida de Estado / Região (UF) -->
           <div class="space-y-1.5 pt-1">
-            <span class="text-[10px] font-black text-slate-800 dark:text-slate-200 uppercase tracking-wide block">Escolha Rápida de Estado (UF):</span>
+            <span class="text-[10px] font-black text-slate-800 dark:text-slate-200 uppercase tracking-wide block">Escolha Rápida de Estado / Região (UF):</span>
             <div class="flex flex-wrap gap-1">
               <button type="button" onclick="selecionarUfModal('SP')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-900 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">SP (4%)</button>
               <button type="button" onclick="selecionarUfModal('RJ')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-900 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">RJ (4-8%)</button>
@@ -1511,9 +1510,9 @@
           </div>
 
           <div class="space-y-3 pt-1 text-xs">
-            <!-- Estado (UF) -->
+            <!-- Estado / Região (UF) -->
             <div>
-              <label class="block text-slate-800 dark:text-slate-200 font-black text-xs mb-1">Estado da Situação do Bem (UF - Competência Notarial/Registral):</label>
+              <label class="block text-slate-800 dark:text-slate-200 font-black text-xs mb-1">Estado / Região (UF - Competência Tributária &amp; Registral):</label>
               <select id="modal-sel-localidade-uf" onchange="atualizarInfoModalLocalidade()" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none cursor-pointer">
                 <option value="SP">São Paulo (SP) • ITCMD 4,00% Fixo • Tabela TJSP</option>
                 <option value="RJ">Rio de Janeiro (RJ) • ITCMD Progressivo 4% a 8% • Tabela TJRJ</option>
@@ -1534,16 +1533,16 @@
               </select>
             </div>
 
-            <!-- Município / Comarca -->
+            <!-- Região / Município / Comarca -->
             <div>
-              <label class="block text-slate-800 dark:text-slate-200 font-black text-xs mb-1">Município / Comarca (Competência Municipal):</label>
-              <input type="text" id="modal-inp-localidade-cidade" placeholder="Ex: São Paulo, Campinas, Rio de Janeiro..." class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none">
+              <label class="block text-slate-800 dark:text-slate-200 font-black text-xs mb-1">Região / Município / Comarca:</label>
+              <input type="text" id="modal-inp-localidade-cidade" placeholder="Ex: São Paulo, Grande Rio, Campinas, Baixada Santista..." class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none">
             </div>
 
             <!-- Cartório de RGI & Matrícula -->
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Cartório de RGI:</label>
+                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Cartório de RGI / Ofício:</label>
                 <input type="text" id="modal-inp-localidade-rgi" placeholder="Ex: 13º RGI de São Paulo" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none">
               </div>
               <div>
@@ -1552,20 +1551,23 @@
               </div>
             </div>
 
-            <!-- Custas Estimadas de Registro no Cartório -->
+            <!-- Custas de Registro no Cartório (Impacto no Custo de Aquisição) -->
             <div>
-              <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Custas de Averbação / Registro no Cartório (R$):</label>
+              <div class="flex justify-between items-center mb-1">
+                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px]">Custas de Escritura &amp; Registro no Cartório (R$):</label>
+                <span class="text-[9px] text-slate-500 font-bold">Dedutível DIRPF (Art. 17 L. 9.250/95)</span>
+              </div>
               <div class="flex items-center gap-2">
-                <input type="number" step="50" min="100" max="50000" id="modal-inp-localidade-custo-rgi" placeholder="Ex: 1500" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs font-mono focus:outline-none">
-                <button type="button" onclick="restaurarCustoPadraoCartorioModal()" class="px-2.5 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-200 dark:hover:bg-zinc-700 transition cursor-pointer whitespace-nowrap" title="Usar valor de referência da tabela estadual">
-                  Usar Tabela UF
+                <input type="number" step="50" min="0" max="100000" id="modal-inp-localidade-custo-rgi" placeholder="Ex: 1500" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs font-mono focus:outline-none">
+                <button type="button" onclick="restaurarCustoPadraoCartorioModal()" class="px-2.5 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-200 dark:hover:bg-zinc-700 transition cursor-pointer whitespace-nowrap" title="Puxar estimativa padrão da tabela da UF">
+                  Tabela UF
                 </button>
               </div>
             </div>
 
             <!-- Card informativo de Tributação Regional & Custas -->
             <div class="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-black dark:border-zinc-700 text-xs space-y-1">
-              <span class="font-black text-black dark:text-white block">⚖️ Impacto Tributário &amp; Custas Registrais:</span>
+              <span class="font-black text-black dark:text-white block">⚖️ Impacto Tributário &amp; Custas no Custo de Aquisição:</span>
               <p class="text-[11px] text-slate-700 dark:text-slate-300 leading-tight" id="modal-localidade-resumo-tributario">
                 O ITCMD deste imóvel será recolhido exclusivamente para o Estado de SP (4,00%).
               </p>
@@ -1578,7 +1580,7 @@
               Cancelar
             </button>
             <button type="button" onclick="salvarModalLocalidade()" class="px-4 py-2 rounded-xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white font-black text-xs shadow-xs transition cursor-pointer">
-              ✓ Salvar Cartório &amp; Custas
+              ✓ Salvar Cartório &amp; Região
             </button>
           </div>
         </div>
@@ -1847,11 +1849,14 @@ function renderizarImoveis() {
         </div>
       </td>
 
-      <!-- 5. CARTÓRIO / RGI (CUSTAS DE REGISTRO & ESTADOS) -->
+      <!-- 5. CARTÓRIO / RGI (EDITÁVEL COM SELEÇÃO DE REGIÃO/ESTADO) -->
       <td class="p-2 text-center whitespace-nowrap">
-        <button type="button" onclick="abrirModalCartorio(${idx})" class="px-2.5 py-1 rounded-lg border border-black dark:border-white bg-white dark:bg-black hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-xs transition shadow-2xs cursor-pointer flex items-center justify-center gap-1 hover:border-black dark:hover:border-white" title="Clique para abrir e configurar o Cartório de Registro de Imóveis, Estado (UF), Comarca e Custas de Registro">
-          <span>🏛️</span> ${im.rgi || 'Cartório'}
-        </button>
+        <div class="flex items-center justify-center gap-1">
+          <input type="text" value="${im.rgi || '13º RGI'}" onchange="state.imoveis[${idx}].rgi=this.value; recalcularTudo();" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center w-36" placeholder="Cartório / Região" title="Digite o Cartório / Região ou clique no botão ao lado para anexar qualquer Estado/Região e personalizar as custas de registro">
+          <button type="button" onclick="abrirModalCartorio(${idx})" class="p-1.5 rounded-lg border border-black dark:border-white bg-white dark:bg-black hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-xs transition shadow-2xs cursor-pointer flex items-center justify-center hover:scale-105 shrink-0" title="Clique para anexar/escolher Estado (UF), Região, Comarca e Custas de Registro">
+            🏛️
+          </button>
+        </div>
       </td>
 
       <!-- 5. OBJETIVO (3 BOTÕES COEXISTENTES) -->
@@ -2621,7 +2626,17 @@ function obterResumoTitulares(im) {
       if (inpCidade) im.cidade = inpCidade.value.trim() || 'São Paulo';
       if (inpRgi) im.rgi = inpRgi.value.trim() || 'Cartório de RGI';
       if (inpMatricula) im.matricula = inpMatricula.value.trim() || '-';
-      if (inpCustoRgi) im.custoRegistroRgi = parseFloat(inpCustoRgi.value) || 1500;
+      if (inpCustoRgi) {
+        im.custoRegistroRgi = parseFloat(inpCustoRgi.value) || 0;
+      }
+
+      // Atualizar o custo declarado de aquisição na DIRPF incorporando as custas de registro
+      const aquisicao = im.aquisicao || 0;
+      const itbi = im.itbiAquisicao || 0;
+      const corretagem = im.corretagemAquisicao || 0;
+      const reforma = im.reformaGasto || 0;
+      const registroCartorio = im.custoRegistroRgi || 0;
+      im.custo = aquisicao + itbi + corretagem + reforma + registroCartorio;
 
       fecharModalLocalidade();
       renderizarImoveis();
