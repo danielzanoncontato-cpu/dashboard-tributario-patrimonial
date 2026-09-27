@@ -1469,91 +1469,90 @@
               Cancelar
             </button>
             <button type="button" onclick="salvarModalUsufruto()" class="px-4 py-2 rounded-xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white font-black text-xs shadow-xs transition cursor-pointer">
-              ✓ Salvar Usufruto &amp; Votos
-            </but<!-- 4. MODAL DE CARTÓRIO, RGI, ESTADOS & CUSTAS DE REGISTRO -->
-      <div id="modal-localidade-imovel" class="hidden fixed inset-0 bg-black/70 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-zinc-950 rounded-2xl max-w-md w-full p-5 shadow-2xl border border-black dark:border-zinc-700 space-y-4">
-          <div class="flex justify-between items-center pb-3 border-b border-black dark:border-zinc-700">
-            <div>
-              <span class="px-2.5 py-0.5 rounded-full bg-black text-white dark:bg-white dark:text-black text-[10px] font-black uppercase">
-                🏛️ Cartório, Região &amp; Custas de Registro
-              </span>
-              <h3 class="font-black text-sm text-black dark:text-white mt-1" id="modal-localidade-imovel-nome">
-                Cartório &amp; Região de Registro
-              </h3>
+              ✓ Salvar Usufruto &amp;<!-- 4. MODAL DE CARTÓRIO, ESTADOS & ESPECIFICAÇÃO DE RGI -->
+      <div id="modal-localidade-imovel" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-black border-2 border-black dark:border-zinc-700 rounded-2xl shadow-2xl max-w-xl w-full p-6 text-black dark:text-white space-y-4 max-h-[92vh] overflow-y-auto">
+          <!-- Cabeçalho -->
+          <div class="flex items-center justify-between border-b border-black dark:border-zinc-700 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">🏛️</span>
+              <div>
+                <h3 class="text-base font-black text-black dark:text-white leading-tight">Estado &amp; Especificação do Cartório</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-400">Selecione o Estado e especifique o número do Cartório de RGI, matrícula e custas</p>
+              </div>
             </div>
-            <button type="button" onclick="fecharModalLocalidade()" class="p-1 rounded-lg text-black dark:text-white hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer border border-transparent hover:border-black dark:hover:border-white">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            <button type="button" onclick="fecharModalLocalidade()" class="text-slate-400 hover:text-black dark:hover:text-white text-lg font-black transition cursor-pointer p-1">
+              ✕
             </button>
           </div>
 
-          <p class="text-xs text-slate-700 dark:text-slate-300 text-[11px] leading-tight">
-            Selecione o Estado (UF), Cartório de Registro de Imóveis (RGI) ou digite livremente a comarca e personalize as custas de registro:
-          </p>
-
-          <!-- Presets de Escolha Rápida de Estado / Região (UF) -->
-          <div class="space-y-1.5 pt-1">
-            <span class="text-[10px] font-black text-slate-800 dark:text-slate-200 uppercase tracking-wide block">Escolha Rápida de Estado / Região (UF):</span>
+          <!-- 1. Botões Rápidos de Estados (Apenas Estados) -->
+          <div class="space-y-1.5 p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-black dark:border-zinc-700">
+            <span class="text-[11px] font-black text-black dark:text-white uppercase tracking-wider block">📍 Seleção Rápida de Estado:</span>
             <div class="flex flex-wrap gap-1">
-              <button type="button" onclick="selecionarUfModal('SP')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-900 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">SP (4%)</button>
-              <button type="button" onclick="selecionarUfModal('RJ')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-900 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">RJ (4-8%)</button>
-              <button type="button" onclick="selecionarUfModal('MG')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-900 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">MG (5%)</button>
-              <button type="button" onclick="selecionarUfModal('PR')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-900 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">PR (4%)</button>
-              <button type="button" onclick="selecionarUfModal('RS')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-900 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">RS (3-8%)</button>
-              <button type="button" onclick="selecionarUfModal('SC')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-900 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">SC (1-8%)</button>
-              <button type="button" onclick="selecionarUfModal('BA')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-900 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">BA (3,5-8%)</button>
-              <button type="button" onclick="selecionarUfModal('GO')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-900 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">GO (2-8%)</button>
-              <button type="button" onclick="selecionarUfModal('DF')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-900 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">DF (4-6%)</button>
+              <button type="button" onclick="selecionarUfModal('SP')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">SP (São Paulo)</button>
+              <button type="button" onclick="selecionarUfModal('RJ')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">RJ (Rio de Janeiro)</button>
+              <button type="button" onclick="selecionarUfModal('MG')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">MG (Minas Gerais)</button>
+              <button type="button" onclick="selecionarUfModal('RS')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">RS (Rio Grande do Sul)</button>
+              <button type="button" onclick="selecionarUfModal('PR')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">PR (Paraná)</button>
+              <button type="button" onclick="selecionarUfModal('SC')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">SC (Santa Catarina)</button>
+              <button type="button" onclick="selecionarUfModal('BA')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">BA (Bahia)</button>
+              <button type="button" onclick="selecionarUfModal('GO')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">GO (Goiás)</button>
+              <button type="button" onclick="selecionarUfModal('DF')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">DF (Brasília)</button>
+              <button type="button" onclick="selecionarUfModal('PE')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">PE (Pernambuco)</button>
+              <button type="button" onclick="selecionarUfModal('CE')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">CE (Ceará)</button>
+              <button type="button" onclick="selecionarUfModal('ES')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">ES (Espírito Santo)</button>
             </div>
           </div>
 
           <div class="space-y-3 pt-1 text-xs">
-            <!-- Estado / Região (UF) -->
+            <!-- 2. Estado Completo (Apenas Estado) -->
             <div>
-              <label class="block text-slate-800 dark:text-slate-200 font-black text-xs mb-1">Estado / Região (UF - Competência Tributária &amp; Registral):</label>
-              <select id="modal-sel-localidade-uf" onchange="atualizarInfoModalLocalidade()" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none cursor-pointer">
-                <option value="SP">São Paulo (SP) • ITCMD 4,00% Fixo • Tabela TJSP</option>
-                <option value="RJ">Rio de Janeiro (RJ) • ITCMD Progressivo 4% a 8% • Tabela TJRJ</option>
-                <option value="MG">Minas Gerais (MG) • ITCMD 5,00% Fixo • Tabela TJMG</option>
-                <option value="RS">Rio Grande do Sul (RS) • ITCMD Progressivo 3% a 8% • Tabela TJRS</option>
-                <option value="PR">Paraná (PR) • ITCMD 4,00% Fixo • Tabela TJPR</option>
-                <option value="SC">Santa Catarina (SC) • ITCMD Progressivo 1% a 8% • Tabela TJSC</option>
-                <option value="BA">Bahia (BA) • ITCMD Progressivo 3,5% a 8% • Tabela TJBA</option>
-                <option value="PE">Pernambuco (PE) • ITCMD Progressivo 2% a 8%</option>
-                <option value="CE">Ceará (CE) • ITCMD Progressivo 2% a 8%</option>
-                <option value="GO">Goiás (GO) • ITCMD Progressivo 2% a 8% • Tabela TJGO</option>
-                <option value="DF">Distrito Federal (DF) • ITCMD Progressivo 4% a 6% • Tabela TJDFT</option>
-                <option value="ES">Espírito Santo (ES) • ITCMD 4,00% Fixo</option>
-                <option value="MT">Mato Grosso (MT) • ITCMD Progressivo 2% a 8%</option>
-                <option value="MS">Mato Grosso do Sul (MS) • ITCMD Progressivo 3% a 6%</option>
-                <option value="AM">Amazonas (AM) • ITCMD 2,00% Fixo</option>
-                <option value="PA">Pará (PA) • ITCMD 4,00% Fixo</option>
-                <option value="MA">Maranhão (MA) • ITCMD 3% a 7%</option>
-                <option value="PB">Paraíba (PB) • ITCMD 2% a 8%</option>
-                <option value="RN">Rio Grande do Norte (RN) • ITCMD 3% a 6%</option>
-                <option value="AL">Alagoas (AL) • ITCMD 2% a 4%</option>
-                <option value="PI">Piauí (PI) • ITCMD 2% a 6%</option>
-                <option value="SE">Sergipe (SE) • ITCMD 2% a 8%</option>
-                <option value="RO">Rondônia (RO) • ITCMD 2% a 4%</option>
-                <option value="TO">Tocantins (TO) • ITCMD 2% a 8%</option>
-                <option value="AC">Acre (AC) • ITCMD 2% a 4%</option>
-                <option value="AP">Amapá (AP) • ITCMD 3% a 4%</option>
-                <option value="RR">Roraima (RR) • ITCMD 4,00% Fixo</option>
+              <label class="block text-slate-800 dark:text-slate-200 font-black text-xs mb-1">Estado (UF):</label>
+              <select id="modal-sel-localidade-uf" onchange="selecionarUfModal(this.value)" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none cursor-pointer">
+                <option value="SP">São Paulo (SP)</option>
+                <option value="RJ">Rio de Janeiro (RJ)</option>
+                <option value="MG">Minas Gerais (MG)</option>
+                <option value="RS">Rio Grande do Sul (RS)</option>
+                <option value="PR">Paraná (PR)</option>
+                <option value="SC">Santa Catarina (SC)</option>
+                <option value="BA">Bahia (BA)</option>
+                <option value="PE">Pernambuco (PE)</option>
+                <option value="CE">Ceará (CE)</option>
+                <option value="GO">Goiás (GO)</option>
+                <option value="DF">Distrito Federal (DF)</option>
+                <option value="ES">Espírito Santo (ES)</option>
+                <option value="MT">Mato Grosso (MT)</option>
+                <option value="MS">Mato Grosso do Sul (MS)</option>
+                <option value="AM">Amazonas (AM)</option>
+                <option value="PA">Pará (PA)</option>
+                <option value="MA">Maranhão (MA)</option>
+                <option value="PB">Paraíba (PB)</option>
+                <option value="RN">Rio Grande do Norte (RN)</option>
+                <option value="AL">Alagoas (AL)</option>
+                <option value="PI">Piauí (PI)</option>
+                <option value="SE">Sergipe (SE)</option>
+                <option value="RO">Rondônia (RO)</option>
+                <option value="TO">Tocantins (TO)</option>
+                <option value="AC">Acre (AC)</option>
+                <option value="AP">Amapá (AP)</option>
+                <option value="RR">Roraima (RR)</option>
+                <option value="OUTROS">Outros Estados</option>
               </select>
             </div>
 
-            <!-- Seleção Rápida por Lista de Cartórios do Estado -->
+            <!-- 3. Especificar Cartório (Presets do Estado) -->
             <div>
-              <label class="block text-slate-800 dark:text-slate-200 font-black text-xs mb-1">Selecione o Cartório / Circunscrição do Estado:</label>
+              <label class="block text-slate-800 dark:text-slate-200 font-black text-xs mb-1">Especificar Cartório / Circunscrição do Estado:</label>
               <select id="modal-sel-cartorio-preset" onchange="selecionarCartorioPresetModal(this.value)" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none cursor-pointer">
                 <!-- Populado dinamicamente com os cartórios do Estado -->
               </select>
             </div>
 
-            <!-- Cartório de RGI & Município -->
+            <!-- 4. Campos para Especificar Detalhes -->
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Nome do Cartório / RGI:</label>
+                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Especificar Nome / Número do Cartório:</label>
                 <input type="text" id="modal-inp-localidade-rgi" placeholder="Ex: 13º RGI de São Paulo" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none">
               </div>
               <div>
@@ -1562,14 +1561,14 @@
               </div>
             </div>
 
-            <!-- Matrícula e Custas -->
+            <!-- 5. Matrícula e Custas -->
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Nº da Matrícula:</label>
+                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Nº da Matrícula do Imóvel:</label>
                 <input type="text" id="modal-inp-localidade-matricula" placeholder="Ex: 105.420" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none">
               </div>
               <div>
-                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Custas de Registro (R$):</label>
+                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Custas de Escritura &amp; Registro (R$):</label>
                 <div class="flex items-center gap-1">
                   <input type="number" step="50" min="0" max="100000" id="modal-inp-localidade-custo-rgi" placeholder="Ex: 1500" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs font-mono focus:outline-none">
                   <button type="button" onclick="restaurarCustoPadraoCartorioModal()" class="px-2 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-200 dark:hover:bg-zinc-700 transition cursor-pointer whitespace-nowrap" title="Puxar estimativa estadual">
@@ -1583,7 +1582,7 @@
             <div class="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-black dark:border-zinc-700 text-xs space-y-1">
               <span class="font-black text-black dark:text-white block">⚖️ Impacto Tributário &amp; Custas no Custo de Aquisição:</span>
               <p class="text-[11px] text-slate-700 dark:text-slate-300 leading-tight" id="modal-localidade-resumo-tributario">
-                O ITCMD deste imóvel será recolhido exclusivamente para o Estado de SP (4,00%).
+                O ITCMD deste imóvel será recolhido exclusivamente para o Estado selecionado.
               </p>
             </div>
           </div>
@@ -1594,7 +1593,7 @@
               Cancelar
             </button>
             <button type="button" onclick="salvarModalLocalidade()" class="px-4 py-2 rounded-xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white font-black text-xs shadow-xs transition cursor-pointer">
-              ✓ Salvar Cartório &amp; Região
+              ✓ Salvar Estado &amp; Cartório
             </button>
           </div>
         </div>
@@ -2239,24 +2238,25 @@ function renderizarImoveis() {
         </div>
       </td>
 
-      <!-- 4. LOCALIDADE (UF) -->
+      <!-- 4. ESTADO (APENAS ESTADO, SEM RGI OU NÚMEROS) -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
-          <select onchange="alterarUfImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer" title="Selecione o Estado/UF">
-            ${Object.keys(TABELA_ITCMD_ESTADOS).map(uf => `<option value="${uf}" ${im.uf === uf ? 'selected' : ''}>${uf} (${(TABELA_ITCMD_ESTADOS[uf].itcmd * 100).toFixed(0)}%)</option>`).join('')}
+          <select onchange="alterarUfImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer" title="Selecione o Estado">
+            ${Object.keys(TABELA_ITCMD_ESTADOS).filter(k => k !== 'OUTROS').map(uf => `<option value="${uf}" ${(im.uf || 'SP') === uf ? 'selected' : ''}>${uf} - ${TABELA_ITCMD_ESTADOS[uf].nome}</option>`).join('')}
+            <option value="OUTROS" ${im.uf === 'OUTROS' ? 'selected' : ''}>Outros Estados</option>
           </select>
-          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Selecionar UF">✏️</span>
+          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Estado">📍</span>
         </div>
       </td>
 
-      <!-- 5. CARTÓRIO / RGI (IDÊNTICO À LOCALIDADE, COM SELEÇÃO POR NÚMERO DE CARTÓRIO/ESTADO) -->
+      <!-- 5. CARTÓRIO / RGI (AO LADO DO ESTADO: SELEÇÃO DO CARTÓRIO + BOTÃO ESPECIFICAR) -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
-          <select onchange="alterarRgiImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer max-w-[210px]" title="Selecione o Cartório de Registro de Imóveis (RGI) do Estado ${im.uf || 'SP'}">
+          <select onchange="alterarRgiImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer max-w-[200px]" title="Selecione o Cartório / RGI de ${im.uf || 'SP'}">
             ${obterOpcoesCartoriosSelect(im.uf || 'SP', im.rgi || '13º RGI de São Paulo')}
           </select>
-          <button type="button" onclick="abrirModalCartorio(${idx})" class="text-[10px] text-slate-400 hover:text-black dark:hover:text-white select-none flex-shrink-0 cursor-pointer p-0.5" title="Abrir modal para configurar detalhes do Cartório, Região, Matrícula e Custas de Registro">
-            ✏️
+          <button type="button" onclick="abrirModalCartorio(${idx})" class="px-1.5 py-0.5 rounded-md border border-slate-300 dark:border-zinc-700 bg-slate-100 dark:bg-zinc-800 text-[10px] font-bold text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition cursor-pointer flex items-center gap-0.5 flex-shrink-0" title="Clique para especificar número do cartório, matrícula, comarca e custas">
+            <span>✏️</span><span class="text-[9px]">Especificar</span>
           </button>
         </div>
       </td>
