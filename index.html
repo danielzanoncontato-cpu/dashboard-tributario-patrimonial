@@ -1470,9 +1470,7 @@
             </button>
             <button type="button" onclick="salvarModalUsufruto()" class="px-4 py-2 rounded-xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white font-black text-xs shadow-xs transition cursor-pointer">
               ✓ Salvar Usufruto &amp; Votos
-            </button>
-          </div>
-  <!-- 4. MODAL DE CARTÓRIO, RGI, ESTADOS & CUSTAS DE REGISTRO -->
+            </but<!-- 4. MODAL DE CARTÓRIO, RGI, ESTADOS & CUSTAS DE REGISTRO -->
       <div id="modal-localidade-imovel" class="hidden fixed inset-0 bg-black/70 backdrop-blur-xs z-50 flex items-center justify-center p-4">
         <div class="bg-white dark:bg-zinc-950 rounded-2xl max-w-md w-full p-5 shadow-2xl border border-black dark:border-zinc-700 space-y-4">
           <div class="flex justify-between items-center pb-3 border-b border-black dark:border-zinc-700">
@@ -1490,7 +1488,7 @@
           </div>
 
           <p class="text-xs text-slate-700 dark:text-slate-300 text-[11px] leading-tight">
-            Anexe qualquer Estado (UF) e Região/Comarca ao imóvel e personalize as custas notariais e registrais que compõem o custo de aquisição e transferência:
+            Selecione o Estado (UF), Cartório de Registro de Imóveis (RGI) ou digite livremente a comarca e personalize as custas de registro:
           </p>
 
           <!-- Presets de Escolha Rápida de Estado / Região (UF) -->
@@ -1530,38 +1528,54 @@
                 <option value="MS">Mato Grosso do Sul (MS) • ITCMD Progressivo 3% a 6%</option>
                 <option value="AM">Amazonas (AM) • ITCMD 2,00% Fixo</option>
                 <option value="PA">Pará (PA) • ITCMD 4,00% Fixo</option>
+                <option value="MA">Maranhão (MA) • ITCMD 3% a 7%</option>
+                <option value="PB">Paraíba (PB) • ITCMD 2% a 8%</option>
+                <option value="RN">Rio Grande do Norte (RN) • ITCMD 3% a 6%</option>
+                <option value="AL">Alagoas (AL) • ITCMD 2% a 4%</option>
+                <option value="PI">Piauí (PI) • ITCMD 2% a 6%</option>
+                <option value="SE">Sergipe (SE) • ITCMD 2% a 8%</option>
+                <option value="RO">Rondônia (RO) • ITCMD 2% a 4%</option>
+                <option value="TO">Tocantins (TO) • ITCMD 2% a 8%</option>
+                <option value="AC">Acre (AC) • ITCMD 2% a 4%</option>
+                <option value="AP">Amapá (AP) • ITCMD 3% a 4%</option>
+                <option value="RR">Roraima (RR) • ITCMD 4,00% Fixo</option>
               </select>
             </div>
 
-            <!-- Região / Município / Comarca -->
+            <!-- Seleção Rápida por Lista de Cartórios do Estado -->
             <div>
-              <label class="block text-slate-800 dark:text-slate-200 font-black text-xs mb-1">Região / Município / Comarca:</label>
-              <input type="text" id="modal-inp-localidade-cidade" placeholder="Ex: São Paulo, Grande Rio, Campinas, Baixada Santista..." class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none">
+              <label class="block text-slate-800 dark:text-slate-200 font-black text-xs mb-1">Selecione o Cartório / Circunscrição do Estado:</label>
+              <select id="modal-sel-cartorio-preset" onchange="selecionarCartorioPresetModal(this.value)" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none cursor-pointer">
+                <!-- Populado dinamicamente com os cartórios do Estado -->
+              </select>
             </div>
 
-            <!-- Cartório de RGI & Matrícula -->
+            <!-- Cartório de RGI & Município -->
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Cartório de RGI / Ofício:</label>
+                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Nome do Cartório / RGI:</label>
                 <input type="text" id="modal-inp-localidade-rgi" placeholder="Ex: 13º RGI de São Paulo" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none">
               </div>
+              <div>
+                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Comarca / Município:</label>
+                <input type="text" id="modal-inp-localidade-cidade" placeholder="Ex: São Paulo" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none">
+              </div>
+            </div>
+
+            <!-- Matrícula e Custas -->
+            <div class="grid grid-cols-2 gap-2">
               <div>
                 <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Nº da Matrícula:</label>
                 <input type="text" id="modal-inp-localidade-matricula" placeholder="Ex: 105.420" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none">
               </div>
-            </div>
-
-            <!-- Custas de Registro no Cartório (Impacto no Custo de Aquisição) -->
-            <div>
-              <div class="flex justify-between items-center mb-1">
-                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px]">Custas de Escritura &amp; Registro no Cartório (R$):</label>
-                <span class="text-[9px] text-slate-500 font-bold">Dedutível DIRPF (Art. 17 L. 9.250/95)</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <input type="number" step="50" min="0" max="100000" id="modal-inp-localidade-custo-rgi" placeholder="Ex: 1500" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs font-mono focus:outline-none">
-                <button type="button" onclick="restaurarCustoPadraoCartorioModal()" class="px-2.5 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-200 dark:hover:bg-zinc-700 transition cursor-pointer whitespace-nowrap" title="Puxar estimativa padrão da tabela da UF">
-                  Tabela UF
-                </button>
+              <div>
+                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Custas de Registro (R$):</label>
+                <div class="flex items-center gap-1">
+                  <input type="number" step="50" min="0" max="100000" id="modal-inp-localidade-custo-rgi" placeholder="Ex: 1500" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs font-mono focus:outline-none">
+                  <button type="button" onclick="restaurarCustoPadraoCartorioModal()" class="px-2 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-200 dark:hover:bg-zinc-700 transition cursor-pointer whitespace-nowrap" title="Puxar estimativa estadual">
+                    Tabela UF
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -1688,7 +1702,393 @@
       </div>
 
       <!-- JAVASCRIPT MASTER ENGINE --> <script>
- const TABELA_ITCMD_ESTADOS = { SP: { nome:"São Paulo", tjNome:"TJSP", itcmd: 0.04, reg:"Fixa 4% (PL 2% a 8%)", rgiHolding: 1500, escrPfPct: 0.0100, tjPct: 0.0125, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual SP nº 11.608/03 (alt. Lei 17.785/23) e Lei 11.331/02" }, RJ: { nome:"Rio de Janeiro", tjNome:"TJRJ", itcmd: 0.06, reg:"4% a 8% Progressivo", rgiHolding: 2200, escrPfPct: 0.0130, tjPct: 0.0200, rgiFormalPct: 0.0050, leiJudiciaria:"Lei Estadual RJ nº 3.350/99 + FETJ/FUNDPERJ e Lei 7.174/15" }, MG: { nome:"Minas Gerais", tjNome:"TJMG", itcmd: 0.05, reg:"5% Fixo (Prop. 1% a 8%)", rgiHolding: 1600, escrPfPct: 0.0110, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual MG nº 14.939/03 e Provimento Conjunto TJMG" }, PR: { nome:"Paraná", tjNome:"TJPR", itcmd: 0.04, reg:"4% Fixo (Prop. 2% a 8%)", rgiHolding: 1400, escrPfPct: 0.0090, tjPct: 0.0120, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual PR nº 13.611/02 e Tabela TJPR" }, RS: { nome:"Rio Grande do Sul", tjNome:"TJRS", itcmd: 0.05, reg:"3% a 6% Progressivo", rgiHolding: 1300, escrPfPct: 0.0100, tjPct: 0.0150, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual RS nº 14.634/14 e Tabela TJRS" }, SC: { nome:"Santa Catarina", tjNome:"TJSC", itcmd: 0.04, reg:"1% a 8% Progressivo", rgiHolding: 1200, escrPfPct: 0.0080, tjPct: 0.0130, rgiFormalPct: 0.0040, leiJudiciaria:"LCE SC nº 156/97 e Tabela TJSC" }, BA: { nome:"Bahia", tjNome:"TJBA", itcmd: 0.06, reg:"3,5% a 8% Progressivo", rgiHolding: 1900, escrPfPct: 0.0120, tjPct: 0.0150, rgiFormalPct: 0.0050, leiJudiciaria:"Lei Estadual BA nº 12.373/11 e Lei 14.025/18" }, GO: { nome:"Goiás", tjNome:"TJGO", itcmd: 0.05, reg:"2% a 8% Progressivo", rgiHolding: 1500, escrPfPct: 0.0100, tjPct: 0.0150, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual GO nº 14.376/02 e Tabela TJGO" }, DF: { nome:"Distrito Federal", tjNome:"TJDFT", itcmd: 0.05, reg:"4% a 6% Progressivo", rgiHolding: 1100, escrPfPct: 0.0070, tjPct: 0.0080, rgiFormalPct: 0.0035, leiJudiciaria:"Decreto-Lei nº 115/67 e Tabela de Custas TJDFT" }, PE: { nome:"Pernambuco", tjNome:"TJPE", itcmd: 0.05, reg:"2% a 8% Progressivo", rgiHolding: 1800, escrPfPct: 0.0110, tjPct: 0.0160, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual PE nº 11.404/96 e Tabela TJPE" }, CE: { nome:"Ceará", tjNome:"TJCE", itcmd: 0.04, reg:"2% a 8% Progressivo", rgiHolding: 1550, escrPfPct: 0.0100, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual CE nº 15.834/15 e Tabela TJCE" }, ES: { nome:"Espírito Santo", tjNome:"TJES", itcmd: 0.04, reg:"4% Fixo", rgiHolding: 1350, escrPfPct: 0.0090, tjPct: 0.0140, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual ES nº 9.974/13 e Tabela TJES" }, MT: { nome:"Mato Grosso", tjNome:"TJMT", itcmd: 0.04, reg:"2% a 8% Progressivo", rgiHolding: 1450, escrPfPct: 0.0100, tjPct: 0.0150, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual MT nº 7.603/01 e Tabela TJMT" }, MS: { nome:"Mato Grosso do Sul", tjNome:"TJMS", itcmd: 0.04, reg:"3% a 6% Progressivo", rgiHolding: 1400, escrPfPct: 0.0095, tjPct: 0.0140, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual MS nº 3.779/09 e Tabela TJMS" }, PA: { nome:"Pará", tjNome:"TJPA", itcmd: 0.04, reg:"4% Fixo", rgiHolding: 1650, escrPfPct: 0.0110, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual PA nº 8.328/15 e Tabela TJPA" }, AM: { nome:"Amazonas", tjNome:"TJAM", itcmd: 0.02, reg:"2% Fixo (Menor BR)", rgiHolding: 1250, escrPfPct: 0.0085, tjPct: 0.0120, rgiFormalPct: 0.0035, leiJudiciaria:"Lei Estadual AM nº 2.750/02 e Tabela TJAM" }, MA: { nome:"Maranhão", tjNome:"TJMA", itcmd: 0.05, reg:"3% a 7% Progressivo", rgiHolding: 1700, escrPfPct: 0.0115, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual MA nº 9.109/09 e Tabela TJMA" }, PB: { nome:"Paraíba", tjNome:"TJPB", itcmd: 0.05, reg:"2% a 8% Progressivo", rgiHolding: 1600, escrPfPct: 0.0105, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual PB nº 6.688/98 e Tabela TJPB" }, RN: { nome:"Rio Grande do Norte", tjNome:"TJRN", itcmd: 0.04, reg:"3% a 6% Progressivo", rgiHolding: 1500, escrPfPct: 0.0100, tjPct: 0.0140, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual RN nº 9.278/09 e Tabela TJRN" }, AL: { nome:"Alagoas", tjNome:"TJAL", itcmd: 0.04, reg:"2% a 4% Progressivo", rgiHolding: 1550, escrPfPct: 0.0105, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual AL nº 6.582/05 e Tabela TJAL" }, PI: { nome:"Piauí", tjNome:"TJPI", itcmd: 0.04, reg:"2% a 6% Progressivo", rgiHolding: 1500, escrPfPct: 0.0100, tjPct: 0.0140, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual PI nº 5.425/04 e Tabela TJPI" }, SE: { nome:"Sergipe", tjNome:"TJSE", itcmd: 0.05, reg:"2% a 8% Progressivo", rgiHolding: 1650, escrPfPct: 0.0110, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual SE nº 5.372/04 e Tabela TJSE" }, RO: { nome:"Rondônia", tjNome:"TJRO", itcmd: 0.04, reg:"2% a 4% Progressivo", rgiHolding: 1350, escrPfPct: 0.0090, tjPct: 0.0140, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual RO nº 3.830/16 e Tabela TJRO" }, TO: { nome:"Tocantins", tjNome:"TJTO", itcmd: 0.04, reg:"2% a 8% Progressivo", rgiHolding: 1400, escrPfPct: 0.0095, tjPct: 0.0140, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual TO nº 2.812/13 e Tabela TJTO" }, AC: { nome:"Acre", tjNome:"TJAC", itcmd: 0.04, reg:"2% a 4% Progressivo", rgiHolding: 1300, escrPfPct: 0.0085, tjPct: 0.0130, rgiFormalPct: 0.0035, leiJudiciaria:"Lei Complementar AC nº 136/04 e Tabela TJAC" }, AP: { nome:"Amapá", tjNome:"TJAP", itcmd: 0.03, reg:"3% a 4% Progressivo", rgiHolding: 1200, escrPfPct: 0.0080, tjPct: 0.0130, rgiFormalPct: 0.0035, leiJudiciaria:"Lei Estadual AP nº 0204/95 e Tabela TJAP" }, RR: { nome:"Roraima", tjNome:"TJRR", itcmd: 0.04, reg:"4% Fixo", rgiHolding: 1300, escrPfPct: 0.0085, tjPct: 0.0130, rgiFormalPct: 0.0035, leiJudiciaria:"Lei Estadual RR nº 107/95 e Tabela TJRR" }, OUTROS: { nome:"Outros Estados (Média)", tjNome:"TJ (Média Brasil)", itcmd: 0.04, reg:"4% Média Brasil", rgiHolding: 1500, escrPfPct: 0.0100, tjPct: 0.0150, rgiFormalPct: 0.0040, leiJudiciaria:"Média dos Tribunais Estaduais (TJ) e Lei 6.015/73" } }; const state = {
+ /* ========================================================================= */
+    /* 🏛️ BANCO DE DADOS NACIONAL DE CARTÓRIOS DE REGISTRO DE IMÓVEIS (RGI) */
+    /* ========================================================================= */
+    const CARTORIOS_POR_ESTADO = {
+      SP: [
+        { id: "13º RGI de São Paulo", nome: "13º RGI de São Paulo (Jardins / Sul)", cidade: "São Paulo", custo: 1500 },
+        { id: "1º RGI de São Paulo", nome: "1º RGI de São Paulo (Sé / Centro)", cidade: "São Paulo", custo: 1500 },
+        { id: "2º RGI de São Paulo", nome: "2º RGI de São Paulo (Santa Ifigênia)", cidade: "São Paulo", custo: 1500 },
+        { id: "3º RGI de São Paulo", nome: "3º RGI de São Paulo (Brás / Mooca)", cidade: "São Paulo", custo: 1500 },
+        { id: "4º RGI de São Paulo", nome: "4º RGI de São Paulo (Bela Vista / Paulista)", cidade: "São Paulo", custo: 1500 },
+        { id: "5º RGI de São Paulo", nome: "5º RGI de São Paulo (Consolação / Perdizes)", cidade: "São Paulo", custo: 1500 },
+        { id: "6º RGI de São Paulo", nome: "6º RGI de São Paulo (Pinheiros / Butantã)", cidade: "São Paulo", custo: 1500 },
+        { id: "7º RGI de São Paulo", nome: "7º RGI de São Paulo (Lapa / Pompéia)", cidade: "São Paulo", custo: 1500 },
+        { id: "8º RGI de São Paulo", nome: "8º RGI de São Paulo (Santana / Z. Norte)", cidade: "São Paulo", custo: 1500 },
+        { id: "9º RGI de São Paulo", nome: "9º RGI de São Paulo (Vila Mariana / Saúde)", cidade: "São Paulo", custo: 1500 },
+        { id: "10º RGI de São Paulo", nome: "10º RGI de São Paulo (Ipiranga / Sacomã)", cidade: "São Paulo", custo: 1500 },
+        { id: "11º RGI de São Paulo", nome: "11º RGI de São Paulo (Mooca / Belém)", cidade: "São Paulo", custo: 1500 },
+        { id: "12º RGI de São Paulo", nome: "12º RGI de São Paulo (Tatuapé / Z. Leste)", cidade: "São Paulo", custo: 1500 },
+        { id: "14º RGI de São Paulo", nome: "14º RGI de São Paulo (São Miguel Paulista)", cidade: "São Paulo", custo: 1500 },
+        { id: "15º RGI de São Paulo", nome: "15º RGI de São Paulo (Santo Amaro / Morumbi)", cidade: "São Paulo", custo: 1500 },
+        { id: "16º RGI de São Paulo", nome: "16º RGI de São Paulo (Freguesia do Ó / Brasilândia)", cidade: "São Paulo", custo: 1500 },
+        { id: "17º RGI de São Paulo", nome: "17º RGI de São Paulo (Itaquera / Guaianases)", cidade: "São Paulo", custo: 1500 },
+        { id: "18º RGI de São Paulo", nome: "18º RGI de São Paulo (Penha / Cangaíba)", cidade: "São Paulo", custo: 1500 },
+        { id: "1º RGI de Campinas", nome: "1º RGI de Campinas", cidade: "Campinas", custo: 1400 },
+        { id: "2º RGI de Campinas", nome: "2º RGI de Campinas", cidade: "Campinas", custo: 1400 },
+        { id: "3º RGI de Campinas", nome: "3º RGI de Campinas", cidade: "Campinas", custo: 1400 },
+        { id: "1º RGI de Santos", nome: "1º RGI de Santos (Litoral)", cidade: "Santos", custo: 1450 },
+        { id: "2º RGI de Santos", nome: "2º RGI de Santos (Litoral)", cidade: "Santos", custo: 1450 },
+        { id: "3º RGI de Santos", nome: "3º RGI de Santos (Litoral)", cidade: "Santos", custo: 1450 },
+        { id: "1º RGI de Guarulhos", nome: "1º RGI de Guarulhos", cidade: "Guarulhos", custo: 1400 },
+        { id: "2º RGI de Guarulhos", nome: "2º RGI de Guarulhos", cidade: "Guarulhos", custo: 1400 },
+        { id: "1º RGI de Ribeirão Preto", nome: "1º RGI de Ribeirão Preto", cidade: "Ribeirão Preto", custo: 1350 },
+        { id: "2º RGI de Ribeirão Preto", nome: "2º RGI de Ribeirão Preto", cidade: "Ribeirão Preto", custo: 1350 },
+        { id: "1º RGI de São Bernardo", nome: "1º RGI de São Bernardo do Campo", cidade: "São Bernardo do Campo", custo: 1400 },
+        { id: "2º RGI de São Bernardo", nome: "2º RGI de São Bernardo do Campo", cidade: "São Bernardo do Campo", custo: 1400 },
+        { id: "1º RGI de Santo André", nome: "1º RGI de Santo André", cidade: "Santo André", custo: 1400 },
+        { id: "2º RGI de Santo André", nome: "2º RGI de Santo André", cidade: "Santo André", custo: 1400 },
+        { id: "1º RGI de Osasco", nome: "1º RGI de Osasco", cidade: "Osasco", custo: 1350 },
+        { id: "2º RGI de Osasco", nome: "2º RGI de Osasco", cidade: "Osasco", custo: 1350 },
+        { id: "RGI de Barueri / Alphaville", nome: "RGI de Barueri (Alphaville / Tamboré)", cidade: "Barueri", custo: 1550 },
+        { id: "1º RGI de Sorocaba", nome: "1º RGI de Sorocaba", cidade: "Sorocaba", custo: 1300 },
+        { id: "2º RGI de Sorocaba", nome: "2º RGI de Sorocaba", cidade: "Sorocaba", custo: 1300 },
+        { id: "1º RGI de São José dos Campos", nome: "1º RGI de São José dos Campos", cidade: "São José dos Campos", custo: 1350 },
+        { id: "2º RGI de São José dos Campos", nome: "2º RGI de São José dos Campos", cidade: "São José dos Campos", custo: 1350 },
+        { id: "RGI de Jundiaí", nome: "1º/2º RGI de Jundiaí", cidade: "Jundiaí", custo: 1300 }
+      ],
+      RJ: [
+        { id: "1º RGI do Rio de Janeiro", nome: "1º RGI do Rio de Janeiro (Centro / Porto)", cidade: "Rio de Janeiro", custo: 2200 },
+        { id: "2º RGI do Rio de Janeiro", nome: "2º RGI do Rio de Janeiro (Copacabana / Ipanema / Leblon)", cidade: "Rio de Janeiro", custo: 2200 },
+        { id: "3º RGI do Rio de Janeiro", nome: "3º RGI do Rio de Janeiro (Tijuca / Vila Isabel)", cidade: "Rio de Janeiro", custo: 2200 },
+        { id: "4º RGI do Rio de Janeiro", nome: "4º RGI do Rio de Janeiro (Botafogo / Flamengo / Laranjeiras)", cidade: "Rio de Janeiro", custo: 2200 },
+        { id: "5º RGI do Rio de Janeiro", nome: "5º RGI do Rio de Janeiro (Méier / Engenho Novo)", cidade: "Rio de Janeiro", custo: 2200 },
+        { id: "6º RGI do Rio de Janeiro", nome: "6º RGI do Rio de Janeiro (Madureira / Cascadura)", cidade: "Rio de Janeiro", custo: 2200 },
+        { id: "7º RGI do Rio de Janeiro", nome: "7º RGI do Rio de Janeiro (Campo Grande / Guaratiba)", cidade: "Rio de Janeiro", custo: 2200 },
+        { id: "8º RGI do Rio de Janeiro", nome: "8º RGI do Rio de Janeiro (Jacarepaguá / Taquara)", cidade: "Rio de Janeiro", custo: 2200 },
+        { id: "9º RGI do Rio de Janeiro", nome: "9º RGI do Rio de Janeiro (Barra da Tijuca / Recreio)", cidade: "Rio de Janeiro", custo: 2200 },
+        { id: "10º RGI do Rio de Janeiro", nome: "10º RGI do Rio de Janeiro (Ilha do Governador)", cidade: "Rio de Janeiro", custo: 2200 },
+        { id: "11º RGI do Rio de Janeiro", nome: "11º RGI do Rio de Janeiro (Bangu / Realengo)", cidade: "Rio de Janeiro", custo: 2200 },
+        { id: "12º RGI do Rio de Janeiro", nome: "12º RGI do Rio de Janeiro (Santa Cruz / Paciência)", cidade: "Rio de Janeiro", custo: 2200 },
+        { id: "1º RGI de Niterói", nome: "1º RGI de Niterói (Icaraí / Centro)", cidade: "Niterói", custo: 2100 },
+        { id: "2º RGI de Niterói", nome: "2º RGI de Niterói (Região Oceânica)", cidade: "Niterói", custo: 2100 },
+        { id: "3º RGI de Niterói", nome: "3º RGI de Niterói (Fonseca / Z. Norte)", cidade: "Niterói", custo: 2100 },
+        { id: "1º RGI de Duque de Caxias", nome: "1º RGI de Duque de Caxias", cidade: "Duque de Caxias", custo: 1950 },
+        { id: "2º RGI de Duque de Caxias", nome: "2º RGI de Duque de Caxias", cidade: "Duque de Caxias", custo: 1950 },
+        { id: "1º RGI de São Gonçalo", nome: "1º RGI de São Gonçalo", cidade: "São Gonçalo", custo: 1950 },
+        { id: "2º RGI de São Gonçalo", nome: "2º RGI de São Gonçalo", cidade: "São Gonçalo", custo: 1950 },
+        { id: "1º RGI de Petrópolis", nome: "1º RGI de Petrópolis (Região Serrana)", cidade: "Petrópolis", custo: 2000 },
+        { id: "2º RGI de Petrópolis", nome: "2º RGI de Petrópolis (Itaipava)", cidade: "Petrópolis", custo: 2000 },
+        { id: "RGI de Cabo Frio / Búzios", nome: "RGI de Cabo Frio (Região dos Lagos)", cidade: "Cabo Frio", custo: 2100 },
+        { id: "RGI de Volta Redonda", nome: "1º/2º RGI de Volta Redonda", cidade: "Volta Redonda", custo: 1900 },
+        { id: "RGI de Macaé", nome: "1º/2º RGI de Macaé (Norte Fluminense)", cidade: "Macaé", custo: 2050 }
+      ],
+      MG: [
+        { id: "1º RGI de Belo Horizonte", nome: "1º RGI de Belo Horizonte (Centro / Savassi)", cidade: "Belo Horizonte", custo: 1600 },
+        { id: "2º RGI de Belo Horizonte", nome: "2º RGI de Belo Horizonte (Lourdes / Funcionários)", cidade: "Belo Horizonte", custo: 1600 },
+        { id: "3º RGI de Belo Horizonte", nome: "3º RGI de Belo Horizonte (Barro Preto / Prado)", cidade: "Belo Horizonte", custo: 1600 },
+        { id: "4º RGI de Belo Horizonte", nome: "4º RGI de Belo Horizonte (Pampulha / Venda Nova)", cidade: "Belo Horizonte", custo: 1600 },
+        { id: "5º RGI de Belo Horizonte", nome: "5º RGI de Belo Horizonte (Mangabeiras / Sion)", cidade: "Belo Horizonte", custo: 1600 },
+        { id: "6º RGI de Belo Horizonte", nome: "6º RGI de Belo Horizonte (Buritis / Belvedere)", cidade: "Belo Horizonte", custo: 1600 },
+        { id: "7º RGI de Belo Horizonte", nome: "7º RGI de Belo Horizonte (Castelo / Ouro Preto)", cidade: "Belo Horizonte", custo: 1600 },
+        { id: "1º RGI de Uberlândia", nome: "1º RGI de Uberlândia (Triângulo Mineiro)", cidade: "Uberlândia", custo: 1500 },
+        { id: "2º RGI de Uberlândia", nome: "2º RGI de Uberlândia", cidade: "Uberlândia", custo: 1500 },
+        { id: "1º RGI de Juiz de Fora", nome: "1º RGI de Juiz de Fora (Zona da Mata)", cidade: "Juiz de Fora", custo: 1450 },
+        { id: "2º RGI de Juiz de Fora", nome: "2º RGI de Juiz de Fora", cidade: "Juiz de Fora", custo: 1450 },
+        { id: "3º RGI de Juiz de Fora", nome: "3º RGI de Juiz de Fora", cidade: "Juiz de Fora", custo: 1450 },
+        { id: "1º RGI de Contagem", nome: "1º RGI de Contagem", cidade: "Contagem", custo: 1450 },
+        { id: "2º RGI de Contagem", nome: "2º RGI de Contagem", cidade: "Contagem", custo: 1450 },
+        { id: "RGI de Nova Lima / Alphaville", nome: "RGI de Nova Lima (Vila da Serra / Alphaville Lagoa dos Ingleses)", cidade: "Nova Lima", custo: 1700 },
+        { id: "RGI de Betim", nome: "1º/2º RGI de Betim", cidade: "Betim", custo: 1400 },
+        { id: "1º RGI de Montes Claros", nome: "1º RGI de Montes Claros (Norte de Minas)", cidade: "Montes Claros", custo: 1350 },
+        { id: "1º RGI de Uberaba", nome: "1º RGI de Uberaba", cidade: "Uberaba", custo: 1400 }
+      ],
+      PR: [
+        { id: "1º RGI de Curitiba", nome: "1º RGI de Curitiba (Centro / Batel)", cidade: "Curitiba", custo: 1400 },
+        { id: "2º RGI de Curitiba", nome: "2º RGI de Curitiba (Água Verde / Portão)", cidade: "Curitiba", custo: 1400 },
+        { id: "3º RGI de Curitiba", nome: "3º RGI de Curitiba (Bigorrilho / Champagnat)", cidade: "Curitiba", custo: 1400 },
+        { id: "4º RGI de Curitiba", nome: "4º RGI de Curitiba (Cabral / Juvevê)", cidade: "Curitiba", custo: 1400 },
+        { id: "5º RGI de Curitiba", nome: "5º RGI de Curitiba (Ecoville / Mossunguê)", cidade: "Curitiba", custo: 1400 },
+        { id: "6º RGI de Curitiba", nome: "6º RGI de Curitiba (Boqueirão / Hauer)", cidade: "Curitiba", custo: 1400 },
+        { id: "7º RGI de Curitiba", nome: "7º RGI de Curitiba (Santa Felicidade)", cidade: "Curitiba", custo: 1400 },
+        { id: "8º RGI de Curitiba", nome: "8º RGI de Curitiba (Pinheirinho / CIC)", cidade: "Curitiba", custo: 1400 },
+        { id: "9º RGI de Curitiba", nome: "9º RGI de Curitiba (Boa Vista / Bacacheri)", cidade: "Curitiba", custo: 1400 },
+        { id: "1º RGI de Londrina", nome: "1º RGI de Londrina (Norte do PR)", cidade: "Londrina", custo: 1350 },
+        { id: "2º RGI de Londrina", nome: "2º RGI de Londrina", cidade: "Londrina", custo: 1350 },
+        { id: "3º RGI de Londrina", nome: "3º RGI de Londrina", cidade: "Londrina", custo: 1350 },
+        { id: "4º RGI de Londrina", nome: "4º RGI de Londrina (Gleba Palhano)", cidade: "Londrina", custo: 1450 },
+        { id: "1º RGI de Maringá", nome: "1º RGI de Maringá", cidade: "Maringá", custo: 1350 },
+        { id: "2º RGI de Maringá", nome: "2º RGI de Maringá", cidade: "Maringá", custo: 1350 },
+        { id: "1º RGI de Cascavel", nome: "1º RGI de Cascavel (Oeste do PR)", cidade: "Cascavel", custo: 1300 },
+        { id: "2º RGI de Cascavel", nome: "2º RGI de Cascavel", cidade: "Cascavel", custo: 1300 },
+        { id: "1º RGI de Ponta Grossa", nome: "1º RGI de Ponta Grossa (Campos Gerais)", cidade: "Ponta Grossa", custo: 1300 },
+        { id: "2º RGI de Ponta Grossa", nome: "2º RGI de Ponta Grossa", cidade: "Ponta Grossa", custo: 1300 },
+        { id: "1º RGI de Foz do Iguaçu", nome: "1º RGI de Foz do Iguaçu", cidade: "Foz do Iguaçu", custo: 1350 },
+        { id: "2º RGI de Foz do Iguaçu", nome: "2º RGI de Foz do Iguaçu", cidade: "Foz do Iguaçu", custo: 1350 }
+      ],
+      RS: [
+        { id: "1º RGI de Porto Alegre", nome: "1º RGI de Porto Alegre (Centro Histórico / Menino Deus)", cidade: "Porto Alegre", custo: 1300 },
+        { id: "2º RGI de Porto Alegre", nome: "2º RGI de Porto Alegre (Moinhos de Vento / Bela Vista)", cidade: "Porto Alegre", custo: 1300 },
+        { id: "3º RGI de Porto Alegre", nome: "3º RGI de Porto Alegre (Petrópolis / Três Figueiras)", cidade: "Porto Alegre", custo: 1300 },
+        { id: "4º RGI de Porto Alegre", nome: "4º RGI de Porto Alegre (Zona Norte / Floresta)", cidade: "Porto Alegre", custo: 1300 },
+        { id: "5º RGI de Porto Alegre", nome: "5º RGI de Porto Alegre (Zona Sul / Ipanema)", cidade: "Porto Alegre", custo: 1300 },
+        { id: "6º RGI de Porto Alegre", nome: "6º RGI de Porto Alegre (Partenon / Lomba do Pinheiro)", cidade: "Porto Alegre", custo: 1300 },
+        { id: "1º RGI de Caxias do Sul", nome: "1º RGI de Caxias do Sul (Serra Gaúcha)", cidade: "Caxias do Sul", custo: 1250 },
+        { id: "2º RGI de Caxias do Sul", nome: "2º RGI de Caxias do Sul", cidade: "Caxias do Sul", custo: 1250 },
+        { id: "1º RGI de Canoas", nome: "1º RGI de Canoas (Grande POA)", cidade: "Canoas", custo: 1200 },
+        { id: "2º RGI de Canoas", nome: "2º RGI de Canoas", cidade: "Canoas", custo: 1200 },
+        { id: "1º RGI de Pelotas", nome: "1º RGI de Pelotas (Sul do RS)", cidade: "Pelotas", custo: 1200 },
+        { id: "2º RGI de Pelotas", nome: "2º RGI de Pelotas", cidade: "Pelotas", custo: 1200 },
+        { id: "RGI de Gramado / Canela", nome: "RGI de Gramado & Canela (Região das Hortênsias)", cidade: "Gramado", custo: 1400 },
+        { id: "1º RGI de Santa Maria", nome: "1º RGI de Santa Maria (Região Central)", cidade: "Santa Maria", custo: 1200 },
+        { id: "1º RGI de Passo Fundo", nome: "1º RGI de Passo Fundo", cidade: "Passo Fundo", custo: 1200 }
+      ],
+      SC: [
+        { id: "1º RGI de Florianópolis", nome: "1º RGI de Florianópolis (Ilha / Centro / Beira-Mar)", cidade: "Florianópolis", custo: 1200 },
+        { id: "2º RGI de Florianópolis", nome: "2º RGI de Florianópolis (Norte da Ilha / Jurerê)", cidade: "Florianópolis", custo: 1200 },
+        { id: "1º RGI de Balneário Camboriú", nome: "1º RGI de Balneário Camboriú (Litoral Norte)", cidade: "Balneário Camboriú", custo: 1450 },
+        { id: "2º RGI de Balneário Camboriú", nome: "2º RGI de Balneário Camboriú (Barra Sul / Norte)", cidade: "Balneário Camboriú", custo: 1450 },
+        { id: "1º RGI de Joinville", nome: "1º RGI de Joinville", cidade: "Joinville", custo: 1200 },
+        { id: "2º RGI de Joinville", nome: "2º RGI de Joinville", cidade: "Joinville", custo: 1200 },
+        { id: "3º RGI de Joinville", nome: "3º RGI de Joinville", cidade: "Joinville", custo: 1200 },
+        { id: "1º RGI de Blumenau", nome: "1º RGI de Blumenau (Vale do Itajaí)", cidade: "Blumenau", custo: 1200 },
+        { id: "2º RGI de Blumenau", nome: "2º RGI de Blumenau", cidade: "Blumenau", custo: 1200 },
+        { id: "3º RGI de Blumenau", nome: "3º RGI de Blumenau", cidade: "Blumenau", custo: 1200 },
+        { id: "1º RGI de Itajaí", nome: "1º RGI de Itajaí (Praia Brava / Centro)", cidade: "Itajaí", custo: 1350 },
+        { id: "2º RGI de Itajaí", nome: "2º RGI de Itajaí", cidade: "Itajaí", custo: 1350 },
+        { id: "RGI de Itapema", nome: "RGI de Itapema (Meia Praia)", cidade: "Itapema", custo: 1400 },
+        { id: "1º RGI de Criciúma", nome: "1º RGI de Criciúma (Sul de SC)", cidade: "Criciúma", custo: 1150 },
+        { id: "1º RGI de Chapecó", nome: "1º RGI de Chapecó (Oeste de SC)", cidade: "Chapecó", custo: 1150 }
+      ],
+      BA: [
+        { id: "1º RGI de Salvador", nome: "1º RGI de Salvador (Comércio / Barra / Vitória)", cidade: "Salvador", custo: 1900 },
+        { id: "2º RGI de Salvador", nome: "2º RGI de Salvador (Graça / Canela)", cidade: "Salvador", custo: 1900 },
+        { id: "3º RGI de Salvador", nome: "3º RGI de Salvador (Pituba / Itaigara / Caminho das Árvores)", cidade: "Salvador", custo: 1900 },
+        { id: "4º RGI de Salvador", nome: "4º RGI de Salvador (Brotas / Matatu)", cidade: "Salvador", custo: 1900 },
+        { id: "5º RGI de Salvador", nome: "5º RGI de Salvador (Itapuã / Stella Maris)", cidade: "Salvador", custo: 1900 },
+        { id: "6º RGI de Salvador", nome: "6º RGI de Salvador (Liberdade / Calçada)", cidade: "Salvador", custo: 1900 },
+        { id: "7º RGI de Salvador", nome: "7º RGI de Salvador (Cabula / Paralela)", cidade: "Salvador", custo: 1900 },
+        { id: "1º RGI de Feira de Santana", nome: "1º RGI de Feira de Santana", cidade: "Feira de Santana", custo: 1750 },
+        { id: "2º RGI de Feira de Santana", nome: "2º RGI de Feira de Santana", cidade: "Feira de Santana", custo: 1750 },
+        { id: "RGI de Lauro de Freitas", nome: "RGI de Lauro de Freitas (Vilas do Atlântico)", cidade: "Lauro de Freitas", custo: 1850 },
+        { id: "RGI de Camaçari", nome: "RGI de Camaçari (Litoral Norte / Guarajuba)", cidade: "Camaçari", custo: 1850 },
+        { id: "1º RGI de Vitória da Conquista", nome: "1º RGI de Vitória da Conquista", cidade: "Vitória da Conquista", custo: 1650 },
+        { id: "RGI de Porto Seguro", nome: "RGI de Porto Seguro (Trancoso / Arraial d'Ajuda)", cidade: "Porto Seguro", custo: 1900 }
+      ],
+      GO: [
+        { id: "1º RGI de Goiânia", nome: "1º RGI de Goiânia (Setor Central / Sul)", cidade: "Goiânia", custo: 1500 },
+        { id: "2º RGI de Goiânia", nome: "2º RGI de Goiânia (Setor Marista / Bueno)", cidade: "Goiânia", custo: 1500 },
+        { id: "3º RGI de Goiânia", nome: "3º RGI de Goiânia (Jardim Goiás / Alphaville)", cidade: "Goiânia", custo: 1600 },
+        { id: "4º RGI de Goiânia", nome: "4º RGI de Goiânia (Setor Oeste / Campinas)", cidade: "Goiânia", custo: 1500 },
+        { id: "1º RGI de Aparecida de Goiânia", nome: "1º RGI de Aparecida de Goiânia", cidade: "Aparecida de Goiânia", custo: 1400 },
+        { id: "2º RGI de Aparecida de Goiânia", nome: "2º RGI de Aparecida de Goiânia", cidade: "Aparecida de Goiânia", custo: 1400 },
+        { id: "1º RGI de Anápolis", nome: "1º RGI de Anápolis", cidade: "Anápolis", custo: 1400 },
+        { id: "2º RGI de Anápolis", nome: "2º RGI de Anápolis", cidade: "Anápolis", custo: 1400 },
+        { id: "1º RGI de Rio Verde", nome: "1º RGI de Rio Verde (Sudoeste Goiano / Agro)", cidade: "Rio Verde", custo: 1450 },
+        { id: "RGI de Caldas Novas", nome: "RGI de Caldas Novas (Região das Águas)", cidade: "Caldas Novas", custo: 1350 }
+      ],
+      DF: [
+        { id: "1º RGI do DF", nome: "1º RGI do DF (Asa Sul / Lago Sul / Setor Bancário)", cidade: "Brasília", custo: 1100 },
+        { id: "2º RGI do DF", nome: "2º RGI do DF (Asa Norte / Lago Norte / Noroeste)", cidade: "Brasília", custo: 1100 },
+        { id: "3º RGI do DF", nome: "3º RGI do DF (Taguatinga / Águas Claras)", cidade: "Brasília (Taguatinga)", custo: 1100 },
+        { id: "4º RGI do DF", nome: "4º RGI do DF (Ceilândia)", cidade: "Brasília (Ceilândia)", custo: 1100 },
+        { id: "5º RGI do DF", nome: "5º RGI do DF (Gama / Santa Maria)", cidade: "Brasília (Gama)", custo: 1100 },
+        { id: "6º RGI do DF", nome: "6º RGI do DF (Sobradinho / Grande Colorado)", cidade: "Brasília (Sobradinho)", custo: 1100 },
+        { id: "7º RGI do DF", nome: "7º RGI do DF (Planaltina)", cidade: "Brasília (Planaltina)", custo: 1100 },
+        { id: "8º RGI do DF", nome: "8º RGI do DF (Brazlândia)", cidade: "Brasília (Brazlândia)", custo: 1100 },
+        { id: "9º RGI do DF", nome: "9º RGI do DF (Samambaia / Recanto das Emas)", cidade: "Brasília (Samambaia)", custo: 1100 }
+      ],
+      PE: [
+        { id: "1º RGI de Recife", nome: "1º RGI de Recife (Boa Viagem / Pina)", cidade: "Recife", custo: 1800 },
+        { id: "2º RGI de Recife", nome: "2º RGI de Recife (Graças / Espinheiro)", cidade: "Recife", custo: 1800 },
+        { id: "3º RGI de Recife", nome: "3º RGI de Recife (Casa Forte / Jaqueira)", cidade: "Recife", custo: 1800 },
+        { id: "4º RGI de Recife", nome: "4º RGI de Recife (Centro / Bairro do Recife)", cidade: "Recife", custo: 1800 },
+        { id: "5º RGI de Recife", nome: "5º RGI de Recife (Caxangá / Várzea)", cidade: "Recife", custo: 1800 },
+        { id: "6º RGI de Recife", nome: "6º RGI de Recife (Afogados / Imbiribeira)", cidade: "Recife", custo: 1800 },
+        { id: "7º RGI de Recife", nome: "7º RGI de Recife", cidade: "Recife", custo: 1800 },
+        { id: "1º RGI de Olinda", nome: "1º RGI de Olinda", cidade: "Olinda", custo: 1650 },
+        { id: "1º RGI de Jaboatão", nome: "1º RGI de Jaboatão dos Guararapes (Piedade / Candeias)", cidade: "Jaboatão dos Guararapes", custo: 1700 },
+        { id: "1º RGI de Caruaru", nome: "1º RGI de Caruaru (Agreste Pernambucano)", cidade: "Caruaru", custo: 1550 },
+        { id: "RGI de Petrolina", nome: "RGI de Petrolina (Vale do São Francisco)", cidade: "Petrolina", custo: 1600 }
+      ],
+      CE: [
+        { id: "1º RGI de Fortaleza", nome: "1º RGI de Fortaleza (Aldeota / Meireles)", cidade: "Fortaleza", custo: 1550 },
+        { id: "2º RGI de Fortaleza", nome: "2º RGI de Fortaleza (Varjota / Papicu / Praia do Futuro)", cidade: "Fortaleza", custo: 1550 },
+        { id: "3º RGI de Fortaleza", nome: "3º RGI de Fortaleza (Centro / Jacarecanga)", cidade: "Fortaleza", custo: 1550 },
+        { id: "4º RGI de Fortaleza", nome: "4º RGI de Fortaleza (Fátima / Benfica)", cidade: "Fortaleza", custo: 1550 },
+        { id: "5º RGI de Fortaleza", nome: "5º RGI de Fortaleza (Parquelândia / Monte Castelo)", cidade: "Fortaleza", custo: 1550 },
+        { id: "6º RGI de Fortaleza", nome: "6º RGI de Fortaleza (Messejana / Cambeba / Eusébio)", cidade: "Fortaleza", custo: 1550 },
+        { id: "1º RGI de Caucaia", nome: "1º RGI de Caucaia (Cumbuco / Litoral)", cidade: "Caucaia", custo: 1450 },
+        { id: "1º RGI de Juazeiro do Norte", nome: "1º RGI de Juazeiro do Norte (Cariri)", cidade: "Juazeiro do Norte", custo: 1400 },
+        { id: "RGI de Sobral", nome: "RGI de Sobral (Região Norte do Ceará)", cidade: "Sobral", custo: 1400 }
+      ],
+      ES: [
+        { id: "1º RGI de Vitória", nome: "1º RGI de Vitória (Praia do Canto / Enseada do Suá)", cidade: "Vitória", custo: 1350 },
+        { id: "2º RGI de Vitória", nome: "2º RGI de Vitória (Jardim da Penha / Camburi)", cidade: "Vitória", custo: 1350 },
+        { id: "3º RGI de Vitória", nome: "3º RGI de Vitória (Centro / Ilha do Príncipe)", cidade: "Vitória", custo: 1350 },
+        { id: "1º RGI de Vila Velha", nome: "1º RGI de Vila Velha (Praia da Costa / Itapuã)", cidade: "Vila Velha", custo: 1350 },
+        { id: "2º RGI de Vila Velha", nome: "2º RGI de Vila Velha", cidade: "Vila Velha", custo: 1350 },
+        { id: "1º RGI de Serra", nome: "1º RGI de Serra (Laranjeiras / Jacaraípe)", cidade: "Serra", custo: 1300 },
+        { id: "1º RGI de Guarapari", nome: "RGI de Guarapari (Litoral Sul)", cidade: "Guarapari", custo: 1350 },
+        { id: "1º RGI de Cachoeiro", nome: "1º/2º RGI de Cachoeiro de Itapemirim", cidade: "Cachoeiro de Itapemirim", custo: 1250 }
+      ],
+      MT: [
+        { id: "1º RGI de Cuiabá", nome: "1º RGI de Cuiabá (Centro / Goiabeiras)", cidade: "Cuiabá", custo: 1450 },
+        { id: "2º RGI de Cuiabá", nome: "2º RGI de Cuiabá (Bosque da Saúde / Alvorada)", cidade: "Cuiabá", custo: 1450 },
+        { id: "3º RGI de Cuiabá", nome: "3º RGI de Cuiabá (Santa Rosa / Estação)", cidade: "Cuiabá", custo: 1450 },
+        { id: "4º RGI de Cuiabá", nome: "4º RGI de Cuiabá", cidade: "Cuiabá", custo: 1450 },
+        { id: "5º RGI de Cuiabá", nome: "5º RGI de Cuiabá", cidade: "Cuiabá", custo: 1450 },
+        { id: "6º RGI de Cuiabá", nome: "6º RGI de Cuiabá (Coxipó)", cidade: "Cuiabá", custo: 1450 },
+        { id: "1º RGI de Várzea Grande", nome: "1º/2º RGI de Várzea Grande", cidade: "Várzea Grande", custo: 1350 },
+        { id: "1º RGI de Rondonópolis", nome: "1º/2º RGI de Rondonópolis (Agro Sul)", cidade: "Rondonópolis", custo: 1400 },
+        { id: "1º RGI de Sinop", nome: "1º/2º RGI de Sinop (Norte do MT / Agronegócio)", cidade: "Sinop", custo: 1450 },
+        { id: "RGI de Sorriso / Lucas", nome: "RGI de Sorriso & Lucas do Rio Verde", cidade: "Sorriso", custo: 1450 }
+      ],
+      MS: [
+        { id: "1º RGI de Campo Grande", nome: "1º RGI de Campo Grande (Centro / Prosa)", cidade: "Campo Grande", custo: 1400 },
+        { id: "2º RGI de Campo Grande", nome: "2º RGI de Campo Grande (Chácara Cachoeira / Royal Park)", cidade: "Campo Grande", custo: 1400 },
+        { id: "3º RGI de Campo Grande", nome: "3º RGI de Campo Grande (Autonomista / Bandeirantes)", cidade: "Campo Grande", custo: 1400 },
+        { id: "1º RGI de Dourados", nome: "1º/2º RGI de Dourados", cidade: "Dourados", custo: 1350 },
+        { id: "RGI de Três Lagoas", nome: "RGI de Três Lagoas (Costa Leste MS)", cidade: "Três Lagoas", custo: 1350 },
+        { id: "RGI de Bonito", nome: "RGI de Bonito (Ecoturismo)", cidade: "Bonito", custo: 1350 }
+      ],
+      PA: [
+        { id: "1º RGI de Belém", nome: "1º RGI de Belém (Nazaré / Umarizal)", cidade: "Belém", custo: 1650 },
+        { id: "2º RGI de Belém", nome: "2º RGI de Belém (Batista Campos / Marco)", cidade: "Belém", custo: 1650 },
+        { id: "1º RGI de Ananindeua", nome: "1º/2º RGI de Ananindeua", cidade: "Ananindeua", custo: 1550 },
+        { id: "1º RGI de Santarém", nome: "1º RGI de Santarém (Oeste do Pará)", cidade: "Santarém", custo: 1500 },
+        { id: "RGI de Parauapebas", nome: "RGI de Parauapebas (Carajás)", cidade: "Parauapebas", custo: 1600 }
+      ],
+      AM: [
+        { id: "1º RGI de Manaus", nome: "1º RGI de Manaus (Adrianópolis / Ponta Negra)", cidade: "Manaus", custo: 1250 },
+        { id: "2º RGI de Manaus", nome: "2º RGI de Manaus (Nossa Sra. das Graças / Vieiralves)", cidade: "Manaus", custo: 1250 },
+        { id: "3º RGI de Manaus", nome: "3º RGI de Manaus (Centro / Flores)", cidade: "Manaus", custo: 1250 },
+        { id: "4º RGI de Manaus", nome: "4º RGI de Manaus (Parque Dez de Novembro)", cidade: "Manaus", custo: 1250 },
+        { id: "5º RGI de Manaus", nome: "5º RGI de Manaus (Distrito Industrial)", cidade: "Manaus", custo: 1250 },
+        { id: "6º RGI de Manaus", nome: "6º RGI de Manaus (Cidade Nova / Zona Norte)", cidade: "Manaus", custo: 1250 }
+      ],
+      MA: [
+        { id: "1º RGI de São Luís", nome: "1º RGI de São Luís (Ponta d'Areia / Renascença)", cidade: "São Luís", custo: 1700 },
+        { id: "2º RGI de São Luís", nome: "2º RGI de São Luís (Calhau / Olho d'Água)", cidade: "São Luís", custo: 1700 },
+        { id: "1º RGI de Imperatriz", nome: "1º/2º RGI de Imperatriz", cidade: "Imperatriz", custo: 1550 }
+      ],
+      PB: [
+        { id: "1º RGI de João Pessoa", nome: "1º RGI de João Pessoa (Tambaú / Cabo Branco)", cidade: "João Pessoa", custo: 1600 },
+        { id: "2º RGI de João Pessoa", nome: "2º RGI de João Pessoa (Manaíra / Bessa)", cidade: "João Pessoa", custo: 1600 },
+        { id: "3º RGI de João Pessoa", nome: "3º RGI de João Pessoa (Centro / Altiplano)", cidade: "João Pessoa", custo: 1600 },
+        { id: "1º RGI de Campina Grande", nome: "1º/2º RGI de Campina Grande", cidade: "Campina Grande", custo: 1500 }
+      ],
+      RN: [
+        { id: "1º RGI de Natal", nome: "1º RGI de Natal (Tirol / Petrópolis)", cidade: "Natal", custo: 1500 },
+        { id: "2º RGI de Natal", nome: "2º RGI de Natal (Ponta Negra / Capim Macio)", cidade: "Natal", custo: 1500 },
+        { id: "3º RGI de Natal", nome: "3º RGI de Natal (Candelária / Lagoa Nova)", cidade: "Natal", custo: 1500 },
+        { id: "1º RGI de Mossoró", nome: "1º/2º RGI de Mossoró", cidade: "Mossoró", custo: 1400 },
+        { id: "RGI de Parnamirim", nome: "RGI de Parnamirim (Litoral Sul RN)", cidade: "Parnamirim", custo: 1450 }
+      ],
+      AL: [
+        { id: "1º RGI de Maceió", nome: "1º RGI de Maceió (Ponta Verde / Pajuçara)", cidade: "Maceió", custo: 1550 },
+        { id: "2º RGI de Maceió", nome: "2º RGI de Maceió (Jatiúca / Stella Maris / Cruz das Almas)", cidade: "Maceió", custo: 1550 },
+        { id: "RGI de Arapiraca", nome: "RGI de Arapiraca (Agreste Alagoano)", cidade: "Arapiraca", custo: 1400 }
+      ],
+      PI: [
+        { id: "1º RGI de Teresina", nome: "1º RGI de Teresina (Jóquei / Ininga / Zona Leste)", cidade: "Teresina", custo: 1500 },
+        { id: "2º RGI de Teresina", nome: "2º RGI de Teresina (Centro / Ilhotas)", cidade: "Teresina", custo: 1500 },
+        { id: "RGI de Parnaíba", nome: "RGI de Parnaíba (Litoral Piauiense)", cidade: "Parnaíba", custo: 1400 }
+      ],
+      SE: [
+        { id: "1º RGI de Aracaju", nome: "1º RGI de Aracaju (13 de Julho / Jardins)", cidade: "Aracaju", custo: 1650 },
+        { id: "2º RGI de Aracaju", nome: "2º RGI de Aracaju (Atalaia / Coroa do Meio)", cidade: "Aracaju", custo: 1650 }
+      ],
+      RO: [
+        { id: "1º RGI de Porto Velho", nome: "1º RGI de Porto Velho", cidade: "Porto Velho", custo: 1350 },
+        { id: "2º RGI de Porto Velho", nome: "2º RGI de Porto Velho", cidade: "Porto Velho", custo: 1350 }
+      ],
+      TO: [
+        { id: "1º RGI de Palmas", nome: "1º RGI de Palmas (Plano Diretor Sul)", cidade: "Palmas", custo: 1400 },
+        { id: "2º RGI de Palmas", nome: "2º RGI de Palmas (Plano Diretor Norte)", cidade: "Palmas", custo: 1400 }
+      ],
+      AC: [
+        { id: "1º RGI de Rio Branco", nome: "1º RGI de Rio Branco", cidade: "Rio Branco", custo: 1300 },
+        { id: "2º RGI de Rio Branco", nome: "2º RGI de Rio Branco", cidade: "Rio Branco", custo: 1300 }
+      ],
+      AP: [
+        { id: "1º RGI de Macapá", nome: "1º RGI de Macapá", cidade: "Macapá", custo: 1200 },
+        { id: "2º RGI de Macapá", nome: "2º RGI de Macapá", cidade: "Macapá", custo: 1200 }
+      ],
+      RR: [
+        { id: "1º RGI de Boa Vista", nome: "1º RGI de Boa Vista", cidade: "Boa Vista", custo: 1300 },
+        { id: "2º RGI de Boa Vista", nome: "2º RGI de Boa Vista", cidade: "Boa Vista", custo: 1300 }
+      ],
+      OUTROS: [
+        { id: "1º RGI Competente", nome: "1º RGI da Circunscrição", cidade: "Capital / Comarca", custo: 1500 },
+        { id: "2º RGI Competente", nome: "2º RGI da Circunscrição", cidade: "Comarca", custo: 1500 },
+        { id: "Cartório Único de RGI", nome: "Cartório Único de Registro de Imóveis", cidade: "Comarca Interior", custo: 1400 }
+      ]
+    };
+
+    function obterOpcoesCartoriosSelect(uf, currentRgi) {
+      const lista = CARTORIOS_POR_ESTADO[uf] || CARTORIOS_POR_ESTADO['SP'] || [];
+      let html = '';
+      let encontrou = false;
+      
+      lista.forEach(c => {
+        const isSelected = (c.id === currentRgi || c.nome === currentRgi || (currentRgi && currentRgi.startsWith(c.id)));
+        if (isSelected) encontrou = true;
+        html += `<option value="${c.id}" ${isSelected ? 'selected' : ''}>${c.id}</option>`;
+      });
+      
+      if (!encontrou && currentRgi) {
+        html = `<option value="${currentRgi}" selected>${currentRgi}</option>` + html;
+      }
+      
+      html += `<option value="__OUTRO__">+ Outro Cartório / Digitar...</option>`;
+      return html;
+    }
+
+    function alterarUfImovel(idx, uf) {
+      if (!state.imoveis[idx]) return;
+      const im = state.imoveis[idx];
+      im.uf = uf;
+      
+      const lista = CARTORIOS_POR_ESTADO[uf] || [];
+      if (lista.length > 0) {
+        im.rgi = lista[0].id;
+        im.cidade = lista[0].cidade;
+        im.custoRegistroRgi = lista[0].custo;
+      }
+      
+      const aquisicao = im.aquisicao || 0;
+      const itbi = im.itbiAquisicao || 0;
+      const corretagem = im.corretagemAquisicao || 0;
+      const reforma = im.reformaGasto || 0;
+      const registroCartorio = im.custoRegistroRgi || 0;
+      im.custo = aquisicao + itbi + corretagem + reforma + registroCartorio;
+      
+      renderizarImoveis();
+      recalcularTudo();
+    }
+
+    function alterarRgiImovel(idx, val) {
+      if (!state.imoveis[idx]) return;
+      if (val === '__OUTRO__') {
+        abrirModalCartorio(idx);
+        return;
+      }
+      const im = state.imoveis[idx];
+      im.rgi = val;
+      
+      const uf = im.uf || 'SP';
+      const lista = CARTORIOS_POR_ESTADO[uf] || [];
+      const found = lista.find(c => c.id === val || c.nome === val);
+      if (found) {
+        if (found.cidade) im.cidade = found.cidade;
+        if (found.custo) im.custoRegistroRgi = found.custo;
+      }
+      
+      const aquisicao = im.aquisicao || 0;
+      const itbi = im.itbiAquisicao || 0;
+      const corretagem = im.corretagemAquisicao || 0;
+      const reforma = im.reformaGasto || 0;
+      const registroCartorio = im.custoRegistroRgi || 0;
+      im.custo = aquisicao + itbi + corretagem + reforma + registroCartorio;
+      
+      renderizarImoveis();
+      recalcularTudo();
+    }
+
+
+    const TABELA_ITCMD_ESTADOS = { SP: { nome:"São Paulo", tjNome:"TJSP", itcmd: 0.04, reg:"Fixa 4% (PL 2% a 8%)", rgiHolding: 1500, escrPfPct: 0.0100, tjPct: 0.0125, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual SP nº 11.608/03 (alt. Lei 17.785/23) e Lei 11.331/02" }, RJ: { nome:"Rio de Janeiro", tjNome:"TJRJ", itcmd: 0.06, reg:"4% a 8% Progressivo", rgiHolding: 2200, escrPfPct: 0.0130, tjPct: 0.0200, rgiFormalPct: 0.0050, leiJudiciaria:"Lei Estadual RJ nº 3.350/99 + FETJ/FUNDPERJ e Lei 7.174/15" }, MG: { nome:"Minas Gerais", tjNome:"TJMG", itcmd: 0.05, reg:"5% Fixo (Prop. 1% a 8%)", rgiHolding: 1600, escrPfPct: 0.0110, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual MG nº 14.939/03 e Provimento Conjunto TJMG" }, PR: { nome:"Paraná", tjNome:"TJPR", itcmd: 0.04, reg:"4% Fixo (Prop. 2% a 8%)", rgiHolding: 1400, escrPfPct: 0.0090, tjPct: 0.0120, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual PR nº 13.611/02 e Tabela TJPR" }, RS: { nome:"Rio Grande do Sul", tjNome:"TJRS", itcmd: 0.05, reg:"3% a 6% Progressivo", rgiHolding: 1300, escrPfPct: 0.0100, tjPct: 0.0150, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual RS nº 14.634/14 e Tabela TJRS" }, SC: { nome:"Santa Catarina", tjNome:"TJSC", itcmd: 0.04, reg:"1% a 8% Progressivo", rgiHolding: 1200, escrPfPct: 0.0080, tjPct: 0.0130, rgiFormalPct: 0.0040, leiJudiciaria:"LCE SC nº 156/97 e Tabela TJSC" }, BA: { nome:"Bahia", tjNome:"TJBA", itcmd: 0.06, reg:"3,5% a 8% Progressivo", rgiHolding: 1900, escrPfPct: 0.0120, tjPct: 0.0150, rgiFormalPct: 0.0050, leiJudiciaria:"Lei Estadual BA nº 12.373/11 e Lei 14.025/18" }, GO: { nome:"Goiás", tjNome:"TJGO", itcmd: 0.05, reg:"2% a 8% Progressivo", rgiHolding: 1500, escrPfPct: 0.0100, tjPct: 0.0150, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual GO nº 14.376/02 e Tabela TJGO" }, DF: { nome:"Distrito Federal", tjNome:"TJDFT", itcmd: 0.05, reg:"4% a 6% Progressivo", rgiHolding: 1100, escrPfPct: 0.0070, tjPct: 0.0080, rgiFormalPct: 0.0035, leiJudiciaria:"Decreto-Lei nº 115/67 e Tabela de Custas TJDFT" }, PE: { nome:"Pernambuco", tjNome:"TJPE", itcmd: 0.05, reg:"2% a 8% Progressivo", rgiHolding: 1800, escrPfPct: 0.0110, tjPct: 0.0160, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual PE nº 11.404/96 e Tabela TJPE" }, CE: { nome:"Ceará", tjNome:"TJCE", itcmd: 0.04, reg:"2% a 8% Progressivo", rgiHolding: 1550, escrPfPct: 0.0100, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual CE nº 15.834/15 e Tabela TJCE" }, ES: { nome:"Espírito Santo", tjNome:"TJES", itcmd: 0.04, reg:"4% Fixo", rgiHolding: 1350, escrPfPct: 0.0090, tjPct: 0.0140, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual ES nº 9.974/13 e Tabela TJES" }, MT: { nome:"Mato Grosso", tjNome:"TJMT", itcmd: 0.04, reg:"2% a 8% Progressivo", rgiHolding: 1450, escrPfPct: 0.0100, tjPct: 0.0150, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual MT nº 7.603/01 e Tabela TJMT" }, MS: { nome:"Mato Grosso do Sul", tjNome:"TJMS", itcmd: 0.04, reg:"3% a 6% Progressivo", rgiHolding: 1400, escrPfPct: 0.0095, tjPct: 0.0140, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual MS nº 3.779/09 e Tabela TJMS" }, PA: { nome:"Pará", tjNome:"TJPA", itcmd: 0.04, reg:"4% Fixo", rgiHolding: 1650, escrPfPct: 0.0110, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual PA nº 8.328/15 e Tabela TJPA" }, AM: { nome:"Amazonas", tjNome:"TJAM", itcmd: 0.02, reg:"2% Fixo (Menor BR)", rgiHolding: 1250, escrPfPct: 0.0085, tjPct: 0.0120, rgiFormalPct: 0.0035, leiJudiciaria:"Lei Estadual AM nº 2.750/02 e Tabela TJAM" }, MA: { nome:"Maranhão", tjNome:"TJMA", itcmd: 0.05, reg:"3% a 7% Progressivo", rgiHolding: 1700, escrPfPct: 0.0115, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual MA nº 9.109/09 e Tabela TJMA" }, PB: { nome:"Paraíba", tjNome:"TJPB", itcmd: 0.05, reg:"2% a 8% Progressivo", rgiHolding: 1600, escrPfPct: 0.0105, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual PB nº 6.688/98 e Tabela TJPB" }, RN: { nome:"Rio Grande do Norte", tjNome:"TJRN", itcmd: 0.04, reg:"3% a 6% Progressivo", rgiHolding: 1500, escrPfPct: 0.0100, tjPct: 0.0140, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual RN nº 9.278/09 e Tabela TJRN" }, AL: { nome:"Alagoas", tjNome:"TJAL", itcmd: 0.04, reg:"2% a 4% Progressivo", rgiHolding: 1550, escrPfPct: 0.0105, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual AL nº 6.582/05 e Tabela TJAL" }, PI: { nome:"Piauí", tjNome:"TJPI", itcmd: 0.04, reg:"2% a 6% Progressivo", rgiHolding: 1500, escrPfPct: 0.0100, tjPct: 0.0140, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual PI nº 5.425/04 e Tabela TJPI" }, SE: { nome:"Sergipe", tjNome:"TJSE", itcmd: 0.05, reg:"2% a 8% Progressivo", rgiHolding: 1650, escrPfPct: 0.0110, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual SE nº 5.372/04 e Tabela TJSE" }, RO: { nome:"Rondônia", tjNome:"TJRO", itcmd: 0.04, reg:"2% a 4% Progressivo", rgiHolding: 1350, escrPfPct: 0.0090, tjPct: 0.0140, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual RO nº 3.830/16 e Tabela TJRO" }, TO: { nome:"Tocantins", tjNome:"TJTO", itcmd: 0.04, reg:"2% a 8% Progressivo", rgiHolding: 1400, escrPfPct: 0.0095, tjPct: 0.0140, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual TO nº 2.812/13 e Tabela TJTO" }, AC: { nome:"Acre", tjNome:"TJAC", itcmd: 0.04, reg:"2% a 4% Progressivo", rgiHolding: 1300, escrPfPct: 0.0085, tjPct: 0.0130, rgiFormalPct: 0.0035, leiJudiciaria:"Lei Complementar AC nº 136/04 e Tabela TJAC" }, AP: { nome:"Amapá", tjNome:"TJAP", itcmd: 0.03, reg:"3% a 4% Progressivo", rgiHolding: 1200, escrPfPct: 0.0080, tjPct: 0.0130, rgiFormalPct: 0.0035, leiJudiciaria:"Lei Estadual AP nº 0204/95 e Tabela TJAP" }, RR: { nome:"Roraima", tjNome:"TJRR", itcmd: 0.04, reg:"4% Fixo", rgiHolding: 1300, escrPfPct: 0.0085, tjPct: 0.0130, rgiFormalPct: 0.0035, leiJudiciaria:"Lei Estadual RR nº 107/95 e Tabela TJRR" }, OUTROS: { nome:"Outros Estados (Média)", tjNome:"TJ (Média Brasil)", itcmd: 0.04, reg:"4% Média Brasil", rgiHolding: 1500, escrPfPct: 0.0100, tjPct: 0.0150, rgiFormalPct: 0.0040, leiJudiciaria:"Média dos Tribunais Estaduais (TJ) e Lei 6.015/73" } }; const state = {
     regimeCasamento: 'comunhao_parcial',
     perfilDeclaracao: 'casal', preponderanciaImobiliaria: 'NAO', imovelFinanciado: 'NAO', patrimonioExterior: 'NAO', eventoUrgencia: 'NAO', tipoUrgencia: 'idade_avancada', regimePessoa: 'irpf_completa', pretensaoVenda: false, cenarioSucessao: 'minimo', modalImovelIndex: null, imoveis: [ { id: 1, nome:"Apartamento Jardins", uf:"SP", cidade:"São Paulo", rgi:"13º RGI de São Paulo", matricula:"105.420", clausulasMatricula: { inalienabilidade: true, impenhorabilidade: true, incomunicabilidade: true, usufruto: true, reversao: true, acrescer: true, acordo_socios: true, call_put: true, alienacao_fiduciaria: false, penhora_gravame: false }, tipo:"Residencial", objetivos: ["Sucessão","Locação"], objetivo:"Sucessão, Locação", regime:"pj_presumido", proprietarioResumo:"Patriarca 50% + Matriarca 50%", titularesPct: { 1: 50, 2: 50, 3: 0, 4: 0, 5: 0 }, usufrutoTipo:"Vitalício", usufrutoBeneficiario:"Patriarca e Matriarca (Ambos)", usufrutoVotosPct: { 1: 50, 2: 50, 3: 0, 4: 0, 5: 0 }, usufrutoTipos: { 1:"Vitalício", 2:"Vitalício", 3:"Sem Usufruto", 4:"Sem Usufruto", 5:"Sem Usufruto" }, usufrutoResumo:"Vitalício (100% Votos)", votoPct: 100, ano: 2008, aquisicao: 400000, itbiAquisicao: 12000, corretagemAquisicao: 24000, reformaGasto: 14000, custo: 450000, mercado: 1800000, aluguelAquisicao: 2800, aluguel: 12000, vacanciaMeses: 0, periodosAluguel: [{ ano: 2024, aluguel: 11000, vacanciaMeses: 0 }, { ano: 2025, aluguel: 11500, vacanciaMeses: 1 }, { ano: 2026, aluguel: 12000, vacanciaMeses: 0 }], iptu: 400, condominio: 1200, financiado:"NAO", saldoDevedor: 0, riscoTitular:"SIM" }, { id: 2, nome:"Galpão Logístico", uf:"SP", cidade:"Guarulhos", rgi:"2º RGI de Guarulhos", matricula:"84.310", clausulasMatricula: { inalienabilidade: true, impenhorabilidade: true, incomunicabilidade: true, usufruto: true, reversao: true, acrescer: true, acordo_socios: true, call_put: true, alienacao_fiduciaria: false, penhora_gravame: false }, tipo:"Galpão", objetivos: ["Sucessão","Locação"], objetivo:"Sucessão, Locação", regime:"pj_presumido", proprietarioResumo:"Patriarca 100%", titularesPct: { 1: 100, 2: 0, 3: 0, 4: 0, 5: 0 }, usufrutoTipo:"Vitalício", usufrutoBeneficiario:"Patriarca (Titular)", usufrutoVotosPct: { 1: 100, 2: 0, 3: 0, 4: 0, 5: 0 }, usufrutoTipos: { 1:"Vitalício", 2:"Sem Usufruto", 3:"Sem Usufruto", 4:"Sem Usufruto", 5:"Sem Usufruto" }, usufrutoResumo:"Vitalício (100% Votos)", votoPct: 100, ano: 2012, aquisicao: 300000, itbiAquisicao: 9000, corretagemAquisicao: 18000, reformaGasto: 23000, custo: 350000, mercado: 1400000, aluguelAquisicao: 2500, aluguel: 9500, vacanciaMeses: 0, periodosAluguel: [{ ano: 2024, aluguel: 8800, vacanciaMeses: 0 }, { ano: 2025, aluguel: 9200, vacanciaMeses: 0 }, { ano: 2026, aluguel: 9500, vacanciaMeses: 0 }], iptu: 250, condominio: 450, financiado:"NAO", saldoDevedor: 0, riscoTitular:"NÃO" }, { id: 3, nome:"Sala Comercial Paulista", uf:"SP", cidade:"São Paulo", rgi:"4º RGI de São Paulo", matricula:"52.190", clausulasMatricula: { inalienabilidade: true, impenhorabilidade: true, incomunicabilidade: true, usufruto: true, reversao: true, acrescer: true, acordo_socios: true, call_put: true, alienacao_fiduciaria: false, penhora_gravame: false }, tipo:"Comercial", objetivos: ["Venda"], objetivo:"Venda", regime:"pj_presumido", proprietarioResumo:"Matriarca 100%", titularesPct: { 1: 0, 2: 100, 3: 0, 4: 0, 5: 0 }, usufrutoTipo:"Vitalício", usufrutoBeneficiario:"Matriarca (Cônjuge)", usufrutoVotosPct: { 1: 0, 2: 100, 3: 0, 4: 0, 5: 0 }, usufrutoTipos: { 1:"Sem Usufruto", 2:"Vitalício", 3:"Sem Usufruto", 4:"Sem Usufruto", 5:"Sem Usufruto" }, usufrutoResumo:"Vitalício (100% Votos)", votoPct: 100, ano: 2018, aquisicao: 180000, itbiAquisicao: 5400, corretagemAquisicao: 10800, reformaGasto: 3800, custo: 200000, mercado: 800000, aluguelAquisicao: 1600, aluguel: 3500, vacanciaMeses: 1, periodosAluguel: [{ ano: 2024, aluguel: 3000, vacanciaMeses: 2 }, { ano: 2025, aluguel: 3300, vacanciaMeses: 1 }, { ano: 2026, aluguel: 3500, vacanciaMeses: 1 }], iptu: 150, condominio: 550, financiado:"NAO", saldoDevedor: 0, riscoTitular:"NÃO" } ], proprietarios: [ { id: 1, nome:"Patriarca (Titular)", part: 0.50, civil:"Casado", regime:"Comunhão Parcial", risco:"SIM" }, { id: 2, nome:"Matriarca (Cônjuge)", part: 0.50, civil:"Casada", regime:"Comunhão Parcial", risco:"NÃO" }, { id: 3, nome:"Herdeiro 1 (Filho A)", part: 0.00, civil:"Solteiro", regime:"-", risco:"NÃO" }, { id: 4, nome:"Herdeiro 2 (Filho B)", part: 0.00, civil:"Casado", regime:"Comunhão Parcial", risco:"SIM" }, { id: 5, nome:"Herdeiro 3 (Filho C)", part: 0.00, civil:"Divorciado", regime:"-", risco:"NÃO" } ], usufrutuarios: [ { id: 1, nome:"Patriarca", part: 0.50, tipo:"Vitalício", idade: 68, votoPct: 0.50 }, { id: 2, nome:"Matriarca", part: 0.50, tipo:"Vitalício", idade: 65, votoPct: 0.50 } ], seguroPatrimonial: { ativo: true, cobertura: 1000000, destinatario:"Holding Familiar / Cônjuge" }, seguroSaude: { ativo: true, mensalidade: 3500, modelo:"PJ_Empresarial" }, previdencia: { ativo: true, saldo: 500000, beneficiario:"Cônjuge e Filhos", tipo:"VGBL", tributacao:"regressivo" }, clausulas: [ { id: 'usufruto', nome: '1. Usufruto Vitalício com Voto e Lucro', base: 'Arts. 1.390 a 1.411 CC', ativa: true }, { id: 'incomunicabilidade', nome: '2. Incomunicabilidade Matrimonial', base: 'Art. 1.911 CC', ativa: true }, { id: 'impenhorabilidade', nome: '3. Impenhorabilidade contra Credores', base: 'Art. 1.911 CC', ativa: true }, { id: 'inalienabilidade', nome: '4. Inalienabilidade das Quotas', base: 'Art. 1.911 CC', ativa: true }, { id: 'reversao', nome: '5. Cláusula de Reversão Expressa', base: 'Art. 547 CC', ativa: true }, { id: 'acrescer', nome: '6. Direito de Acrescer entre Cônjuges', base: 'Art. 1.411 CC', ativa: true }, { id: 'acordo_socios', nome: '7. Acordo de Sócios Parassocial', base: 'Lei 6.404/76 Art. 118', ativa: true }, { id: 'call_put', nome: '8. Opções de Compra/Venda (Call/Put)', base: 'Art. 421 CC', ativa: true } ] }; function switchTab(tabId) { document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active')); const activeEl = document.getElementById(tabId); if (activeEl) activeEl.classList.add('active'); document.querySelectorAll('.nav-tab').forEach(b => { b.classList.remove('active', 'bg-black', 'text-white', 'dark:bg-white', 'dark:text-black', 'font-extrabold', 'border-black', 'dark:border-white'); b.classList.add('bg-white', 'text-black', 'dark:bg-black', 'dark:text-white', 'font-bold', 'border-slate-300', 'dark:border-zinc-700'); }); const activeBtn = document.getElementById(`btn-${tabId}`); if (activeBtn) { activeBtn.classList.add('active', 'bg-black', 'text-white', 'dark:bg-white', 'dark:text-black', 'font-extrabold', 'border-black', 'dark:border-white'); activeBtn.classList.remove('bg-white', 'text-black', 'dark:bg-black', 'dark:text-white', 'border-slate-300', 'dark:border-zinc-700'); } const btnH = document.getElementById('btn-header-fontes'); if (btnH) { if (tabId === 'tab-fontes') { btnH.classList.add('ring-2', 'ring-black', 'dark:ring-white'); } else { btnH.classList.remove('ring-2', 'ring-black', 'dark:ring-white'); } } } function toggleModoContinuo() { const isContinuo = document.body.classList.toggle('modo-continuo'); const txtBtn = document.getElementById('txt-btn-modo'); if (txtBtn) { txtBtn.innerText = isContinuo ? '📑 Modo Abas Individuais' : '📄 Ver Todas as Abas (Página Única)'; } } function imprimirRelatorioExecutivo() { recalcularTudo(); const modal = document.getElementById('relatorio-impressao-executivo'); if (modal) { modal.classList.remove('hidden'); window.print(); setTimeout(() => { modal.classList.add('hidden'); }, 1000); } else { window.print(); } } 
 /* TOGGLES ÁGEIS */
@@ -1849,12 +2249,14 @@ function renderizarImoveis() {
         </div>
       </td>
 
-      <!-- 5. CARTÓRIO / RGI (EDITÁVEL COM SELEÇÃO DE REGIÃO/ESTADO) -->
+      <!-- 5. CARTÓRIO / RGI (IDÊNTICO À LOCALIDADE, COM SELEÇÃO POR NÚMERO DE CARTÓRIO/ESTADO) -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
-          <input type="text" value="${im.rgi || '13º RGI'}" onchange="state.imoveis[${idx}].rgi=this.value; recalcularTudo();" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center w-36" placeholder="Cartório / Região" title="Digite o Cartório / Região ou clique no botão ao lado para anexar qualquer Estado/Região e personalizar as custas de registro">
-          <button type="button" onclick="abrirModalCartorio(${idx})" class="p-1.5 rounded-lg border border-black dark:border-white bg-white dark:bg-black hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-xs transition shadow-2xs cursor-pointer flex items-center justify-center hover:scale-105 shrink-0" title="Clique para anexar/escolher Estado (UF), Região, Comarca e Custas de Registro">
-            🏛️
+          <select onchange="alterarRgiImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer max-w-[210px]" title="Selecione o Cartório de Registro de Imóveis (RGI) do Estado ${im.uf || 'SP'}">
+            ${obterOpcoesCartoriosSelect(im.uf || 'SP', im.rgi || '13º RGI de São Paulo')}
+          </select>
+          <button type="button" onclick="abrirModalCartorio(${idx})" class="text-[10px] text-slate-400 hover:text-black dark:hover:text-white select-none flex-shrink-0 cursor-pointer p-0.5" title="Abrir modal para configurar detalhes do Cartório, Região, Matrícula e Custas de Registro">
+            ✏️
           </button>
         </div>
       </td>
@@ -2556,7 +2958,7 @@ function obterResumoTitulares(im) {
 
       const modal = document.getElementById('modal-localidade-imovel');
       const lblNome = document.getElementById('modal-localidade-imovel-nome');
-      if (lblNome) lblNome.innerText = `Cartório & Custas • ${im.nome}`;
+      if (lblNome) lblNome.innerText = `Cartório & Região • ${im.nome}`;
 
       const selUf = document.getElementById('modal-sel-localidade-uf');
       if (selUf) selUf.value = im.uf || 'SP';
@@ -2577,9 +2979,50 @@ function obterResumoTitulares(im) {
         inpCustoRgi.value = im.custoRegistroRgi || (tInfo ? tInfo.rgiHolding : 1500);
       }
 
+      popularPresetsCartoriosModal(im.uf || 'SP', im.rgi);
       atualizarInfoModalLocalidade();
 
       if (modal) modal.classList.remove('hidden');
+    }
+
+    function popularPresetsCartoriosModal(uf, selectedRgi) {
+      const selPreset = document.getElementById('modal-sel-cartorio-preset');
+      if (!selPreset) return;
+      selPreset.innerHTML = '';
+      
+      const lista = CARTORIOS_POR_ESTADO[uf] || CARTORIOS_POR_ESTADO['SP'] || [];
+      
+      const optPrompt = document.createElement('option');
+      optPrompt.value = '';
+      optPrompt.text = '-- Selecione da lista de ' + uf + ' ou digite abaixo --';
+      selPreset.appendChild(optPrompt);
+      
+      lista.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        opt.text = c.nome;
+        if (selectedRgi && (c.id === selectedRgi || c.nome === selectedRgi || selectedRgi.startsWith(c.id))) {
+          opt.selected = true;
+        }
+        selPreset.appendChild(opt);
+      });
+    }
+
+    function selecionarCartorioPresetModal(val) {
+      if (!val) return;
+      const selUf = document.getElementById('modal-sel-localidade-uf');
+      const uf = selUf ? selUf.value : 'SP';
+      const lista = CARTORIOS_POR_ESTADO[uf] || [];
+      const found = lista.find(c => c.id === val);
+      if (found) {
+        const inpRgi = document.getElementById('modal-inp-localidade-rgi');
+        const inpCidade = document.getElementById('modal-inp-localidade-cidade');
+        const inpCustoRgi = document.getElementById('modal-inp-localidade-custo-rgi');
+        if (inpRgi) inpRgi.value = found.id;
+        if (inpCidade && found.cidade) inpCidade.value = found.cidade;
+        if (inpCustoRgi && found.custo) inpCustoRgi.value = found.custo;
+        atualizarInfoModalLocalidade();
+      }
     }
 
     function fecharModalLocalidade() {
@@ -2630,7 +3073,6 @@ function obterResumoTitulares(im) {
         im.custoRegistroRgi = parseFloat(inpCustoRgi.value) || 0;
       }
 
-      // Atualizar o custo declarado de aquisição na DIRPF incorporando as custas de registro
       const aquisicao = im.aquisicao || 0;
       const itbi = im.itbiAquisicao || 0;
       const corretagem = im.corretagemAquisicao || 0;
@@ -2643,17 +3085,17 @@ function obterResumoTitulares(im) {
       recalcularTudo();
     }
 
-    function alterarUfImovel(idx, uf) {
-      if (!state.imoveis[idx]) return;
-      state.imoveis[idx].uf = uf;
-      recalcularTudo();
-    }
-
     function selecionarUfModal(uf) {
       const selUf = document.getElementById('modal-sel-localidade-uf');
       if (selUf) {
         selUf.value = uf;
-        restaurarCustoPadraoCartorioModal();
+        popularPresetsCartoriosModal(uf);
+        const lista = CARTORIOS_POR_ESTADO[uf] || [];
+        if (lista.length > 0) {
+          selecionarCartorioPresetModal(lista[0].id);
+        } else {
+          restaurarCustoPadraoCartorioModal();
+        }
         atualizarInfoModalLocalidade();
       }
     }
