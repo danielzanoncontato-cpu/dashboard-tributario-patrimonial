@@ -445,6 +445,7 @@
             <th class="p-2.5 text-center">Tipo de Imóvel</th>
             <th class="p-2.5 text-center">Identificação / Imóvel</th>
             <th class="p-2.5 text-center">Localidade (UF)</th>
+            <th class="p-2.5 text-center" title="Cartório de Registro de Imóveis (RGI), Comarca, Estado e Custas de Registro">Cartório</th>
             <th class="p-2.5 text-center">Objetivo</th>
             <th class="p-2.5 text-center">Cláusulas na Matrícula</th>
             <th class="p-2.5 text-center">Regime Fiscal Atual</th>
@@ -468,7 +469,7 @@
           </tr>
         </thead> <tbody class="divide-y divide-slate-200" id="tbody-imoveis-detalhe"> <!-- Rendered via JS --> </tbody> <tfoot class="bg-slate-100 dark:bg-zinc-900 font-black text-black dark:text-white border-t-2 border-slate-300 dark:border-zinc-700">
           <tr>
-            <td colspan="10" class="p-2.5 text-right uppercase text-[10px] font-black">TOTAIS CONSOLIDADOS (<span id="lbl-tot-imoveis-qtd">3</span> imóveis):</td>
+            <td colspan="11" class="p-2.5 text-right uppercase text-[10px] font-black">TOTAIS CONSOLIDADOS (<span id="lbl-tot-imoveis-qtd">3</span> imóveis):</td>
             <td class="p-2.5 text-center font-mono font-bold text-xs" id="lbl-tot-aquisicao-condensado">R$ 880.000,00</td>
             <td class="p-2.5 text-center font-mono font-bold text-xs" id="lbl-tot-itbi-aquisicao-condensado">R$ 26.400,00</td>
             <td class="p-2.5 text-center font-mono font-bold text-xs" id="lbl-tot-corretagem-aquisicao-condensado">R$ 52.800,00</td>
@@ -1472,18 +1473,16 @@
             </button>
           </div>
         </div>
-      </div>
-
-      <!-- 4. MODAL DE LOCALIDADE DO IMÓVEL (UF / MUNICÍPIO / ITCMD / ITBI / RGI) -->
+      </div<!-- 4. MODAL DE CARTÓRIO, RGI, ESTADOS & CUSTAS DE REGISTRO -->
       <div id="modal-localidade-imovel" class="hidden fixed inset-0 bg-black/70 backdrop-blur-xs z-50 flex items-center justify-center p-4">
         <div class="bg-white dark:bg-zinc-950 rounded-2xl max-w-md w-full p-5 shadow-2xl border border-black dark:border-zinc-700 space-y-4">
           <div class="flex justify-between items-center pb-3 border-b border-black dark:border-zinc-700">
             <div>
               <span class="px-2.5 py-0.5 rounded-full bg-black text-white dark:bg-white dark:text-black text-[10px] font-black uppercase">
-                📍 Localidade &amp; Jurisdição Fiscal
+                🏛️ Cartório &amp; Registro de Imóveis (RGI)
               </span>
               <h3 class="font-black text-sm text-black dark:text-white mt-1" id="modal-localidade-imovel-nome">
-                Localização do Imóvel
+                Cartório &amp; Custas de Registro
               </h3>
             </div>
             <button type="button" onclick="fecharModalLocalidade()" class="p-1 rounded-lg text-black dark:text-white hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer border border-transparent hover:border-black dark:hover:border-white">
@@ -1492,7 +1491,7 @@
           </div>
 
           <p class="text-xs text-slate-700 dark:text-slate-300 text-[11px] leading-tight">
-            A situação geográfica do bem imóvel define a competência tributária do ITCMD (Art. 155, § 1º, I da CF), as regras de ITBI municipal e as custas do RGI:
+            As custas de registro e averbação mudam de cartório para cartório e por Estado da Federação. Selecione o Estado (UF), Cartório e configure as custas:
           </p>
 
           <!-- Presets de Escolha Rápida de Estado (UF) -->
@@ -1506,6 +1505,7 @@
               <button type="button" onclick="selecionarUfModal('RS')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-900 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">RS (3-8%)</button>
               <button type="button" onclick="selecionarUfModal('SC')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-900 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">SC (1-8%)</button>
               <button type="button" onclick="selecionarUfModal('BA')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-900 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">BA (3,5-8%)</button>
+              <button type="button" onclick="selecionarUfModal('GO')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-900 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">GO (2-8%)</button>
               <button type="button" onclick="selecionarUfModal('DF')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-900 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">DF (4-6%)</button>
             </div>
           </div>
@@ -1513,19 +1513,19 @@
           <div class="space-y-3 pt-1 text-xs">
             <!-- Estado (UF) -->
             <div>
-              <label class="block text-slate-800 dark:text-slate-200 font-black text-xs mb-1">Estado da Situação do Bem (UF - Lex Rei Sitae):</label>
+              <label class="block text-slate-800 dark:text-slate-200 font-black text-xs mb-1">Estado da Situação do Bem (UF - Competência Notarial/Registral):</label>
               <select id="modal-sel-localidade-uf" onchange="atualizarInfoModalLocalidade()" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none cursor-pointer">
-                <option value="SP">São Paulo (SP) • ITCMD 4,00% Fixo</option>
-                <option value="RJ">Rio de Janeiro (RJ) • ITCMD Progressivo 4% a 8%</option>
-                <option value="MG">Minas Gerais (MG) • ITCMD 5,00% Fixo</option>
-                <option value="RS">Rio Grande do Sul (RS) • ITCMD Progressivo 3% a 8%</option>
-                <option value="PR">Paraná (PR) • ITCMD 4,00% Fixo</option>
-                <option value="SC">Santa Catarina (SC) • ITCMD Progressivo 1% a 8%</option>
-                <option value="BA">Bahia (BA) • ITCMD Progressivo 3,5% a 8%</option>
+                <option value="SP">São Paulo (SP) • ITCMD 4,00% Fixo • Tabela TJSP</option>
+                <option value="RJ">Rio de Janeiro (RJ) • ITCMD Progressivo 4% a 8% • Tabela TJRJ</option>
+                <option value="MG">Minas Gerais (MG) • ITCMD 5,00% Fixo • Tabela TJMG</option>
+                <option value="RS">Rio Grande do Sul (RS) • ITCMD Progressivo 3% a 8% • Tabela TJRS</option>
+                <option value="PR">Paraná (PR) • ITCMD 4,00% Fixo • Tabela TJPR</option>
+                <option value="SC">Santa Catarina (SC) • ITCMD Progressivo 1% a 8% • Tabela TJSC</option>
+                <option value="BA">Bahia (BA) • ITCMD Progressivo 3,5% a 8% • Tabela TJBA</option>
                 <option value="PE">Pernambuco (PE) • ITCMD Progressivo 2% a 8%</option>
                 <option value="CE">Ceará (CE) • ITCMD Progressivo 2% a 8%</option>
-                <option value="GO">Goiás (GO) • ITCMD Progressivo 2% a 8%</option>
-                <option value="DF">Distrito Federal (DF) • ITCMD Progressivo 4% a 6%</option>
+                <option value="GO">Goiás (GO) • ITCMD Progressivo 2% a 8% • Tabela TJGO</option>
+                <option value="DF">Distrito Federal (DF) • ITCMD Progressivo 4% a 6% • Tabela TJDFT</option>
                 <option value="ES">Espírito Santo (ES) • ITCMD 4,00% Fixo</option>
                 <option value="MT">Mato Grosso (MT) • ITCMD Progressivo 2% a 8%</option>
                 <option value="MS">Mato Grosso do Sul (MS) • ITCMD Progressivo 3% a 6%</option>
@@ -1534,9 +1534,9 @@
               </select>
             </div>
 
-            <!-- Município / Cidade -->
+            <!-- Município / Comarca -->
             <div>
-              <label class="block text-slate-800 dark:text-slate-200 font-black text-xs mb-1">Município / Cidade (Competência do ITBI):</label>
+              <label class="block text-slate-800 dark:text-slate-200 font-black text-xs mb-1">Município / Comarca (Competência Municipal):</label>
               <input type="text" id="modal-inp-localidade-cidade" placeholder="Ex: São Paulo, Campinas, Rio de Janeiro..." class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none">
             </div>
 
@@ -1544,7 +1544,7 @@
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Cartório de RGI:</label>
-                <input type="text" id="modal-inp-localidade-rgi" placeholder="Ex: 13º RGI" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none">
+                <input type="text" id="modal-inp-localidade-rgi" placeholder="Ex: 13º RGI de São Paulo" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none">
               </div>
               <div>
                 <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Nº da Matrícula:</label>
@@ -1552,9 +1552,20 @@
               </div>
             </div>
 
-            <!-- Card informativo de Tributação Regional -->
+            <!-- Custas Estimadas de Registro no Cartório -->
+            <div>
+              <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Custas de Averbação / Registro no Cartório (R$):</label>
+              <div class="flex items-center gap-2">
+                <input type="number" step="50" min="100" max="50000" id="modal-inp-localidade-custo-rgi" placeholder="Ex: 1500" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs font-mono focus:outline-none">
+                <button type="button" onclick="restaurarCustoPadraoCartorioModal()" class="px-2.5 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-200 dark:hover:bg-zinc-700 transition cursor-pointer whitespace-nowrap" title="Usar valor de referência da tabela estadual">
+                  Usar Tabela UF
+                </button>
+              </div>
+            </div>
+
+            <!-- Card informativo de Tributação Regional & Custas -->
             <div class="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-black dark:border-zinc-700 text-xs space-y-1">
-              <span class="font-black text-black dark:text-white block">⚖️ Impacto Tributário &amp; Cartorário:</span>
+              <span class="font-black text-black dark:text-white block">⚖️ Impacto Tributário &amp; Custas Registrais:</span>
               <p class="text-[11px] text-slate-700 dark:text-slate-300 leading-tight" id="modal-localidade-resumo-tributario">
                 O ITCMD deste imóvel será recolhido exclusivamente para o Estado de SP (4,00%).
               </p>
@@ -1567,7 +1578,7 @@
               Cancelar
             </button>
             <button type="button" onclick="salvarModalLocalidade()" class="px-4 py-2 rounded-xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white font-black text-xs shadow-xs transition cursor-pointer">
-              ✓ Salvar Localidade
+              ✓ Salvar Cartório &amp; Custas
             </button>
           </div>
         </div>
@@ -1834,6 +1845,13 @@ function renderizarImoveis() {
           </select>
           <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Selecionar UF">✏️</span>
         </div>
+      </td>
+
+      <!-- 5. CARTÓRIO / RGI (CUSTAS DE REGISTRO & ESTADOS) -->
+      <td class="p-2 text-center whitespace-nowrap">
+        <button type="button" onclick="abrirModalCartorio(${idx})" class="px-2.5 py-1 rounded-lg border border-black dark:border-white bg-white dark:bg-black hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-xs transition shadow-2xs cursor-pointer flex items-center justify-center gap-1 hover:border-black dark:hover:border-white" title="Clique para abrir e configurar o Cartório de Registro de Imóveis, Estado (UF), Comarca e Custas de Registro">
+          <span>🏛️</span> ${im.rgi || 'Cartório'}
+        </button>
       </td>
 
       <!-- 5. OBJETIVO (3 BOTÕES COEXISTENTES) -->
@@ -2516,6 +2534,10 @@ function obterResumoTitulares(im) {
     
 /* MODAL DE LOCALIDADE DO IMÓVEL (UF / MUNICÍPIO / ITCMD / ITBI / RGI) */
 
+    function abrirModalCartorio(idx) {
+      abrirModalLocalidade(idx);
+    }
+
     function abrirModalLocalidade(idx) {
       state.modalImovelIndex = idx;
       const im = state.imoveis[idx];
@@ -2523,7 +2545,7 @@ function obterResumoTitulares(im) {
 
       const modal = document.getElementById('modal-localidade-imovel');
       const lblNome = document.getElementById('modal-localidade-imovel-nome');
-      if (lblNome) lblNome.innerText = `Localização & Jurisdição • ${im.nome}`;
+      if (lblNome) lblNome.innerText = `Cartório & Custas • ${im.nome}`;
 
       const selUf = document.getElementById('modal-sel-localidade-uf');
       if (selUf) selUf.value = im.uf || 'SP';
@@ -2537,6 +2559,13 @@ function obterResumoTitulares(im) {
       const inpMatricula = document.getElementById('modal-inp-localidade-matricula');
       if (inpMatricula) inpMatricula.value = im.matricula || '-';
 
+      const inpCustoRgi = document.getElementById('modal-inp-localidade-custo-rgi');
+      if (inpCustoRgi) {
+        const uf = im.uf || 'SP';
+        const tInfo = (typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[uf]) ? TABELA_ITCMD_ESTADOS[uf] : null;
+        inpCustoRgi.value = im.custoRegistroRgi || (tInfo ? tInfo.rgiHolding : 1500);
+      }
+
       atualizarInfoModalLocalidade();
 
       if (modal) modal.classList.remove('hidden');
@@ -2546,6 +2575,15 @@ function obterResumoTitulares(im) {
       const modal = document.getElementById('modal-localidade-imovel');
       if (modal) modal.classList.add('hidden');
       state.modalImovelIndex = null;
+    }
+
+    function restaurarCustoPadraoCartorioModal() {
+      const selUf = document.getElementById('modal-sel-localidade-uf');
+      const inpCustoRgi = document.getElementById('modal-inp-localidade-custo-rgi');
+      if (!selUf || !inpCustoRgi) return;
+      const uf = selUf.value;
+      const tInfo = (typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[uf]) ? TABELA_ITCMD_ESTADOS[uf] : null;
+      inpCustoRgi.value = tInfo ? tInfo.rgiHolding : 1500;
     }
 
     function atualizarInfoModalLocalidade() {
@@ -2558,8 +2596,10 @@ function obterResumoTitulares(im) {
       const nomeEstado = tInfo ? tInfo.nome : uf;
       const reg = tInfo ? tInfo.reg : "4% Média Brasil";
       const itcmdVal = tInfo ? ((tInfo.itcmd * 100).toFixed(2).replace('.', ',') + '%') : "4,00%";
+      const rgiRef = tInfo ? ('R$ ' + tInfo.rgiHolding.toLocaleString('pt-BR') + ',00') : "R$ 1.500,00";
+      const leiRef = tInfo ? tInfo.leiJudiciaria : "Lei de Custas e Emolumentos";
 
-      elResumo.innerText = `O ITCMD sobre este imóvel será recolhido exclusivamente para o Estado de ${nomeEstado} (${reg} • Alíquota Referência: ${itcmdVal}, Art. 155, § 1º, I da CF).`;
+      elResumo.innerHTML = `<strong>ITCMD:</strong> Recolhido para ${nomeEstado} (${reg} • Alíquota: ${itcmdVal}, Art. 155 da CF).<br><strong>Custas de Registro (RGI):</strong> Ref. ${rgiRef} por imóvel (${leiRef}).`;
     }
 
     function salvarModalLocalidade() {
@@ -2569,11 +2609,13 @@ function obterResumoTitulares(im) {
       const inpCidade = document.getElementById('modal-inp-localidade-cidade');
       const inpRgi = document.getElementById('modal-inp-localidade-rgi');
       const inpMatricula = document.getElementById('modal-inp-localidade-matricula');
+      const inpCustoRgi = document.getElementById('modal-inp-localidade-custo-rgi');
 
       if (selUf) im.uf = selUf.value;
       if (inpCidade) im.cidade = inpCidade.value.trim() || 'São Paulo';
-      if (inpRgi) im.rgi = inpRgi.value.trim() || 'RGI Competente';
+      if (inpRgi) im.rgi = inpRgi.value.trim() || 'Cartório de RGI';
       if (inpMatricula) im.matricula = inpMatricula.value.trim() || '-';
+      if (inpCustoRgi) im.custoRegistroRgi = parseFloat(inpCustoRgi.value) || 1500;
 
       fecharModalLocalidade();
       renderizarImoveis();
@@ -2590,12 +2632,12 @@ function obterResumoTitulares(im) {
       const selUf = document.getElementById('modal-sel-localidade-uf');
       if (selUf) {
         selUf.value = uf;
+        restaurarCustoPadraoCartorioModal();
         atualizarInfoModalLocalidade();
       }
     }
 
-    
-/* LISTA DE CLÁUSULAS RESTRITIVAS & GRAVAMES NA MATRÍCULA DO IMÓVEL */
+    /* LISTA DE CLÁUSULAS RESTRITIVAS & GRAVAMES NA MATRÍCULA DO IMÓVEL */
 
     const LISTA_CLAUSULAS_MATRICULA = [
       { id: 'inalienabilidade', nome: '1. Inalienabilidade', base: 'Art. 1.911 CC', desc: 'Impede a venda, doação ou alienação do bem ou das quotas a terceiros sem autorização expressa.' },
@@ -2965,7 +3007,7 @@ function obterResumoTitulares(im) {
         const itcmdHolding_item = custo * (dadosUF_im.itcmd || 0.04);
         const tj_item = mercado * (dadosUF_im.tjPct || 0.0125);
         const rgi_item = mercado * (dadosUF_im.rgiFormalPct || 0.0040);
-        const averbRgi_item = (dadosUF_im.rgiHolding || 1500);
+        const averbRgi_item = (im.custoRegistroRgi !== undefined && im.custoRegistroRgi !== null ? im.custoRegistroRgi : (dadosUF_im.rgiHolding || 1500));
         const escr_item = mercado * (dadosUF_im.escrPfPct || 0.010);
 
         itcmdPFCalc += itcmdPF_item;
@@ -4300,7 +4342,7 @@ function atualizarDoacoesTab1() {
 /* Labels dos sliders */
  if (document.getElementById('lbl-honorarios-adv')) document.getElementById('lbl-honorarios-adv').innerText = `${(honorariosAdvPct * 100).toFixed(1)}%`; if (document.getElementById('lbl-desagio-venda')) document.getElementById('lbl-desagio-venda').innerText = `${(desagioVendaPct * 100).toFixed(0)}%`; if (document.getElementById('lbl-taxa-adm')) document.getElementById('lbl-taxa-adm').innerText = `${(taxaAdmAluguelPct * 100).toFixed(1)}%`; if (document.getElementById('lbl-corretagem-val')) document.getElementById('lbl-corretagem-val').innerText = `${(corretagemVendaPct * 100).toFixed(1)}%`; if (document.getElementById('lbl-contabilidade-mes-val')) document.getElementById('lbl-contabilidade-mes-val').innerText = formatMoney(contabilidadeMes); if (document.getElementById('lbl-honorarios-setup-val')) document.getElementById('lbl-honorarios-setup-val').innerText = formatMoney(honorariosSetupHolding); 
 /* 3. Cálculos de Sucessão Individualizados por UF de Cada Imóvel (Art. 155, § 1º, I da CF): // 3. Cálculos de Sucessão Individualizados por UF de Cada Imóvel (Art. 155, § 1º, I da CF): */
- let itcmdHolding = 0; let itcmdPF = 0; let averbacaoRgiHolding = 0; let escrituraRgiPF = 0; let totalCustasJudiciaisPF = 0; let totalRegistroFormalRgiPF = 0; const mapUfs = {}; const mapCidades = {}; state.imoveis.forEach(im => { const uf = im.uf || 'SP'; const cidade = im.cidade || ''; const dadosUF = TABELA_ITCMD_ESTADOS[uf] || TABELA_ITCMD_ESTADOS['SP']; const mercado = im.mercado || 0; const custo = im.custo || 0; itcmdHolding += custo * (dadosUF.itcmd || 0.04); itcmdPF += mercado * (dadosUF.itcmd || 0.04); averbacaoRgiHolding += (dadosUF.rgiHolding || 1500); escrituraRgiPF += mercado * (dadosUF.escrPfPct || 0.010); totalCustasJudiciaisPF += mercado * (dadosUF.tjPct || 0.0125); totalRegistroFormalRgiPF += mercado * (dadosUF.rgiFormalPct || 0.0040); mapUfs[uf] = (mapUfs[uf] || 0) + mercado; if (cidade) mapCidades[cidade] = (mapCidades[cidade] || 0) + 1; }); 
+ let itcmdHolding = 0; let itcmdPF = 0; let averbacaoRgiHolding = 0; let escrituraRgiPF = 0; let totalCustasJudiciaisPF = 0; let totalRegistroFormalRgiPF = 0; const mapUfs = {}; const mapCidades = {}; state.imoveis.forEach(im => { const uf = im.uf || 'SP'; const cidade = im.cidade || ''; const dadosUF = TABELA_ITCMD_ESTADOS[uf] || TABELA_ITCMD_ESTADOS['SP']; const mercado = im.mercado || 0; const custo = im.custo || 0; itcmdHolding += custo * (dadosUF.itcmd || 0.04); itcmdPF += mercado * (dadosUF.itcmd || 0.04); averbacaoRgiHolding += (im.custoRegistroRgi !== undefined && im.custoRegistroRgi !== null ? im.custoRegistroRgi : (dadosUF.rgiHolding || 1500)); escrituraRgiPF += mercado * (dadosUF.escrPfPct || 0.010); totalCustasJudiciaisPF += mercado * (dadosUF.tjPct || 0.0125); totalRegistroFormalRgiPF += mercado * (dadosUF.rgiFormalPct || 0.0040); mapUfs[uf] = (mapUfs[uf] || 0) + mercado; if (cidade) mapCidades[cidade] = (mapCidades[cidade] || 0) + 1; }); 
 /* A. Holding Sucessória (Lei 9.249/95 Art. 23) */
  const taxasJuntaSetup = 1200; const certidoesSetup = 800; const custoTotalHoldingSucessao = itcmdHolding + averbacaoRgiHolding + taxasJuntaSetup + certidoesSetup + honorariosSetupHolding; const pctHoldingSucessao = valorMercado > 0 ? (custoTotalHoldingSucessao / valorMercado) * 100 : 0; 
 /* B. Inventário Tradicional PF (Base Mercado) */
