@@ -460,7 +460,7 @@
             <th class="p-2.5 text-center" title="Custo Declarado na DIRPF (Aquisição + ITBI + Corretagem + Reformas)">Valor Declarado / DIRPF (R$)</th>
             <th class="p-2.5 text-center">Valor de Mercado</th>
             <th class="p-2.5 text-center" title="Aluguel mensal atual em reais hoje">Aluguel Hoje (R$/m)</th>
-            <th class="p-2.5 text-center" title="Quantidade de meses de vacância no ano (0 a 12 meses digitado)">Vacância (meses)</th>
+            <th class="p-2.5 text-center" title="Vacância de aluguel: clique no botão para abrir e preencher datas, valores e quantia de meses">Vacância &amp; Períodos (Meses, Datas &amp; Valores)</th>
             
             <th class="p-2.5 text-center" title="IPTU mensal do imóvel">IPTU (R$/m)</th>
             <th class="p-2.5 text-center" title="Condomínio mensal do imóvel">Condomínio (R$/m)</th>
@@ -1792,192 +1792,242 @@ function renderizarImoveis() {
     };
     const qtdClausulasAtivas = Object.values(cm).filter(Boolean).length;
 
+    // Calcular resumo de titularidade
+    let totalTit = 100;
+    if (im.proprietarios && Array.isArray(im.proprietarios)) {
+      totalTit = im.proprietarios.reduce((sum, p) => sum + (parseFloat(p.percentual) || 0), 0);
+    }
+
+    // Calcular resumo de usufruto
+    let totalUsuf = 100;
+    if (im.usufrutuarios && Array.isArray(im.usufrutuarios)) {
+      totalUsuf = im.usufrutuarios.reduce((sum, u) => sum + (parseFloat(u.percentualVotos) || 0), 0);
+    }
+
+    // Períodos e resumo de vacância / datas
+    const vacMeses = (im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0);
+    const mesesLocados = Math.max(0, 12 - vacMeses);
+    let anosPeriodoTexto = `Ano ${im.ano || 2026}`;
+    if (im.periodosAluguel && Array.isArray(im.periodosAluguel) && im.periodosAluguel.length > 0) {
+      const anos = im.periodosAluguel.map(p => p.ano).filter(Boolean);
+      if (anos.length > 1) {
+        const minAno = Math.min(...anos);
+        const maxAno = Math.max(...anos);
+        anosPeriodoTexto = `${minAno}-${maxAno}`;
+      } else if (anos.length === 1) {
+        anosPeriodoTexto = `Ano ${anos[0]}`;
+      }
+    }
+
     const tr = document.createElement('tr');
     tr.className = 'hover:bg-slate-50 dark:hover:bg-zinc-900 transition border-b border-slate-200 dark:border-zinc-800 text-black dark:text-white';
     
     tr.innerHTML = `
+      <!-- 1. # -->
       <td class="p-2 font-bold font-mono text-center">${im.id}</td>
+
+      <!-- 2. TIPO DE IMÓVEL -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
           <select onchange="state.imoveis[${idx}].tipo=this.value; recalcularTudo();" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer">
             <option value="Residencial" ${im.tipo === 'Residencial' ? 'selected' : ''}>🏠 Residencial</option>
             <option value="Comercial" ${im.tipo === 'Comercial' ? 'selected' : ''}>🏢 Comercial</option>
+            <option value="Terreno" ${im.tipo === 'Terreno' ? 'selected' : ''}>🌱 Terreno</option>
+            <option value="Rural" ${im.tipo === 'Rural' ? 'selected' : ''}>🚜 Rural</option>
             <option value="Galpão" ${im.tipo === 'Galpão' ? 'selected' : ''}>🏭 Galpão</option>
-            <option value="Terreno" ${im.tipo === 'Terreno' ? 'selected' : ''}>📐 Terreno</option>
-            <option value="Rural" ${im.tipo === 'Rural' ? 'selected' : ''}>🌾 Rural</option>
-            <option value="Outro" ${im.tipo === 'Outro' ? 'selected' : ''}>📦 Outro</option>
           </select>
-          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Selecionar tipo de imóvel">✏️</span>
+          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Selecionar tipo">✏️</span>
         </div>
       </td>
+
+      <!-- 3. IDENTIFICAÇÃO / IMÓVEL -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
-          <input type="text" value="${im.nome || ''}" onchange="state.imoveis[${idx}].nome=this.value; recalcularTudo();" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold w-36 text-xs focus:outline-none shadow-2xs text-center" placeholder="Nome do Imóvel">
+          <input type="text" value="${im.nome || ''}" onchange="state.imoveis[${idx}].nome=this.value; recalcularTudo();" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-bold text-xs focus:outline-none w-36 shadow-2xs text-center" placeholder="Nome do Imóvel">
           <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Editar nome">✏️</span>
         </div>
       </td>
+
+      <!-- 4. LOCALIDADE (UF) -->
       <td class="p-2 text-center whitespace-nowrap">
-        <div class="flex items-center justify-center gap-1">
-          <select onchange="alterarUfImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer" title="Selecione o Estado/UF">
-            ${Object.keys(TABELA_ITCMD_ESTADOS).map(uf => `<option value="${uf}" ${im.uf === uf ? 'selected' : ''}>${uf} (${(TABELA_ITCMD_ESTADOS[uf].itcmd * 100).toFixed(0)}%)</option>`).join('')}
-          </select>
-          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Selecionar UF">✏️</span>
-        </div>
-      </td>
-      <td class="p-2 text-center whitespace-nowrap">
-        <div class="inline-flex rounded-lg border border-slate-300 dark:border-zinc-700 p-0.5 bg-slate-100 dark:bg-zinc-900 gap-0.5" title="Objetivos do Imóvel (Selecione Locação, Venda e/ou Sucessão simultaneamente)">
-          <button type="button" onclick="toggleObjetivoImovel(${idx}, 'Locação')" class="px-2 py-1 text-[11px] rounded-md transition cursor-pointer ${isLoc ? 'bg-black text-white dark:bg-white dark:text-black font-black shadow-xs' : 'text-slate-500 dark:text-slate-400 font-bold hover:bg-slate-200 dark:hover:bg-zinc-800 hover:text-black dark:hover:text-white'}" title="Locação (Geração de Renda Mensal)">Locação</button>
-          <button type="button" onclick="toggleObjetivoImovel(${idx}, 'Venda')" class="px-2 py-1 text-[11px] rounded-md transition cursor-pointer ${isVen ? 'bg-black text-white dark:bg-white dark:text-black font-black shadow-xs' : 'text-slate-500 dark:text-slate-400 font-bold hover:bg-slate-200 dark:hover:bg-zinc-800 hover:text-black dark:hover:text-white'}" title="Venda / Desinvestimento">Venda</button>
-          <button type="button" onclick="toggleObjetivoImovel(${idx}, 'Sucessão')" class="px-2 py-1 text-[11px] rounded-md transition cursor-pointer ${isSuc ? 'bg-black text-white dark:bg-white dark:text-black font-black shadow-xs' : 'text-slate-500 dark:text-slate-400 font-bold hover:bg-slate-200 dark:hover:bg-zinc-800 hover:text-black dark:hover:text-white'}" title="Sucessão / Planejamento Sucessório">Sucessão</button>
-        </div>
-      </td>
-      <td class="p-2 text-center whitespace-nowrap">
-        <button type="button" onclick="abrirModalClausulasImovel(${idx})" class="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-black hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white text-xs font-bold transition shadow-2xs cursor-pointer hover:border-black dark:hover:border-white" title="Configurar Cláusulas na Matrícula (${qtdClausulasAtivas}/10 ativas)">
-          📜
+        <button type="button" onclick="abrirModalLocalidade(${idx})" class="px-2.5 py-1 rounded-xl border border-black dark:border-zinc-700 bg-white dark:bg-zinc-950 hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-xs transition shadow-2xs cursor-pointer flex items-center justify-center gap-1.5 hover:border-black dark:hover:border-white" title="Clique para abrir e configurar Estado (UF), Município e ITCMD">
+          <span>📍</span> ${im.uf || 'SP'}
         </button>
       </td>
+
+      <!-- 5. OBJETIVO (3 BOTÕES COEXISTENTES) -->
+      <td class="p-2 text-center whitespace-nowrap">
+        <div class="inline-flex items-center gap-1 p-0.5 rounded-xl bg-slate-100 dark:bg-zinc-900 border border-slate-300 dark:border-zinc-700">
+          <button type="button" onclick="toggleObjetivoImovel(${idx}, 'Locação')" class="px-2 py-0.5 rounded-lg text-[10px] font-black transition cursor-pointer ${isLoc ? 'bg-black text-white dark:bg-white dark:text-black shadow-xs' : 'bg-transparent text-slate-600 dark:text-slate-400 hover:text-black dark:hover:text-white'}" title="Clique para ativar/desativar objetivo de Locação">
+            🏢 Locação
+          </button>
+          <button type="button" onclick="toggleObjetivoImovel(${idx}, 'Venda')" class="px-2 py-0.5 rounded-lg text-[10px] font-black transition cursor-pointer ${isVen ? 'bg-black text-white dark:bg-white dark:text-black shadow-xs' : 'bg-transparent text-slate-600 dark:text-slate-400 hover:text-black dark:hover:text-white'}" title="Clique para ativar/desativar objetivo de Venda">
+            🏷️ Venda
+          </button>
+          <button type="button" onclick="toggleObjetivoImovel(${idx}, 'Sucessão')" class="px-2 py-0.5 rounded-lg text-[10px] font-black transition cursor-pointer ${isSuc ? 'bg-black text-white dark:bg-white dark:text-black shadow-xs' : 'bg-transparent text-slate-600 dark:text-slate-400 hover:text-black dark:hover:text-white'}" title="Clique para ativar/desativar objetivo de Sucessão">
+            🛡️ Sucessão
+          </button>
+        </div>
+      </td>
+
+      <!-- 6. CLÁUSULAS NA MATRÍCULA -->
+      <td class="p-2 text-center whitespace-nowrap">
+        <button type="button" onclick="abrirModalClausulasImovel(${idx})" class="px-2.5 py-1 rounded-xl border border-black dark:border-zinc-700 bg-white dark:bg-zinc-950 hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-xs transition shadow-2xs cursor-pointer flex items-center justify-center gap-1.5 hover:border-black dark:hover:border-white" title="Clique para abrir e configurar as cláusulas gravadas na matrícula">
+          <span>📜</span> Cláusulas (${qtdClausulasAtivas}/10)
+        </button>
+      </td>
+
+      <!-- 7. REGIME FISCAL ATUAL -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
-          <select onchange="state.imoveis[${idx}].regimeFiscal=this.value; recalcularTudo();" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer w-32" title="Selecione o modelo de contabilidade / regime fiscal">
-            <optgroup label="Pessoa Física" class="bg-white dark:bg-black text-black dark:text-white font-bold">
-              <option value="PF" ${(im.regimeFiscal || 'PF') === 'PF' ? 'selected' : ''}>PF Geral</option>
-              <option value="PF_CarneLeao" ${(im.regimeFiscal || 'PF') === 'PF_CarneLeao' ? 'selected' : ''}>PF Carnê-Leão</option>
-              <option value="PF_LivroCaixa" ${(im.regimeFiscal || 'PF') === 'PF_LivroCaixa' ? 'selected' : ''}>PF Livro Caixa</option>
-              <option value="PF_Simplificado" ${(im.regimeFiscal || 'PF') === 'PF_Simplificado' ? 'selected' : ''}>PF Simplificada</option>
-            </optgroup>
-            <optgroup label="Pessoa Jurídica" class="bg-white dark:bg-black text-black dark:text-white font-bold">
-              <option value="PJ_LP" ${(im.regimeFiscal || 'PF') === 'PJ_LP' ? 'selected' : ''}>PJ Presumido</option>
-              <option value="PJ_LR" ${(im.regimeFiscal || 'PF') === 'PJ_LR' ? 'selected' : ''}>PJ Lucro Real</option>
-              <option value="PJ_SN" ${(im.regimeFiscal || 'PF') === 'PJ_SN' ? 'selected' : ''}>PJ Simples</option>
-              <option value="PJ_Arbitrado" ${(im.regimeFiscal || 'PF') === 'PJ_Arbitrado' ? 'selected' : ''}>PJ Arbitrado</option>
-              <option value="PJ_Holding" ${(im.regimeFiscal || 'PF') === 'PJ_Holding' ? 'selected' : ''}>PJ Holding</option>
-              <option value="PJ_SPE" ${(im.regimeFiscal || 'PF') === 'PJ_SPE' ? 'selected' : ''}>PJ SPE/SCP</option>
-            </optgroup>
+          <select onchange="state.imoveis[${idx}].regimeFiscal=this.value; recalcularTudo();" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer">
+            <option value="PF_CarnêLeão" ${im.regimeFiscal === 'PF_CarnêLeão' ? 'selected' : ''}>👤 PF Carnê-Leão (27,5%)</option>
+            <option value="Holding_Presumido" ${im.regimeFiscal === 'Holding_Presumido' ? 'selected' : ''}>🏢 Holding Presumido (11,33%)</option>
+            <option value="PJ_LucroReal" ${im.regimeFiscal === 'PJ_LucroReal' ? 'selected' : ''}>🏭 PJ Lucro Real (34%)</option>
+            <option value="Uso_Proprio" ${im.regimeFiscal === 'Uso_Proprio' ? 'selected' : ''}>🏡 Uso Próprio (Isento)</option>
           </select>
           <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Selecionar regime">✏️</span>
         </div>
       </td>
+
+      <!-- 8. PROPRIETÁRIO(S) & TITULARIDADE -->
       <td class="p-2 text-center whitespace-nowrap">
-        <button type="button" onclick="abrirModalTitulares(${idx})" class="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-black hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white text-xs font-mono font-black transition shadow-2xs cursor-pointer hover:border-black dark:hover:border-white" title="Configurar Proprietário(s) &amp; Quotas (%): ${obterResumoTitulares(im)}">
-          %
+        <button type="button" onclick="abrirModalTitulares(${idx})" class="px-2.5 py-1 rounded-xl border border-black dark:border-zinc-700 bg-white dark:bg-zinc-950 hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-xs transition shadow-2xs cursor-pointer flex items-center justify-center gap-1.5 hover:border-black dark:hover:border-white" title="Clique para abrir e preencher a partilha de titularidade / proprietários">
+          <span>👥</span> Titulares (${totalTit.toFixed(0)}%)
         </button>
       </td>
+
+      <!-- 9. USUFRUTO & VOTOS (%) -->
       <td class="p-2 text-center whitespace-nowrap">
-        <button type="button" onclick="abrirModalUsufruto(${idx})" class="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-black hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white text-xs font-bold transition shadow-2xs cursor-pointer hover:border-black dark:hover:border-white" title="Configurar Usufruto &amp; Votos (%): ${obterResumoUsufruto(im)}">
-          ⚙️
+        <button type="button" onclick="abrirModalUsufruto(${idx})" class="px-2.5 py-1 rounded-xl border border-black dark:border-zinc-700 bg-white dark:bg-zinc-950 hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-xs transition shadow-2xs cursor-pointer flex items-center justify-center gap-1.5 hover:border-black dark:hover:border-white" title="Clique para abrir e preencher o poder de voto e usufruto">
+          <span>⚙️</span> Votos (${totalUsuf.toFixed(0)}%)
         </button>
       </td>
+
+      <!-- 10. ANO -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
-          <input type="number" min="1950" max="2035" value="${im.ano || 2010}" onchange="state.imoveis[${idx}].ano=parseInt(this.value)||2010; recalcularTudo();" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-1 font-bold text-xs focus:outline-none w-16 text-center font-mono shadow-2xs">
-          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Editar ano">✏️</span>
+          <input type="number" min="1950" max="2035" value="${im.ano || 2010}" onchange="state.imoveis[${idx}].ano=parseInt(this.value); recalcularTudo();" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-bold text-xs focus:outline-none w-20 shadow-2xs font-mono text-center">
+          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Editar ano de aquisição">✏️</span>
         </div>
       </td>
+
+      <!-- 11. VALOR DE AQUISIÇÃO (R$) -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
-          <input type="text" value="${formatMoney(im.aquisicao)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].aquisicao)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].aquisicao=parseMoneyBR(this.value); atualizarCustoFiscal(${idx});" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-bold text-xs focus:outline-none w-28 shadow-2xs font-mono text-center">
+          <input type="text" value="${formatMoney(im.aquisicao)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].aquisicao)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].aquisicao=parseMoneyBR(this.value); sincronizarImoveisComTotais(true);" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-bold text-xs focus:outline-none w-28 shadow-2xs font-mono text-center">
           <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Editar valor de aquisição">✏️</span>
         </div>
       </td>
+
+      <!-- 12. ITBI PAGO NA ÉPOCA (R$) -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
-          <input type="text" value="${formatMoney(im.itbiAquisicao || 0)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].itbiAquisicao || 0)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].itbiAquisicao=parseMoneyBR(this.value); atualizarCustoFiscal(${idx});" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-bold text-xs focus:outline-none w-28 shadow-2xs font-mono text-center" title="ITBI comprovadamente pago na aquisição">
-          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Editar ITBI">✏️</span>
+          <input type="text" value="${formatMoney(im.itbiAquisicao || 0)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].itbiAquisicao || 0)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].itbiAquisicao=parseMoneyBR(this.value); sincronizarImoveisComTotais(true);" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-bold text-xs focus:outline-none w-24 shadow-2xs font-mono text-center" title="ITBI pago na aquisição">
+          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Editar ITBI de aquisição">✏️</span>
         </div>
       </td>
+
+      <!-- 13. CORRETAGEM NA ÉPOCA (R$) -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
-          <input type="text" value="${formatMoney(im.corretagemAquisicao || 0)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].corretagemAquisicao || 0)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].corretagemAquisicao=parseMoneyBR(this.value); atualizarCustoFiscal(${idx});" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-bold text-xs focus:outline-none w-28 shadow-2xs font-mono text-center" title="Comissão de corretagem na aquisição">
-          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Editar corretagem">✏️</span>
+          <input type="text" value="${formatMoney(im.corretagemAquisicao || 0)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].corretagemAquisicao || 0)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].corretagemAquisicao=parseMoneyBR(this.value); sincronizarImoveisComTotais(true);" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-bold text-xs focus:outline-none w-24 shadow-2xs font-mono text-center" title="Comissão de corretagem paga na compra">
+          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Editar corretagem de aquisição">✏️</span>
         </div>
       </td>
+
+      <!-- 14. REFORMAS & BENFEITORIAS (R$) -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
-          <input type="text" value="${formatMoney(im.reformaGasto || 0)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].reformaGasto || 0)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].reformaGasto=parseMoneyBR(this.value); atualizarCustoFiscal(${idx});" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-bold text-xs focus:outline-none w-28 shadow-2xs font-mono text-center" title="Reformas/benfeitorias com notas fiscais">
+          <input type="text" value="${formatMoney(im.reformaGasto || 0)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].reformaGasto || 0)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].reformaGasto=parseMoneyBR(this.value); sincronizarImoveisComTotais(true);" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-bold text-xs focus:outline-none w-24 shadow-2xs font-mono text-center" title="Reformas comprovadas">
           <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Editar reformas">✏️</span>
         </div>
       </td>
+
+      <!-- 15. ALUGUEL NA AQUISIÇÃO (R$/m) -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
-          <input type="text" value="${formatMoney(im.aluguelAquisicao || 0)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].aluguelAquisicao || 0)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].aluguelAquisicao=parseMoneyBR(this.value); recalcularTudo();" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-bold text-xs focus:outline-none w-28 shadow-2xs font-mono text-center" title="Aluguel mensal na data de aquisição">
-          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Editar aluguel de aquisição">✏️</span>
+          <input type="text" value="${formatMoney(im.aluguelAquisicao || 0)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].aluguelAquisicao || 0)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].aluguelAquisicao=parseMoneyBR(this.value); sincronizarImoveisComTotais(false);" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-bold text-xs focus:outline-none w-24 shadow-2xs font-mono text-center" title="Aluguel mensal na época da aquisição">
+          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Editar aluguel na aquisição">✏️</span>
         </div>
       </td>
+
+      <!-- 16. FINANCIAMENTO / SALDO -->
       <td class="p-2 text-center whitespace-nowrap">
-        <div class="flex flex-col items-center justify-center gap-1.5">
-          <div class="flex items-center justify-center gap-1">
-            <select onchange="alterarFinanciamentoImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer">
-              <option value="NAO" ${isQuitado ? 'selected' : ''}>Quitado</option>
-              <option value="SIM" ${!isQuitado ? 'selected' : ''}>Financiado</option>
-            </select>
-            <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Status de quitação">✏️</span>
-          </div>
+        <div class="flex items-center justify-center gap-1">
+          <select onchange="alterarFinanciamentoImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer">
+            <option value="NAO" ${isQuitado ? 'selected' : ''}>✓ Quitado</option>
+            <option value="SIM" ${!isQuitado ? 'selected' : ''}>⏳ Financiado</option>
+          </select>
           ${!isQuitado ? `
-            <div class="flex flex-wrap items-center justify-center gap-1 pt-1 border-t border-slate-200 dark:border-zinc-800 text-[11px]">
-              <div class="flex items-center justify-center gap-1" title="Saldo Devedor Atual">
-                <input type="text" value="${formatMoney(im.saldoDevedor || 0)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].saldoDevedor || 0)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].saldoDevedor=parseMoneyBR(this.value); recalcularTudo();" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-0.5 font-bold text-xs focus:outline-none w-24 shadow-2xs font-mono text-center" placeholder="Saldo R$">
-                <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Editar saldo devedor">✏️</span>
-              </div>
-              <div class="flex items-center justify-center gap-1" title="Taxa de juros anual acordada no banco">
-                <input type="number" step="0.1" min="0" max="40" value="${im.taxaFinanciamento || 9.5}" onchange="state.imoveis[${idx}].taxaFinanciamento=parseFloat(this.value)||0; recalcularTudo();" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-0.5 font-bold text-xs focus:outline-none w-14 shadow-2xs font-mono text-center" placeholder="% a.a.">
-                <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Editar taxa acordada">% a.a. ✏️</span>
-              </div>
-              <div class="flex items-center justify-center gap-1" title="Indexador do financiamento">
-                <select onchange="state.imoveis[${idx}].indexadorFinanciamento=this.value; recalcularTudo();" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-0.5 text-black dark:text-white font-bold text-[11px] focus:outline-none shadow-2xs text-center cursor-pointer">
-                  <option value="TR" ${(im.indexadorFinanciamento || 'TR') === 'TR' ? 'selected' : ''}>TR</option>
-                  <option value="IPCA" ${(im.indexadorFinanciamento || 'TR') === 'IPCA' ? 'selected' : ''}>IPCA</option>
-                  <option value="CDI" ${(im.indexadorFinanciamento || 'TR') === 'CDI' ? 'selected' : ''}>CDI</option>
-                  <option value="Prefixado" ${(im.indexadorFinanciamento || 'TR') === 'Prefixado' ? 'selected' : ''}>Prefixado</option>
-                  <option value="IGP-M" ${(im.indexadorFinanciamento || 'TR') === 'IGP-M' ? 'selected' : ''}>IGP-M</option>
-                </select>
-                <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Selecionar indexador">✏️</span>
-              </div>
+            <div class="flex items-center gap-1 pl-1 border-l border-slate-300 dark:border-zinc-700">
+              <input type="text" value="${formatMoney(im.saldoDevedor || 0)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].saldoDevedor || 0)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].saldoDevedor=parseMoneyBR(this.value); sincronizarImoveisComTotais(false);" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-1 font-bold text-xs focus:outline-none w-24 shadow-2xs font-mono text-center" title="Saldo devedor atual do financiamento">
             </div>
           ` : ''}
         </div>
       </td>
+
+      <!-- 17. VALOR DECLARADO / DIRPF (R$) -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
           <input type="text" id="custo-imovel-${idx}" value="${formatMoney(im.custo)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].custo)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].custo=parseMoneyBR(this.value); sincronizarImoveisComTotais(false);" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-black text-xs focus:outline-none w-28 shadow-2xs font-mono text-center" title="Custo Declarado na DIRPF">
           <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Recalcular soma">✏️</span>
         </div>
       </td>
+
+      <!-- 18. VALOR DE MERCADO -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
           <input type="text" value="${formatMoney(im.mercado)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].mercado)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].mercado=parseMoneyBR(this.value); recalcularTudo();" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-black text-xs focus:outline-none w-28 shadow-2xs font-mono text-center">
           <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Editar valor de mercado">✏️</span>
         </div>
       </td>
+
+      <!-- 19. ALUGUEL HOJE (R$/m) -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
-          <input type="text" value="${formatMoney(im.aluguel || 0)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].aluguel || 0)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].aluguel=parseMoneyBR(this.value); sincronizarImoveisComTotais(false);" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-bold text-xs focus:outline-none w-24 shadow-2xs font-mono text-center" title="Aluguel mensal atual">
+          <input type="text" value="${formatMoney(im.aluguel || 0)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].aluguel || 0)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].aluguel=parseMoneyBR(this.value); sincronizarImoveisComTotais(false);" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-bold text-xs focus:outline-none w-28 shadow-2xs font-mono text-center" title="Aluguel mensal atual">
           <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Editar aluguel">✏️</span>
-          <button type="button" onclick="abrirModalAluguel(${idx})" class="p-1 px-1.5 rounded-lg border border-black dark:border-zinc-700 bg-white dark:bg-black hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white text-xs font-bold transition shadow-2xs cursor-pointer inline-flex items-center gap-1 hover:border-black dark:hover:border-white" title="Histórico de Aluguel, Vacância e Preenchimento por Ano">
-            <span>🏢</span>
-            <span class="text-[10px]">📅</span>
-          </button>
         </div>
       </td>
+
+      <!-- 20. BOTÃO ÚNICO NA COLUNA VACÂNCIA: ABRIR E PREENCHER (MESES, DATAS & VALORES) -->
       <td class="p-2 text-center whitespace-nowrap">
-        <div class="flex items-center justify-center gap-1">
-          <input type="number" min="0" max="12" step="1" value="${im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0}" onchange="state.imoveis[${idx}].vacanciaMeses=Math.min(12, Math.max(0, parseInt(this.value)||0)); sincronizarImoveisComTotais(false);" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-1 font-bold text-xs focus:outline-none w-14 shadow-2xs font-mono text-center" title="Quantidade de meses de vacância no ano (0 a 12 meses digitado)">
-          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Digitar meses de vacância">✏️</span>
-          <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400" title="Meses efetivamente locados">(${(12 - (im.vacanciaMeses || 0))}m)</span>
-        </div>
+        <button type="button" onclick="abrirModalAluguel(${idx})" class="w-full min-w-[200px] px-3 py-1.5 rounded-xl border border-black dark:border-zinc-700 bg-white dark:bg-zinc-950 hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white text-xs font-bold transition shadow-2xs cursor-pointer flex items-center justify-between gap-2 hover:border-black dark:hover:border-white group" title="Clique para abrir e preencher datas, valores de aluguel e quantia de meses de vacância">
+          <div class="flex items-center gap-1.5 text-left">
+            <span class="text-sm">🗓️</span>
+            <div class="flex flex-col leading-tight">
+              <span class="font-black text-[11px] text-black dark:text-white font-mono">
+                ${vacMeses} ${(vacMeses === 1) ? 'mês vago' : 'meses vagos'}
+              </span>
+              <span class="text-[9px] text-slate-600 dark:text-slate-400 font-bold">
+                ${mesesLocados}m locados • ${anosPeriodoTexto}
+              </span>
+            </div>
+          </div>
+          <span class="text-[9px] px-2 py-0.5 rounded-md bg-black text-white dark:bg-white dark:text-black font-black uppercase tracking-tight group-hover:scale-105 transition shrink-0 border border-black dark:border-white">
+            Preencher ✏️
+          </span>
+        </button>
       </td>
-      
+
+      <!-- 21. IPTU (R$/m) -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
           <input type="text" value="${formatMoney(im.iptu || 0)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].iptu || 0)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].iptu=parseMoneyBR(this.value); recalcularTudo();" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-bold text-xs focus:outline-none w-20 shadow-2xs font-mono text-center" title="IPTU mensal do imóvel">
           <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Editar IPTU">✏️</span>
         </div>
       </td>
+
+      <!-- 22. CONDOMÍNIO (R$/m) -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
           <input type="text" value="${formatMoney(im.condominio || 0)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].condominio || 0)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].condominio=parseMoneyBR(this.value); recalcularTudo();" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 font-bold text-xs focus:outline-none w-20 shadow-2xs font-mono text-center" title="Condomínio mensal do imóvel">
           <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Editar condomínio">✏️</span>
         </div>
       </td>
+
+      <!-- 23. AÇÕES -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1.5">
           <button type="button" onclick="duplicarImovel(${idx})" class="px-2.5 py-1 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-black hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-[11px] transition shadow-2xs cursor-pointer" title="Duplicar este imóvel">
@@ -1997,25 +2047,33 @@ function renderizarImoveis() {
   if (elQtd) elQtd.innerText = state.imoveis.length;
   const elAq = document.getElementById('lbl-tot-aquisicao-condensado');
   if (elAq) elAq.innerText = formatMoney(totAquisicao);
-  const elItbiTot = document.getElementById('lbl-tot-itbi-aquisicao-condensado');
-  if (elItbiTot) elItbiTot.innerText = formatMoney(totItbiAquisicao);
-  const elCorretagemTot = document.getElementById('lbl-tot-corretagem-aquisicao-condensado');
-  if (elCorretagemTot) elCorretagemTot.innerText = formatMoney(totCorretagemAquisicao);
-  const elRefTot = document.getElementById('lbl-tot-reformas-condensado');
-  if (elRefTot) elRefTot.innerText = formatMoney(totReformas);
+  const elItbi = document.getElementById('lbl-tot-itbi-aquisicao-condensado');
+  if (elItbi) elItbi.innerText = formatMoney(totItbiAquisicao);
+  const elCorr = document.getElementById('lbl-tot-corretagem-aquisicao-condensado');
+  if (elCorr) elCorr.innerText = formatMoney(totCorretagemAquisicao);
+  const elRef = document.getElementById('lbl-tot-reformas-condensado');
+  if (elRef) elRef.innerText = formatMoney(totReformas);
   const elAlugAq = document.getElementById('lbl-tot-aluguel-aquisicao-condensado');
   if (elAlugAq) elAlugAq.innerText = formatMoney(totAluguelAquisicao) + '/m';
-  const elSaldoTot = document.getElementById('lbl-tot-saldo-devedor-condensado');
-  if (elSaldoTot) elSaldoTot.innerText = formatMoney(totSaldoDevedor);
+  const elSaldo = document.getElementById('lbl-tot-saldo-devedor-condensado');
+  if (elSaldo) elSaldo.innerText = formatMoney(totSaldoDevedor);
   const elCusto = document.getElementById('lbl-tot-custo-condensado');
   if (elCusto) elCusto.innerText = formatMoney(totCusto);
   const elMerc = document.getElementById('lbl-tot-mercado-condensado');
   if (elMerc) elMerc.innerText = formatMoney(totMercado);
   const elAlug = document.getElementById('lbl-tot-aluguel-condensado');
   if (elAlug) elAlug.innerText = formatMoney(totAluguel) + '/m';
-  const elAnual = document.getElementById('lbl-tot-aluguel-anual-condensado');
-  if (elAnual) elAnual.innerText = formatMoney(totAluguelAnual) + '/ano';
-  // Taxa Adm removida
+  const elAlugAno = document.getElementById('lbl-tot-aluguel-anual-condensado');
+  if (elAlugAno) elAlugAno.innerText = formatMoney(totAluguelAnual) + '/ano';
+
+  let somaVacMeses = 0;
+  state.imoveis.forEach(im => {
+    somaVacMeses += (im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0);
+  });
+  const mediaVacMeses = state.imoveis.length > 0 ? (somaVacMeses / state.imoveis.length) : 0;
+  const elVac = document.getElementById('lbl-tot-vacancia-condensado');
+  if (elVac) elVac.innerText = mediaVacMeses.toFixed(1).replace('.', ',') + ' meses (méd.)';
+
   const elIptu = document.getElementById('lbl-tot-iptu-condensado');
   if (elIptu) elIptu.innerText = formatMoney(totIptu) + '/m';
   const elCond = document.getElementById('lbl-tot-condominio-condensado');
@@ -2682,14 +2740,28 @@ function obterResumoTitulares(im) {
       const lblNome = document.getElementById('modal-aluguel-imovel-nome');
       if (lblNome) lblNome.innerText = `Histórico, Períodos & Vacância • ${im.nome}`;
 
-      // Inicializa periodos se não existirem
+      // Inicializa periodos se não existirem conectando datas, valores e quantia de meses
       if (!im.periodosAluguel || !Array.isArray(im.periodosAluguel) || im.periodosAluguel.length === 0) {
         const anoAtual = new Date().getFullYear();
-        im.periodosAluguel = [
-          { ano: anoAtual - 2, aluguel: Math.round((im.aluguel || 10000) * 0.90), vacanciaMeses: 0 },
-          { ano: anoAtual - 1, aluguel: Math.round((im.aluguel || 10000) * 0.95), vacanciaMeses: 1 },
-          { ano: anoAtual, aluguel: im.aluguel || 10000, vacanciaMeses: im.vacanciaMeses || 0 }
-        ];
+        const anoAquisicao = im.ano || (anoAtual - 5);
+        const aluguelAquisicao = im.aluguelAquisicao || Math.round((im.aluguel || 10000) * 0.60);
+        const aluguelAtual = im.aluguel || 10000;
+        const vacAtual = im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0;
+
+        if (anoAquisicao < anoAtual - 1) {
+          const anoMeio = Math.round((anoAquisicao + anoAtual) / 2);
+          const aluguelMeio = Math.round((aluguelAquisicao + aluguelAtual) / 2);
+          im.periodosAluguel = [
+            { ano: anoAquisicao, aluguel: aluguelAquisicao, vacanciaMeses: 0 },
+            { ano: anoMeio, aluguel: aluguelMeio, vacanciaMeses: 1 },
+            { ano: anoAtual, aluguel: aluguelAtual, vacanciaMeses: vacAtual }
+          ];
+        } else {
+          im.periodosAluguel = [
+            { ano: anoAtual - 1, aluguel: aluguelAquisicao, vacanciaMeses: 0 },
+            { ano: anoAtual, aluguel: aluguelAtual, vacanciaMeses: vacAtual }
+          ];
+        }
       }
 
       renderizarListaModalAluguel();
@@ -2871,13 +2943,17 @@ function obterResumoTitulares(im) {
       if (state.modalImovelIndex === null) return;
       const im = state.imoveis[state.modalImovelIndex];
       if (im && im.periodosAluguel && im.periodosAluguel.length > 0) {
-        // Sincroniza com o último período cadastrado
+        const primeiro = im.periodosAluguel[0];
         const ultimo = im.periodosAluguel[im.periodosAluguel.length - 1];
-        im.aluguel = ultimo.aluguel;
-        im.vacanciaMeses = ultimo.vacanciaMeses !== undefined ? ultimo.vacanciaMeses : 0;
+        if (primeiro && primeiro.aluguel) im.aluguelAquisicao = primeiro.aluguel;
+        if (ultimo) {
+          im.aluguel = ultimo.aluguel;
+          im.vacanciaMeses = ultimo.vacanciaMeses !== undefined ? ultimo.vacanciaMeses : 0;
+        }
       }
 
       fecharModalAluguel();
+      renderizarImoveis();
       sincronizarImoveisComTotais();
     }
 
