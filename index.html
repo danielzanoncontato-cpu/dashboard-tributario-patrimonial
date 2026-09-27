@@ -460,7 +460,7 @@
             <th class="p-2.5 text-center" title="Custo Declarado na DIRPF (Aquisição + ITBI + Corretagem + Reformas)">Valor Declarado / DIRPF (R$)</th>
             <th class="p-2.5 text-center">Valor de Mercado</th>
             <th class="p-2.5 text-center" title="Aluguel mensal atual em reais hoje">Aluguel Hoje (R$/m)</th>
-            <th class="p-2.5 text-center" title="Vacância de aluguel: clique no botão para abrir e preencher datas, valores e quantia de meses">Vacância &amp; Períodos (Meses, Datas &amp; Valores)</th>
+            <th class="p-2.5 text-center" title="Vacância de aluguel: clique para preencher">Vacância</th>
             
             <th class="p-2.5 text-center" title="IPTU mensal do imóvel">IPTU (R$/m)</th>
             <th class="p-2.5 text-center" title="Condomínio mensal do imóvel">Condomínio (R$/m)</th>
@@ -1972,24 +1972,13 @@ function renderizarImoveis() {
         </div>
       </td>
 
-      <!-- 20. BOTÃO ÚNICO NA COLUNA VACÂNCIA: ABRIR E PREENCHER (MESES, DATAS & VALORES) -->
+      <!-- 20. VACÂNCIA: APENAS O BOTÃO PREENCHER -->
       <td class="p-2 text-center whitespace-nowrap">
-        <button type="button" onclick="abrirModalAluguel(${idx})" class="w-full min-w-[200px] px-3 py-1.5 rounded-xl border border-black dark:border-zinc-700 bg-white dark:bg-zinc-950 hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white text-xs font-bold transition shadow-2xs cursor-pointer flex items-center justify-between gap-2 hover:border-black dark:hover:border-white group" title="Clique para abrir e preencher datas, valores de aluguel e quantia de meses de vacância">
-          <div class="flex items-center gap-1.5 text-left">
-            <span class="text-sm">🗓️</span>
-            <div class="flex flex-col leading-tight">
-              <span class="font-black text-[11px] text-black dark:text-white font-mono">
-                ${vacMeses} ${(vacMeses === 1) ? 'mês vago' : 'meses vagos'}
-              </span>
-              <span class="text-[9px] text-slate-600 dark:text-slate-400 font-bold">
-                ${mesesLocados}m locados • ${anosPeriodoTexto}
-              </span>
-            </div>
-          </div>
-          <span class="text-[9px] px-2 py-0.5 rounded-md bg-black text-white dark:bg-white dark:text-black font-black uppercase tracking-tight group-hover:scale-105 transition shrink-0 border border-black dark:border-white">
-            Preencher ✏️
-          </span>
-        </button>
+        <div class="flex items-center justify-center">
+          <button type="button" onclick="abrirModalAluguel(${idx})" class="px-3 py-1 rounded-lg border border-black dark:border-white bg-white dark:bg-black hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-xs transition shadow-2xs cursor-pointer flex items-center justify-center gap-1 hover:border-black dark:hover:border-white" title="Clique para abrir e preencher vacância">
+            Preencher
+          </button>
+        </div>
       </td>
 
       <!-- 21. IPTU (R$/m) -->
