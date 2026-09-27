@@ -1616,41 +1616,21 @@
         <div class="bg-white dark:bg-zinc-950 rounded-2xl max-w-4xl w-full p-5 shadow-2xl border border-black dark:border-zinc-700 space-y-4 max-h-[90vh] flex flex-col">
           
           <!-- Cabeçalho -->
-          <div class="flex justify-between items-start pb-3 border-b border-black dark:border-zinc-700 shrink-0">
-            <div>
+          <div class="flex justify-between items-center pb-3 border-b border-black dark:border-zinc-700 shrink-0">
+            <div class="flex items-center gap-3">
               <span class="px-2.5 py-0.5 rounded-full bg-black text-white dark:bg-white dark:text-black text-[10px] font-black uppercase">
-                🏢 Locação • Períodos &amp; Vacância
+                🏢 Histórico de Aluguel
               </span>
-              <h3 class="font-black text-sm text-black dark:text-white mt-1" id="modal-aluguel-imovel-nome">
-                Histórico &amp; Períodos de Aluguel por Ano
+              <h3 class="font-black text-sm text-black dark:text-white" id="modal-aluguel-imovel-nome">
+                Histórico de Aluguel
               </h3>
-              <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5" id="modal-aluguel-imovel-subtitulo">
-                Preencha o valor do aluguel e a vacância em quantidade de meses para cada ano. Adicione novos anos e utilize o assistente de acréscimo anual.
-              </p>
             </div>
-            <button type="button" onclick="fecharModalAluguel()" class="p-1 rounded-lg text-black dark:text-white hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer border border-transparent hover:border-black dark:hover:border-white">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-          </div>
-
-          <!-- Barra de Ferramentas: Assistente de Acréscimo Anual & Adição de Ano -->
-          <div class="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-black dark:border-zinc-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 shrink-0">
-            <div class="flex items-center gap-2 flex-wrap">
-              <span class="text-xs font-black text-black dark:text-white flex items-center gap-1">
-                <span>📈</span> Acréscimo / Reajuste Anual:
-              </span>
-              <div class="flex items-center gap-1">
-                <input type="number" step="0.5" min="-20" max="50" value="5.0" id="modal-aluguel-taxa-reajuste" class="w-16 p-1 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs text-center font-mono">
-                <span class="text-xs font-bold text-black dark:text-white">% a.a.</span>
-              </div>
-              <button type="button" onclick="acrescerAnoComReajusteModal()" class="px-3 py-1.5 rounded-xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white text-xs font-black shadow-2xs hover:bg-slate-800 dark:hover:bg-slate-200 transition cursor-pointer flex items-center gap-1" title="Adiciona o próximo ano aplicando o reajuste percentual sobre o último aluguel">
-                <span>➕</span> Acrescer Próximo Ano com Reajuste
-              </button>
-            </div>
-
             <div class="flex items-center gap-2">
-              <button type="button" onclick="adicionarPeriodoAluguelModal()" class="px-3 py-1.5 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer flex items-center gap-1" title="Adiciona uma linha para preenchimento manual do ano">
-                <span>+</span> Adicionar Ano Manual
+              <button type="button" onclick="adicionarPeriodoAluguelModal()" class="px-3.5 py-1.5 rounded-xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white text-xs font-bold hover:bg-slate-800 dark:hover:bg-slate-200 transition cursor-pointer flex items-center gap-1 shadow-2xs" title="Adiciona uma nova linha de ano">
+                <span>+</span> Adicionar Ano
+              </button>
+              <button type="button" onclick="fecharModalAluguel()" class="p-1 rounded-lg text-black dark:text-white hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer border border-transparent hover:border-black dark:hover:border-white">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
               </button>
             </div>
           </div>
@@ -2736,7 +2716,7 @@ function obterResumoTitulares(im) {
 
       const modal = document.getElementById('modal-aluguel-imovel');
       const lblNome = document.getElementById('modal-aluguel-imovel-nome');
-      if (lblNome) lblNome.innerText = `Histórico, Períodos & Vacância • ${im.nome}`;
+      if (lblNome) lblNome.innerText = `Histórico de Aluguel`;
 
       // Inicializa periodos se não existirem conectando datas, valores e quantia de meses
       if (!im.periodosAluguel || !Array.isArray(im.periodosAluguel) || im.periodosAluguel.length === 0) {
