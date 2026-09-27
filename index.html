@@ -2226,14 +2226,13 @@ function renderizarImoveis() {
         </div>
       </td>
 
-      <!-- 4. LOCALIDADE DO IMÓVEL (ESTADO ONDE O IMÓVEL FÍSICO ESTÁ SITUADO) -->
+      <!-- 4. LOCALIDADE (UF) COM % POR ESTADO -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
-          <select onchange="alterarUfImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer" title="Localidade do Imóvel Físico: Selecione o Estado onde o imóvel está situado (Competência Tributária de ITCMD)">
-            ${Object.keys(TABELA_ITCMD_ESTADOS).filter(k => k !== 'OUTROS').map(uf => `<option value="${uf}" ${(im.uf || 'SP') === uf ? 'selected' : ''}>${uf} - ${TABELA_ITCMD_ESTADOS[uf].nome}</option>`).join('')}
-            <option value="OUTROS" ${im.uf === 'OUTROS' ? 'selected' : ''}>Outros Estados</option>
+          <select onchange="alterarUfImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer" title="Selecione o Estado/UF do imóvel">
+            ${Object.keys(TABELA_ITCMD_ESTADOS).map(uf => `<option value="${uf}" ${(im.uf || 'SP') === uf ? 'selected' : ''}>${uf} (${(TABELA_ITCMD_ESTADOS[uf].itcmd * 100).toFixed(0)}%)</option>`).join('')}
           </select>
-          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Localidade Física do Imóvel">📍</span>
+          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Selecionar UF">✏️</span>
         </div>
       </td>
 
