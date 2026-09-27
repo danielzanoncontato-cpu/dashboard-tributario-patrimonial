@@ -1469,7 +1469,7 @@
               Cancelar
             </button>
             <button type="button" onclick="salvarModalUsufruto()" class="px-4 py-2 rounded-xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white font-black text-xs shadow-xs transition cursor-pointer">
-              ✓ Salvar Usufruto &amp;<!-- 4. MODAL DE CARTÓRIO, ESTADOS & ESPECIFICAÇÃO DE RGI -->
+          <!-- 4. MODAL DE CARTÓRIO, ESTADOS INDEPENDENTES & ESPECIFICAÇÃO DE RGI -->
       <div id="modal-localidade-imovel" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 hidden">
         <div class="bg-white dark:bg-black border-2 border-black dark:border-zinc-700 rounded-2xl shadow-2xl max-w-xl w-full p-6 text-black dark:text-white space-y-4 max-h-[92vh] overflow-y-auto">
           <!-- Cabeçalho -->
@@ -1477,8 +1477,8 @@
             <div class="flex items-center gap-2">
               <span class="text-xl">🏛️</span>
               <div>
-                <h3 class="text-base font-black text-black dark:text-white leading-tight">Estado &amp; Especificação do Cartório</h3>
-                <p class="text-xs text-slate-600 dark:text-slate-400">Selecione o Estado e especifique o número do Cartório de RGI, matrícula e custas</p>
+                <h3 class="text-base font-black text-black dark:text-white leading-tight">Localidade do Imóvel &amp; Cartório de Registro</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-400">A localização do imóvel e a escolha do Estado do Cartório são independentes (Lei 8.935/94)</p>
               </div>
             </div>
             <button type="button" onclick="fecharModalLocalidade()" class="text-slate-400 hover:text-black dark:hover:text-white text-lg font-black transition cursor-pointer p-1">
@@ -1486,103 +1486,83 @@
             </button>
           </div>
 
-          <!-- 1. Botões Rápidos de Estados (Apenas Estados) -->
-          <div class="space-y-1.5 p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-black dark:border-zinc-700">
-            <span class="text-[11px] font-black text-black dark:text-white uppercase tracking-wider block">📍 Seleção Rápida de Estado:</span>
-            <div class="flex flex-wrap gap-1">
-              <button type="button" onclick="selecionarUfModal('SP')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">SP (São Paulo)</button>
-              <button type="button" onclick="selecionarUfModal('RJ')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">RJ (Rio de Janeiro)</button>
-              <button type="button" onclick="selecionarUfModal('MG')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">MG (Minas Gerais)</button>
-              <button type="button" onclick="selecionarUfModal('RS')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">RS (Rio Grande do Sul)</button>
-              <button type="button" onclick="selecionarUfModal('PR')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">PR (Paraná)</button>
-              <button type="button" onclick="selecionarUfModal('SC')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">SC (Santa Catarina)</button>
-              <button type="button" onclick="selecionarUfModal('BA')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">BA (Bahia)</button>
-              <button type="button" onclick="selecionarUfModal('GO')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">GO (Goiás)</button>
-              <button type="button" onclick="selecionarUfModal('DF')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">DF (Brasília)</button>
-              <button type="button" onclick="selecionarUfModal('PE')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">PE (Pernambuco)</button>
-              <button type="button" onclick="selecionarUfModal('CE')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">CE (Ceará)</button>
-              <button type="button" onclick="selecionarUfModal('ES')" class="px-2 py-1 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[11px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">ES (Espírito Santo)</button>
-            </div>
-          </div>
-
           <div class="space-y-3 pt-1 text-xs">
-            <!-- 2. Estado Completo (Apenas Estado) -->
-            <div>
-              <label class="block text-slate-800 dark:text-slate-200 font-black text-xs mb-1">Estado (UF):</label>
-              <select id="modal-sel-localidade-uf" onchange="selecionarUfModal(this.value)" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none cursor-pointer">
-                <option value="SP">São Paulo (SP)</option>
-                <option value="RJ">Rio de Janeiro (RJ)</option>
-                <option value="MG">Minas Gerais (MG)</option>
-                <option value="RS">Rio Grande do Sul (RS)</option>
-                <option value="PR">Paraná (PR)</option>
-                <option value="SC">Santa Catarina (SC)</option>
-                <option value="BA">Bahia (BA)</option>
-                <option value="PE">Pernambuco (PE)</option>
-                <option value="CE">Ceará (CE)</option>
-                <option value="GO">Goiás (GO)</option>
-                <option value="DF">Distrito Federal (DF)</option>
-                <option value="ES">Espírito Santo (ES)</option>
-                <option value="MT">Mato Grosso (MT)</option>
-                <option value="MS">Mato Grosso do Sul (MS)</option>
-                <option value="AM">Amazonas (AM)</option>
-                <option value="PA">Pará (PA)</option>
-                <option value="MA">Maranhão (MA)</option>
-                <option value="PB">Paraíba (PB)</option>
-                <option value="RN">Rio Grande do Norte (RN)</option>
-                <option value="AL">Alagoas (AL)</option>
-                <option value="PI">Piauí (PI)</option>
-                <option value="SE">Sergipe (SE)</option>
-                <option value="RO">Rondônia (RO)</option>
-                <option value="TO">Tocantins (TO)</option>
-                <option value="AC">Acre (AC)</option>
-                <option value="AP">Amapá (AP)</option>
-                <option value="RR">Roraima (RR)</option>
-                <option value="OUTROS">Outros Estados</option>
+            <!-- 1. ESTADO DO IMÓVEL FÍSICO -->
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-black dark:border-zinc-700 space-y-2">
+              <label class="block text-slate-900 dark:text-white font-black text-xs">
+                📍 1. Localização Física do Imóvel (Competência Tributária de ITCMD):
+              </label>
+              <select id="modal-sel-localidade-uf" onchange="atualizarInfoModalLocalidade()" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none cursor-pointer">
+                <option value="SP">SP - São Paulo</option><option value="RJ">RJ - Rio de Janeiro</option><option value="MG">MG - Minas Gerais</option><option value="RS">RS - Rio Grande do Sul</option><option value="PR">PR - Paraná</option><option value="SC">SC - Santa Catarina</option><option value="BA">BA - Bahia</option><option value="PE">PE - Pernambuco</option><option value="CE">CE - Ceará</option><option value="GO">GO - Goiás</option><option value="DF">DF - Distrito Federal</option><option value="ES">ES - Espírito Santo</option><option value="MT">MT - Mato Grosso</option><option value="MS">MS - Mato Grosso do Sul</option><option value="AM">AM - Amazonas</option><option value="PA">PA - Pará</option><option value="MA">MA - Maranhão</option><option value="PB">PB - Paraíba</option><option value="RN">RN - Rio Grande do Norte</option><option value="AL">AL - Alagoas</option><option value="PI">PI - Piauí</option><option value="SE">SE - Sergipe</option><option value="RO">RO - Rondônia</option><option value="TO">TO - Tocantins</option><option value="AC">AC - Acre</option><option value="AP">AP - Amapá</option><option value="RR">RR - Roraima</option><option value="OUTROS">Outros Estados</option>
               </select>
             </div>
 
-            <!-- 3. Especificar Cartório (Presets do Estado) -->
-            <div>
-              <label class="block text-slate-800 dark:text-slate-200 font-black text-xs mb-1">Especificar Cartório / Circunscrição do Estado:</label>
-              <select id="modal-sel-cartorio-preset" onchange="selecionarCartorioPresetModal(this.value)" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none cursor-pointer">
-                <!-- Populado dinamicamente com os cartórios do Estado -->
-              </select>
-            </div>
+            <!-- 2. ESTADO DO CARTÓRIO & ESPECIFICAÇÃO DA SERVENTIA -->
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-black dark:border-zinc-700 space-y-3">
+              <div class="space-y-1.5">
+                <label class="block text-slate-900 dark:text-white font-black text-xs">
+                  🏛️ 2. Estado do Cartório (Onde o ato é lavrado - qualquer Estado do Brasil):
+                </label>
+                <!-- Botões Rápidos de Estado do Cartório -->
+                <div class="flex flex-wrap gap-1 pb-1">
+                  <button type="button" onclick="selecionarUfCartorioModal('BA')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">BA (Bahia)</button>
+                  <button type="button" onclick="selecionarUfCartorioModal('SP')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">SP (São Paulo)</button>
+                  <button type="button" onclick="selecionarUfCartorioModal('RJ')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">RJ (Rio de Janeiro)</button>
+                  <button type="button" onclick="selecionarUfCartorioModal('MG')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">MG (Minas Gerais)</button>
+                  <button type="button" onclick="selecionarUfCartorioModal('PR')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">PR (Paraná)</button>
+                  <button type="button" onclick="selecionarUfCartorioModal('RS')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">RS (Rio Grande do Sul)</button>
+                  <button type="button" onclick="selecionarUfCartorioModal('SC')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">SC (Santa Catarina)</button>
+                  <button type="button" onclick="selecionarUfCartorioModal('GO')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">GO (Goiás)</button>
+                  <button type="button" onclick="selecionarUfCartorioModal('DF')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">DF (Brasília)</button>
+                </div>
+                <select id="modal-sel-cartorio-uf" onchange="selecionarUfCartorioModal(this.value)" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none cursor-pointer">
+                  <option value="SP">Estado do Cartório: SP - São Paulo</option><option value="RJ">Estado do Cartório: RJ - Rio de Janeiro</option><option value="MG">Estado do Cartório: MG - Minas Gerais</option><option value="RS">Estado do Cartório: RS - Rio Grande do Sul</option><option value="PR">Estado do Cartório: PR - Paraná</option><option value="SC">Estado do Cartório: SC - Santa Catarina</option><option value="BA">Estado do Cartório: BA - Bahia</option><option value="PE">Estado do Cartório: PE - Pernambuco</option><option value="CE">Estado do Cartório: CE - Ceará</option><option value="GO">Estado do Cartório: GO - Goiás</option><option value="DF">Estado do Cartório: DF - Distrito Federal</option><option value="ES">Estado do Cartório: ES - Espírito Santo</option><option value="MT">Estado do Cartório: MT - Mato Grosso</option><option value="MS">Estado do Cartório: MS - Mato Grosso do Sul</option><option value="AM">Estado do Cartório: AM - Amazonas</option><option value="PA">Estado do Cartório: PA - Pará</option><option value="MA">Estado do Cartório: MA - Maranhão</option><option value="PB">Estado do Cartório: PB - Paraíba</option><option value="RN">Estado do Cartório: RN - Rio Grande do Norte</option><option value="AL">Estado do Cartório: AL - Alagoas</option><option value="PI">Estado do Cartório: PI - Piauí</option><option value="SE">Estado do Cartório: SE - Sergipe</option><option value="RO">Estado do Cartório: RO - Rondônia</option><option value="TO">Estado do Cartório: TO - Tocantins</option><option value="AC">Estado do Cartório: AC - Acre</option><option value="AP">Estado do Cartório: AP - Amapá</option><option value="RR">Estado do Cartório: RR - Roraima</option><option value="OUTROS">Estado do Cartório: Outros Estados</option>
+                </select>
+              </div>
 
-            <!-- 4. Campos para Especificar Detalhes -->
-            <div class="grid grid-cols-2 gap-2">
+              <!-- Presets do Cartório -->
               <div>
-                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Especificar Nome / Número do Cartório:</label>
-                <input type="text" id="modal-inp-localidade-rgi" placeholder="Ex: 13º RGI de São Paulo" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none">
+                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Selecione o Cartório / Circunscrição do Estado:</label>
+                <select id="modal-sel-cartorio-preset" onchange="selecionarCartorioPresetModal(this.value)" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none cursor-pointer">
+                  <!-- Populado dinamicamente com os cartórios do Estado do Cartório -->
+                </select>
               </div>
-              <div>
-                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Comarca / Município:</label>
-                <input type="text" id="modal-inp-localidade-cidade" placeholder="Ex: São Paulo" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none">
-              </div>
-            </div>
 
-            <!-- 5. Matrícula e Custas -->
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Nº da Matrícula do Imóvel:</label>
-                <input type="text" id="modal-inp-localidade-matricula" placeholder="Ex: 105.420" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none">
+              <!-- Campos de Texto do Cartório -->
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Especificar Nome / Número do Cartório:</label>
+                  <input type="text" id="modal-inp-localidade-rgi" placeholder="Ex: 1º Ofício de Salvador / 13º RGI de São Paulo" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none">
+                </div>
+                <div>
+                  <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Comarca / Município do Cartório:</label>
+                  <input type="text" id="modal-inp-localidade-cidade" placeholder="Ex: Salvador" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none">
+                </div>
               </div>
-              <div>
-                <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Custas de Escritura &amp; Registro (R$):</label>
-                <div class="flex items-center gap-1">
-                  <input type="number" step="50" min="0" max="100000" id="modal-inp-localidade-custo-rgi" placeholder="Ex: 1500" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs font-mono focus:outline-none">
-                  <button type="button" onclick="restaurarCustoPadraoCartorioModal()" class="px-2 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-200 dark:hover:bg-zinc-700 transition cursor-pointer whitespace-nowrap" title="Puxar estimativa estadual">
-                    Tabela UF
-                  </button>
+
+              <!-- Matrícula e Custas -->
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Nº da Matrícula do Imóvel:</label>
+                  <input type="text" id="modal-inp-localidade-matricula" placeholder="Ex: 105.420" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none">
+                </div>
+                <div>
+                  <label class="block text-slate-800 dark:text-slate-200 font-black text-[11px] mb-1">Custas de Escritura &amp; Registro (R$):</label>
+                  <div class="flex items-center gap-1">
+                    <input type="number" step="50" min="0" max="100000" id="modal-inp-localidade-custo-rgi" placeholder="Ex: 1500" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs font-mono focus:outline-none">
+                    <button type="button" onclick="restaurarCustoPadraoCartorioModal()" class="px-2 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-200 dark:hover:bg-zinc-700 transition cursor-pointer whitespace-nowrap" title="Puxar estimativa do Estado do Cartório">
+                      Tabela UF
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
 
             <!-- Card informativo de Tributação Regional & Custas -->
             <div class="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-black dark:border-zinc-700 text-xs space-y-1">
-              <span class="font-black text-black dark:text-white block">⚖️ Impacto Tributário &amp; Custas no Custo de Aquisição:</span>
+              <span class="font-black text-black dark:text-white block">⚖️ Análise de Competência &amp; Custas:</span>
               <p class="text-[11px] text-slate-700 dark:text-slate-300 leading-tight" id="modal-localidade-resumo-tributario">
-                O ITCMD deste imóvel será recolhido exclusivamente para o Estado selecionado.
+                Imóvel situado em SP (ITCMD 4,00%). Custas de registro reguladas pelo Tribunal de Justiça do Estado do Cartório.
               </p>
             </div>
           </div>
@@ -2039,11 +2019,20 @@
       if (!state.imoveis[idx]) return;
       const im = state.imoveis[idx];
       im.uf = uf;
+      // Localidade do imóvel é independente da localidade do cartório
+      renderizarImoveis();
+      recalcularTudo();
+    }
+
+    function alterarUfCartorio(idx, ufCartorio) {
+      if (!state.imoveis[idx]) return;
+      const im = state.imoveis[idx];
+      im.ufCartorio = ufCartorio;
       
-      const lista = CARTORIOS_POR_ESTADO[uf] || [];
+      const lista = CARTORIOS_POR_ESTADO[ufCartorio] || [];
       if (lista.length > 0) {
         im.rgi = lista[0].id;
-        im.cidade = lista[0].cidade;
+        im.cidadeCartorio = lista[0].cidade;
         im.custoRegistroRgi = lista[0].custo;
       }
       
@@ -2067,11 +2056,11 @@
       const im = state.imoveis[idx];
       im.rgi = val;
       
-      const uf = im.uf || 'SP';
-      const lista = CARTORIOS_POR_ESTADO[uf] || [];
+      const ufCartorio = im.ufCartorio || im.uf || 'SP';
+      const lista = CARTORIOS_POR_ESTADO[ufCartorio] || [];
       const found = lista.find(c => c.id === val || c.nome === val);
       if (found) {
-        if (found.cidade) im.cidade = found.cidade;
+        if (found.cidade) im.cidadeCartorio = found.cidade;
         if (found.custo) im.custoRegistroRgi = found.custo;
       }
       
@@ -2085,7 +2074,6 @@
       renderizarImoveis();
       recalcularTudo();
     }
-
 
     const TABELA_ITCMD_ESTADOS = { SP: { nome:"São Paulo", tjNome:"TJSP", itcmd: 0.04, reg:"Fixa 4% (PL 2% a 8%)", rgiHolding: 1500, escrPfPct: 0.0100, tjPct: 0.0125, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual SP nº 11.608/03 (alt. Lei 17.785/23) e Lei 11.331/02" }, RJ: { nome:"Rio de Janeiro", tjNome:"TJRJ", itcmd: 0.06, reg:"4% a 8% Progressivo", rgiHolding: 2200, escrPfPct: 0.0130, tjPct: 0.0200, rgiFormalPct: 0.0050, leiJudiciaria:"Lei Estadual RJ nº 3.350/99 + FETJ/FUNDPERJ e Lei 7.174/15" }, MG: { nome:"Minas Gerais", tjNome:"TJMG", itcmd: 0.05, reg:"5% Fixo (Prop. 1% a 8%)", rgiHolding: 1600, escrPfPct: 0.0110, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual MG nº 14.939/03 e Provimento Conjunto TJMG" }, PR: { nome:"Paraná", tjNome:"TJPR", itcmd: 0.04, reg:"4% Fixo (Prop. 2% a 8%)", rgiHolding: 1400, escrPfPct: 0.0090, tjPct: 0.0120, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual PR nº 13.611/02 e Tabela TJPR" }, RS: { nome:"Rio Grande do Sul", tjNome:"TJRS", itcmd: 0.05, reg:"3% a 6% Progressivo", rgiHolding: 1300, escrPfPct: 0.0100, tjPct: 0.0150, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual RS nº 14.634/14 e Tabela TJRS" }, SC: { nome:"Santa Catarina", tjNome:"TJSC", itcmd: 0.04, reg:"1% a 8% Progressivo", rgiHolding: 1200, escrPfPct: 0.0080, tjPct: 0.0130, rgiFormalPct: 0.0040, leiJudiciaria:"LCE SC nº 156/97 e Tabela TJSC" }, BA: { nome:"Bahia", tjNome:"TJBA", itcmd: 0.06, reg:"3,5% a 8% Progressivo", rgiHolding: 1900, escrPfPct: 0.0120, tjPct: 0.0150, rgiFormalPct: 0.0050, leiJudiciaria:"Lei Estadual BA nº 12.373/11 e Lei 14.025/18" }, GO: { nome:"Goiás", tjNome:"TJGO", itcmd: 0.05, reg:"2% a 8% Progressivo", rgiHolding: 1500, escrPfPct: 0.0100, tjPct: 0.0150, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual GO nº 14.376/02 e Tabela TJGO" }, DF: { nome:"Distrito Federal", tjNome:"TJDFT", itcmd: 0.05, reg:"4% a 6% Progressivo", rgiHolding: 1100, escrPfPct: 0.0070, tjPct: 0.0080, rgiFormalPct: 0.0035, leiJudiciaria:"Decreto-Lei nº 115/67 e Tabela de Custas TJDFT" }, PE: { nome:"Pernambuco", tjNome:"TJPE", itcmd: 0.05, reg:"2% a 8% Progressivo", rgiHolding: 1800, escrPfPct: 0.0110, tjPct: 0.0160, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual PE nº 11.404/96 e Tabela TJPE" }, CE: { nome:"Ceará", tjNome:"TJCE", itcmd: 0.04, reg:"2% a 8% Progressivo", rgiHolding: 1550, escrPfPct: 0.0100, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual CE nº 15.834/15 e Tabela TJCE" }, ES: { nome:"Espírito Santo", tjNome:"TJES", itcmd: 0.04, reg:"4% Fixo", rgiHolding: 1350, escrPfPct: 0.0090, tjPct: 0.0140, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual ES nº 9.974/13 e Tabela TJES" }, MT: { nome:"Mato Grosso", tjNome:"TJMT", itcmd: 0.04, reg:"2% a 8% Progressivo", rgiHolding: 1450, escrPfPct: 0.0100, tjPct: 0.0150, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual MT nº 7.603/01 e Tabela TJMT" }, MS: { nome:"Mato Grosso do Sul", tjNome:"TJMS", itcmd: 0.04, reg:"3% a 6% Progressivo", rgiHolding: 1400, escrPfPct: 0.0095, tjPct: 0.0140, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual MS nº 3.779/09 e Tabela TJMS" }, PA: { nome:"Pará", tjNome:"TJPA", itcmd: 0.04, reg:"4% Fixo", rgiHolding: 1650, escrPfPct: 0.0110, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual PA nº 8.328/15 e Tabela TJPA" }, AM: { nome:"Amazonas", tjNome:"TJAM", itcmd: 0.02, reg:"2% Fixo (Menor BR)", rgiHolding: 1250, escrPfPct: 0.0085, tjPct: 0.0120, rgiFormalPct: 0.0035, leiJudiciaria:"Lei Estadual AM nº 2.750/02 e Tabela TJAM" }, MA: { nome:"Maranhão", tjNome:"TJMA", itcmd: 0.05, reg:"3% a 7% Progressivo", rgiHolding: 1700, escrPfPct: 0.0115, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual MA nº 9.109/09 e Tabela TJMA" }, PB: { nome:"Paraíba", tjNome:"TJPB", itcmd: 0.05, reg:"2% a 8% Progressivo", rgiHolding: 1600, escrPfPct: 0.0105, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual PB nº 6.688/98 e Tabela TJPB" }, RN: { nome:"Rio Grande do Norte", tjNome:"TJRN", itcmd: 0.04, reg:"3% a 6% Progressivo", rgiHolding: 1500, escrPfPct: 0.0100, tjPct: 0.0140, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual RN nº 9.278/09 e Tabela TJRN" }, AL: { nome:"Alagoas", tjNome:"TJAL", itcmd: 0.04, reg:"2% a 4% Progressivo", rgiHolding: 1550, escrPfPct: 0.0105, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual AL nº 6.582/05 e Tabela TJAL" }, PI: { nome:"Piauí", tjNome:"TJPI", itcmd: 0.04, reg:"2% a 6% Progressivo", rgiHolding: 1500, escrPfPct: 0.0100, tjPct: 0.0140, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual PI nº 5.425/04 e Tabela TJPI" }, SE: { nome:"Sergipe", tjNome:"TJSE", itcmd: 0.05, reg:"2% a 8% Progressivo", rgiHolding: 1650, escrPfPct: 0.0110, tjPct: 0.0150, rgiFormalPct: 0.0045, leiJudiciaria:"Lei Estadual SE nº 5.372/04 e Tabela TJSE" }, RO: { nome:"Rondônia", tjNome:"TJRO", itcmd: 0.04, reg:"2% a 4% Progressivo", rgiHolding: 1350, escrPfPct: 0.0090, tjPct: 0.0140, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual RO nº 3.830/16 e Tabela TJRO" }, TO: { nome:"Tocantins", tjNome:"TJTO", itcmd: 0.04, reg:"2% a 8% Progressivo", rgiHolding: 1400, escrPfPct: 0.0095, tjPct: 0.0140, rgiFormalPct: 0.0040, leiJudiciaria:"Lei Estadual TO nº 2.812/13 e Tabela TJTO" }, AC: { nome:"Acre", tjNome:"TJAC", itcmd: 0.04, reg:"2% a 4% Progressivo", rgiHolding: 1300, escrPfPct: 0.0085, tjPct: 0.0130, rgiFormalPct: 0.0035, leiJudiciaria:"Lei Complementar AC nº 136/04 e Tabela TJAC" }, AP: { nome:"Amapá", tjNome:"TJAP", itcmd: 0.03, reg:"3% a 4% Progressivo", rgiHolding: 1200, escrPfPct: 0.0080, tjPct: 0.0130, rgiFormalPct: 0.0035, leiJudiciaria:"Lei Estadual AP nº 0204/95 e Tabela TJAP" }, RR: { nome:"Roraima", tjNome:"TJRR", itcmd: 0.04, reg:"4% Fixo", rgiHolding: 1300, escrPfPct: 0.0085, tjPct: 0.0130, rgiFormalPct: 0.0035, leiJudiciaria:"Lei Estadual RR nº 107/95 e Tabela TJRR" }, OUTROS: { nome:"Outros Estados (Média)", tjNome:"TJ (Média Brasil)", itcmd: 0.04, reg:"4% Média Brasil", rgiHolding: 1500, escrPfPct: 0.0100, tjPct: 0.0150, rgiFormalPct: 0.0040, leiJudiciaria:"Média dos Tribunais Estaduais (TJ) e Lei 6.015/73" } }; const state = {
     regimeCasamento: 'comunhao_parcial',
@@ -2238,24 +2226,33 @@ function renderizarImoveis() {
         </div>
       </td>
 
-      <!-- 4. ESTADO (APENAS ESTADO, SEM RGI OU NÚMEROS) -->
+      <!-- 4. LOCALIDADE DO IMÓVEL (ESTADO ONDE O IMÓVEL FÍSICO ESTÁ SITUADO) -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
-          <select onchange="alterarUfImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer" title="Selecione o Estado">
+          <select onchange="alterarUfImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer" title="Localidade do Imóvel Físico: Selecione o Estado onde o imóvel está situado (Competência Tributária de ITCMD)">
             ${Object.keys(TABELA_ITCMD_ESTADOS).filter(k => k !== 'OUTROS').map(uf => `<option value="${uf}" ${(im.uf || 'SP') === uf ? 'selected' : ''}>${uf} - ${TABELA_ITCMD_ESTADOS[uf].nome}</option>`).join('')}
             <option value="OUTROS" ${im.uf === 'OUTROS' ? 'selected' : ''}>Outros Estados</option>
           </select>
-          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Estado">📍</span>
+          <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Localidade Física do Imóvel">📍</span>
         </div>
       </td>
 
-      <!-- 5. CARTÓRIO / RGI (AO LADO DO ESTADO: SELEÇÃO DO CARTÓRIO + BOTÃO ESPECIFICAR) -->
+      <!-- 5. CARTÓRIO (ESTADO DO CARTÓRIO INDEPENDENTE + SELETOR DE RGI + BOTÃO ESPECIFICAR) -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
-          <select onchange="alterarRgiImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer max-w-[200px]" title="Selecione o Cartório / RGI de ${im.uf || 'SP'}">
-            ${obterOpcoesCartoriosSelect(im.uf || 'SP', im.rgi || '13º RGI de São Paulo')}
+          <!-- 1. Estado do Cartório (Totalmente Independente da Localização do Imóvel) -->
+          <select onchange="alterarUfCartorio(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer" title="Estado do Cartório: Selecione o Estado onde o registro/escritura foi ou será lavrado (ex: Bahia, São Paulo, etc.)">
+            ${Object.keys(TABELA_ITCMD_ESTADOS).filter(k => k !== 'OUTROS').map(uf => `<option value="${uf}" ${(im.ufCartorio || im.uf || 'SP') === uf ? 'selected' : ''}>${uf}</option>`).join('')}
+            <option value="OUTROS" ${(im.ufCartorio || im.uf) === 'OUTROS' ? 'selected' : ''}>OUT</option>
           </select>
-          <button type="button" onclick="abrirModalCartorio(${idx})" class="px-1.5 py-0.5 rounded-md border border-slate-300 dark:border-zinc-700 bg-slate-100 dark:bg-zinc-800 text-[10px] font-bold text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition cursor-pointer flex items-center gap-0.5 flex-shrink-0" title="Clique para especificar número do cartório, matrícula, comarca e custas">
+
+          <!-- 2. Cartório / RGI daquele Estado -->
+          <select onchange="alterarRgiImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer max-w-[185px]" title="Cartório / Circunscrição do Estado ${im.ufCartorio || im.uf || 'SP'}">
+            ${obterOpcoesCartoriosSelect(im.ufCartorio || im.uf || 'SP', im.rgi || '13º RGI de São Paulo')}
+          </select>
+
+          <!-- 3. Botão Especificar Detalhes -->
+          <button type="button" onclick="abrirModalCartorio(${idx})" class="px-1.5 py-0.5 rounded-md border border-slate-300 dark:border-zinc-700 bg-slate-100 dark:bg-zinc-800 text-[10px] font-bold text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition cursor-pointer flex items-center gap-0.5 flex-shrink-0" title="Clique para abrir e especificar número do cartório, comarca, matrícula e custas">
             <span>✏️</span><span class="text-[9px]">Especificar</span>
           </button>
         </div>
@@ -2948,40 +2945,34 @@ function obterResumoTitulares(im) {
 /* MODAL DE LOCALIDADE DO IMÓVEL (UF / MUNICÍPIO / ITCMD / ITBI / RGI) */
 
     function abrirModalCartorio(idx) {
-      abrirModalLocalidade(idx);
-    }
-
-    function abrirModalLocalidade(idx) {
+      if (!state.imoveis[idx]) return;
       state.modalImovelIndex = idx;
       const im = state.imoveis[idx];
-      if (!im) return;
-
-      const modal = document.getElementById('modal-localidade-imovel');
-      const lblNome = document.getElementById('modal-localidade-imovel-nome');
-      if (lblNome) lblNome.innerText = `Cartório & Região • ${im.nome}`;
-
-      const selUf = document.getElementById('modal-sel-localidade-uf');
-      if (selUf) selUf.value = im.uf || 'SP';
-
-      const inpCidade = document.getElementById('modal-inp-localidade-cidade');
-      if (inpCidade) inpCidade.value = im.cidade || 'São Paulo';
-
+      
+      const selUfImovel = document.getElementById('modal-sel-localidade-uf');
+      const selUfCartorio = document.getElementById('modal-sel-cartorio-uf');
       const inpRgi = document.getElementById('modal-inp-localidade-rgi');
-      if (inpRgi) inpRgi.value = im.rgi || '13º RGI de São Paulo';
-
+      const inpCidade = document.getElementById('modal-inp-localidade-cidade');
       const inpMatricula = document.getElementById('modal-inp-localidade-matricula');
-      if (inpMatricula) inpMatricula.value = im.matricula || '-';
-
       const inpCustoRgi = document.getElementById('modal-inp-localidade-custo-rgi');
-      if (inpCustoRgi) {
-        const uf = im.uf || 'SP';
-        const tInfo = (typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[uf]) ? TABELA_ITCMD_ESTADOS[uf] : null;
-        inpCustoRgi.value = im.custoRegistroRgi || (tInfo ? tInfo.rgiHolding : 1500);
-      }
-
-      popularPresetsCartoriosModal(im.uf || 'SP', im.rgi);
+      
+      if (selUfImovel) selUfImovel.value = im.uf || 'SP';
+      
+      const ufCartorio = im.ufCartorio || im.uf || 'SP';
+      if (selUfCartorio) selUfCartorio.value = ufCartorio;
+      
+      popularPresetsCartoriosModal(ufCartorio, im.rgi || '');
+      
+      if (inpRgi) inpRgi.value = im.rgi || '13º RGI de São Paulo';
+      if (inpCidade) inpCidade.value = im.cidadeCartorio || im.cidade || 'São Paulo';
+      if (inpMatricula) inpMatricula.value = im.matricula || '-';
+      
+      const tInfo = (typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[ufCartorio]) ? TABELA_ITCMD_ESTADOS[ufCartorio] : null;
+      if (inpCustoRgi) inpCustoRgi.value = (im.custoRegistroRgi !== undefined && im.custoRegistroRgi !== null) ? im.custoRegistroRgi : (tInfo ? tInfo.rgiHolding : 1500);
+      
       atualizarInfoModalLocalidade();
-
+      
+      const modal = document.getElementById('modal-localidade-imovel');
       if (modal) modal.classList.remove('hidden');
     }
 
@@ -3010,8 +3001,8 @@ function obterResumoTitulares(im) {
 
     function selecionarCartorioPresetModal(val) {
       if (!val) return;
-      const selUf = document.getElementById('modal-sel-localidade-uf');
-      const uf = selUf ? selUf.value : 'SP';
+      const selUfCartorio = document.getElementById('modal-sel-cartorio-uf') || document.getElementById('modal-sel-localidade-uf');
+      const uf = selUfCartorio ? selUfCartorio.value : 'SP';
       const lista = CARTORIOS_POR_ESTADO[uf] || [];
       const found = lista.find(c => c.id === val);
       if (found) {
@@ -3032,41 +3023,46 @@ function obterResumoTitulares(im) {
     }
 
     function restaurarCustoPadraoCartorioModal() {
-      const selUf = document.getElementById('modal-sel-localidade-uf');
+      const selUfCartorio = document.getElementById('modal-sel-cartorio-uf') || document.getElementById('modal-sel-localidade-uf');
       const inpCustoRgi = document.getElementById('modal-inp-localidade-custo-rgi');
-      if (!selUf || !inpCustoRgi) return;
-      const uf = selUf.value;
+      if (!selUfCartorio || !inpCustoRgi) return;
+      const uf = selUfCartorio.value;
       const tInfo = (typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[uf]) ? TABELA_ITCMD_ESTADOS[uf] : null;
       inpCustoRgi.value = tInfo ? tInfo.rgiHolding : 1500;
     }
 
     function atualizarInfoModalLocalidade() {
-      const selUf = document.getElementById('modal-sel-localidade-uf');
+      const selUfImovel = document.getElementById('modal-sel-localidade-uf');
+      const selUfCartorio = document.getElementById('modal-sel-cartorio-uf');
       const elResumo = document.getElementById('modal-localidade-resumo-tributario');
-      if (!selUf || !elResumo) return;
+      if (!selUfImovel || !elResumo) return;
 
-      const uf = selUf.value;
-      const tInfo = (typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[uf]) ? TABELA_ITCMD_ESTADOS[uf] : null;
-      const nomeEstado = tInfo ? tInfo.nome : uf;
-      const reg = tInfo ? tInfo.reg : "4% Média Brasil";
-      const itcmdVal = tInfo ? ((tInfo.itcmd * 100).toFixed(2).replace('.', ',') + '%') : "4,00%";
-      const rgiRef = tInfo ? ('R$ ' + tInfo.rgiHolding.toLocaleString('pt-BR') + ',00') : "R$ 1.500,00";
-      const leiRef = tInfo ? tInfo.leiJudiciaria : "Lei de Custas e Emolumentos";
+      const ufImovel = selUfImovel.value;
+      const ufCartorio = selUfCartorio ? selUfCartorio.value : ufImovel;
+      const tInfoImovel = (typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[ufImovel]) ? TABELA_ITCMD_ESTADOS[ufImovel] : null;
+      const tInfoCartorio = (typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[ufCartorio]) ? TABELA_ITCMD_ESTADOS[ufCartorio] : null;
 
-      elResumo.innerHTML = `<strong>ITCMD:</strong> Recolhido para ${nomeEstado} (${reg} • Alíquota: ${itcmdVal}, Art. 155 da CF).<br><strong>Custas de Registro (RGI):</strong> Ref. ${rgiRef} por imóvel (${leiRef}).`;
+      const aliqItcmd = tInfoImovel ? (tInfoImovel.itcmd * 100).toFixed(2) + '%' : '4,00%';
+      const regItcmd = tInfoImovel ? tInfoImovel.reg : '4% Fixo';
+      const tjCartorio = tInfoCartorio ? tInfoCartorio.tjNome : 'TJ';
+      const custaRef = tInfoCartorio ? ('R$ ' + tInfoCartorio.rgiHolding.toLocaleString('pt-BR') + ',00') : 'R$ 1.500,00';
+
+      elResumo.innerHTML = `Imóvel situado em <strong>${ufImovel}</strong> (ITCMD: ${aliqItcmd} - ${regItcmd}). Registro/Escritura lavrado no Estado <strong>${ufCartorio}</strong> (${tjCartorio} - Custas estimadas: ${custaRef}).`;
     }
 
     function salvarModalLocalidade() {
       if (state.modalImovelIndex === null) return;
       const im = state.imoveis[state.modalImovelIndex];
-      const selUf = document.getElementById('modal-sel-localidade-uf');
+      const selUfImovel = document.getElementById('modal-sel-localidade-uf');
+      const selUfCartorio = document.getElementById('modal-sel-cartorio-uf');
       const inpCidade = document.getElementById('modal-inp-localidade-cidade');
       const inpRgi = document.getElementById('modal-inp-localidade-rgi');
       const inpMatricula = document.getElementById('modal-inp-localidade-matricula');
       const inpCustoRgi = document.getElementById('modal-inp-localidade-custo-rgi');
 
-      if (selUf) im.uf = selUf.value;
-      if (inpCidade) im.cidade = inpCidade.value.trim() || 'São Paulo';
+      if (selUfImovel) im.uf = selUfImovel.value;
+      if (selUfCartorio) im.ufCartorio = selUfCartorio.value;
+      if (inpCidade) im.cidadeCartorio = inpCidade.value.trim() || 'São Paulo';
       if (inpRgi) im.rgi = inpRgi.value.trim() || 'Cartório de RGI';
       if (inpMatricula) im.matricula = inpMatricula.value.trim() || '-';
       if (inpCustoRgi) {
@@ -3085,17 +3081,25 @@ function obterResumoTitulares(im) {
       recalcularTudo();
     }
 
-    function selecionarUfModal(uf) {
-      const selUf = document.getElementById('modal-sel-localidade-uf');
-      if (selUf) {
-        selUf.value = uf;
-        popularPresetsCartoriosModal(uf);
-        const lista = CARTORIOS_POR_ESTADO[uf] || [];
+    function selecionarUfCartorioModal(ufCartorio) {
+      const selUfCartorio = document.getElementById('modal-sel-cartorio-uf');
+      if (selUfCartorio) {
+        selUfCartorio.value = ufCartorio;
+        popularPresetsCartoriosModal(ufCartorio);
+        const lista = CARTORIOS_POR_ESTADO[ufCartorio] || [];
         if (lista.length > 0) {
           selecionarCartorioPresetModal(lista[0].id);
         } else {
           restaurarCustoPadraoCartorioModal();
         }
+        atualizarInfoModalLocalidade();
+      }
+    }
+
+    function selecionarUfModal(uf) {
+      const selUf = document.getElementById('modal-sel-localidade-uf');
+      if (selUf) {
+        selUf.value = uf;
         atualizarInfoModalLocalidade();
       }
     }
