@@ -2237,24 +2237,19 @@ function renderizarImoveis() {
         </div>
       </td>
 
-      <!-- 5. CARTÓRIO (ESTADO DO CARTÓRIO INDEPENDENTE + SELETOR DE RGI + BOTÃO ESPECIFICAR) -->
+      <!-- 5. CARTÓRIO (ESTADO DO CARTÓRIO INDEPENDENTE + SELETOR DE RGI) -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
           <!-- 1. Estado do Cartório (Totalmente Independente da Localização do Imóvel) -->
-          <select onchange="alterarUfCartorio(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer" title="Estado do Cartório: Selecione o Estado onde o registro/escritura foi ou será lavrado (ex: Bahia, São Paulo, etc.)">
+          <select onchange="alterarUfCartorio(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer" title="Estado do Cartório: Selecione o Estado onde o registro/escritura foi ou será lavrado">
             ${Object.keys(TABELA_ITCMD_ESTADOS).filter(k => k !== 'OUTROS').map(uf => `<option value="${uf}" ${(im.ufCartorio || im.uf || 'SP') === uf ? 'selected' : ''}>${uf}</option>`).join('')}
             <option value="OUTROS" ${(im.ufCartorio || im.uf) === 'OUTROS' ? 'selected' : ''}>OUT</option>
           </select>
 
           <!-- 2. Cartório / RGI daquele Estado -->
-          <select onchange="alterarRgiImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer max-w-[185px]" title="Cartório / Circunscrição do Estado ${im.ufCartorio || im.uf || 'SP'}">
+          <select onchange="alterarRgiImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer max-w-[210px]" title="Cartório / Circunscrição do Estado ${im.ufCartorio || im.uf || 'SP'}">
             ${obterOpcoesCartoriosSelect(im.ufCartorio || im.uf || 'SP', im.rgi || '13º RGI de São Paulo')}
           </select>
-
-          <!-- 3. Botão Especificar Detalhes -->
-          <button type="button" onclick="abrirModalCartorio(${idx})" class="px-1.5 py-0.5 rounded-md border border-slate-300 dark:border-zinc-700 bg-slate-100 dark:bg-zinc-800 text-[10px] font-bold text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition cursor-pointer flex items-center gap-0.5 flex-shrink-0" title="Clique para abrir e especificar número do cartório, comarca, matrícula e custas">
-            <span>✏️</span><span class="text-[9px]">Especificar</span>
-          </button>
         </div>
       </td>
 
