@@ -1615,10 +1615,9 @@
         </div>
       </div>
 
-      
-      <!-- 6. MODAL DE HISTÓRICO, PERÍODOS & EVOLUÇÃO DE ALUGUEL E VACÂNCIA POR ANO -->
+      <!-- 6. MODAL DE HISTÓRICO DE ALUGUEL & VACÂNCIA -->
       <div id="modal-aluguel-imovel" class="hidden fixed inset-0 bg-black/70 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-zinc-950 rounded-2xl max-w-4xl w-full p-5 shadow-2xl border border-black dark:border-zinc-700 space-y-4 max-h-[90vh] flex flex-col">
+        <div class="bg-white dark:bg-zinc-950 rounded-2xl max-w-3xl w-full p-5 shadow-2xl border border-black dark:border-zinc-700 space-y-4 max-h-[90vh] flex flex-col">
           
           <!-- Cabeçalho -->
           <div class="flex justify-between items-center pb-3 border-b border-black dark:border-zinc-700 shrink-0">
@@ -1640,7 +1639,7 @@
             </div>
           </div>
 
-          <!-- Tabela de Períodos e Anos -->
+          <!-- Tabela de Períodos e Anos (Sem coluna Yield s/ Mercado) -->
           <div class="overflow-y-auto pr-1 flex-1 border border-black dark:border-zinc-700 rounded-xl">
             <table class="w-full text-xs text-left">
               <thead class="bg-slate-100 dark:bg-zinc-900 text-black dark:text-white uppercase text-[10px] font-bold border-b border-black dark:border-zinc-700 sticky top-0">
@@ -1648,7 +1647,6 @@
                   <th class="p-2.5 text-center">Ano / Período</th>
                   <th class="p-2.5 text-center">Aluguel Mensal (R$/m)</th>
                   <th class="p-2.5 text-center" title="Quantidade de meses de vacância no ano (0 a 12 meses)">Vacância (meses)</th>
-                  <th class="p-2.5 text-center" title="Yield Anual sobre o Valor de Mercado">Yield s/ Mercado (% a.a.)</th>
                   <th class="p-2.5 text-center">Ações</th>
                 </tr>
               </thead>
@@ -1658,22 +1656,14 @@
             </table>
           </div>
 
-          <!-- Resumo de Médias & Botões de Ação do Modal -->
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pt-3 border-t border-black dark:border-zinc-700 shrink-0">
-            <div class="text-xs text-slate-700 dark:text-slate-300 flex items-center gap-3 flex-wrap font-bold">
-              <span>Média de Vacância: <b id="modal-aluguel-media-vacancia" class="text-black dark:text-white font-mono font-black">0 meses/ano</b></span>
-              <span>•</span>
-              <span>Total de Períodos: <b id="modal-aluguel-total-periodos" class="text-black dark:text-white font-mono font-black">0 anos</b></span>
-            </div>
-
-            <div class="flex items-center gap-2 ml-auto">
-              <button type="button" onclick="fecharModalAluguel()" class="px-4 py-2 rounded-xl bg-white dark:bg-zinc-900 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs transition cursor-pointer hover:bg-slate-100 dark:hover:bg-zinc-800">
-                Cancelar
-              </button>
-              <button type="button" onclick="salvarModalAluguel()" class="px-4 py-2 rounded-xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white font-black text-xs shadow-xs transition cursor-pointer">
-                ✓ Salvar &amp; Sincronizar com Imóvel
-              </button>
-            </div>
+          <!-- Botões de Ação do Modal (Sem Média de Vacância e Total de Períodos) -->
+          <div class="flex justify-end items-center gap-2 pt-3 border-t border-black dark:border-zinc-700 shrink-0">
+            <button type="button" onclick="fecharModalAluguel()" class="px-4 py-2 rounded-xl bg-white dark:bg-zinc-900 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs transition cursor-pointer hover:bg-slate-100 dark:hover:bg-zinc-800">
+              Cancelar
+            </button>
+            <button type="button" onclick="salvarModalAluguel()" class="px-4 py-2 rounded-xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white font-black text-xs shadow-xs transition cursor-pointer">
+              ✓ Salvar &amp; Sincronizar com Imóvel
+            </button>
           </div>
 
         </div>
@@ -3258,13 +3248,9 @@ function obterResumoTitulares(im) {
       if (!tbody || !im || !im.periodosAluguel) return;
 
       tbody.innerHTML = '';
-      const valorMercado = im.mercado || 1;
 
       im.periodosAluguel.forEach((p, pIdx) => {
         const vacMeses = p.vacanciaMeses !== undefined ? p.vacanciaMeses : 0;
-        const mesesLocados = Math.max(0, 12 - vacMeses);
-        const receitaAnual = (p.aluguel || 0) * mesesLocados;
-        const yieldMercado = (receitaAnual / valorMercado) * 100;
 
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-slate-50 dark:hover:bg-zinc-900 transition border-b border-slate-200 dark:border-zinc-800 text-black dark:text-white';
@@ -3283,9 +3269,6 @@ function obterResumoTitulares(im) {
               <input type="number" min="0" max="12" step="1" value="${vacMeses}" onchange="atualizarPeriodoAluguelVacancia(${pIdx}, this.value)" class="w-16 p-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs text-center font-mono focus:outline-none shadow-2xs" title="Quantidade de meses vagos no ano">
               <span class="text-[10px] text-slate-400 select-none">✏️</span>
             </div>
-          </td>
-          <td class="p-2 text-center font-bold font-mono text-xs">
-            ${yieldMercado.toFixed(2).replace('.', ',')}% a.a.
           </td>
           <td class="p-2 text-center">
             <button type="button" onclick="removerPeriodoAluguelModal(${pIdx})" class="px-2.5 py-1 rounded-lg bg-white dark:bg-zinc-950 hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-xs border border-black dark:border-zinc-700 hover:border-black dark:hover:border-white transition shadow-2xs cursor-pointer" title="Excluir este período">
