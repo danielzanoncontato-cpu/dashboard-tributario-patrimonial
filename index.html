@@ -1647,6 +1647,7 @@
                   <th class="p-2.5 text-center">Ano / Período</th>
                   <th class="p-2.5 text-center">Aluguel Mensal (R$/m)</th>
                   <th class="p-2.5 text-center" title="Quantidade de meses de vacância no ano (0 a 12 meses)">Vacância (meses)</th>
+                  <th class="p-2.5 text-center" title="Custo fixo de IPTU do imóvel">IPTU</th>
                   <th class="p-2.5 text-center">Ações</th>
                 </tr>
               </thead>
@@ -3213,18 +3214,19 @@ function obterResumoTitulares(im) {
         const aluguelAtual = im.aluguel || 10000;
         const vacAtual = im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0;
 
+        const iptuAtual = im.iptu || 0;
         if (anoAquisicao < anoAtual - 1) {
           const anoMeio = Math.round((anoAquisicao + anoAtual) / 2);
           const aluguelMeio = Math.round((aluguelAquisicao + aluguelAtual) / 2);
           im.periodosAluguel = [
-            { ano: anoAquisicao, aluguel: aluguelAquisicao, vacanciaMeses: 0 },
-            { ano: anoMeio, aluguel: aluguelMeio, vacanciaMeses: 1 },
-            { ano: anoAtual, aluguel: aluguelAtual, vacanciaMeses: vacAtual }
+            { ano: anoAquisicao, aluguel: aluguelAquisicao, vacanciaMeses: 0, iptu: Math.round(iptuAtual * 0.6) },
+            { ano: anoMeio, aluguel: aluguelMeio, vacanciaMeses: 1, iptu: Math.round(iptuAtual * 0.8) },
+            { ano: anoAtual, aluguel: aluguelAtual, vacanciaMeses: vacAtual, iptu: iptuAtual }
           ];
         } else {
           im.periodosAluguel = [
-            { ano: anoAtual - 1, aluguel: aluguelAquisicao, vacanciaMeses: 0 },
-            { ano: anoAtual, aluguel: aluguelAtual, vacanciaMeses: vacAtual }
+            { ano: anoAtual - 1, aluguel: aluguelAquisicao, vacanciaMeses: 0, iptu: Math.round(iptuAtual * 0.8) },
+            { ano: anoAtual, aluguel: aluguelAtual, vacanciaMeses: vacAtual, iptu: iptuAtual }
           ];
         }
       }
@@ -3251,6 +3253,7 @@ function obterResumoTitulares(im) {
 
       im.periodosAluguel.forEach((p, pIdx) => {
         const vacMeses = p.vacanciaMeses !== undefined ? p.vacanciaMeses : 0;
+        const iptuVal = p.iptu !== undefined ? p.iptu : (im.iptu || 0);
 
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-slate-50 dark:hover:bg-zinc-900 transition border-b border-slate-200 dark:border-zinc-800 text-black dark:text-white';
@@ -3260,13 +3263,19 @@ function obterResumoTitulares(im) {
           </td>
           <td class="p-2 text-center">
             <div class="flex items-center justify-center gap-1">
-              <input type="text" value="${formatMoney(p.aluguel)}" onfocus="this.value=formatarNumeroDigitacaoBR(p.aluguel)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); atualizarPeriodoAluguelValor(${pIdx}, this.value);" class="w-32 p-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs text-center font-mono focus:outline-none shadow-2xs" placeholder="R$ 0,00">
+              <input type="text" value="${formatMoney(p.aluguel)}" onfocus="this.value=formatarNumeroDigitacaoBR(p.aluguel)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); atualizarPeriodoAluguelValor(${pIdx}, this.value);" class="w-28 p-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs text-center font-mono focus:outline-none shadow-2xs" placeholder="R$ 0,00">
               <span class="text-[10px] text-slate-400 select-none">✏️</span>
             </div>
           </td>
           <td class="p-2 text-center">
             <div class="flex items-center justify-center gap-1">
               <input type="number" min="0" max="12" step="1" value="${vacMeses}" onchange="atualizarPeriodoAluguelVacancia(${pIdx}, this.value)" class="w-16 p-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs text-center font-mono focus:outline-none shadow-2xs" title="Quantidade de meses vagos no ano">
+              <span class="text-[10px] text-slate-400 select-none">✏️</span>
+            </div>
+          </td>
+          <td class="p-2 text-center">
+            <div class="flex items-center justify-center gap-1">
+              <input type="text" value="${formatMoney(iptuVal)}" onfocus="this.value=formatarNumeroDigitacaoBR(iptuVal)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); atualizarPeriodoAluguelIptu(${pIdx}, this.value);" class="w-28 p-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs text-center font-mono focus:outline-none shadow-2xs" placeholder="R$ 0,00" title="Custo fixo de IPTU (R$)">
               <span class="text-[10px] text-slate-400 select-none">✏️</span>
             </div>
           </td>
@@ -3309,6 +3318,16 @@ function obterResumoTitulares(im) {
       }
     }
 
+    function atualizarPeriodoAluguelIptu(pIdx, val) {
+      if (state.modalImovelIndex === null) return;
+      const im = state.imoveis[state.modalImovelIndex];
+      if (im && im.periodosAluguel && im.periodosAluguel[pIdx]) {
+        im.periodosAluguel[pIdx].iptu = parseMoneyBR(val);
+        renderizarListaModalAluguel();
+        atualizarResumoModalAluguel();
+      }
+    }
+
     function adicionarPeriodoAluguelModal() {
       if (state.modalImovelIndex === null) return;
       const im = state.imoveis[state.modalImovelIndex];
@@ -3319,11 +3338,13 @@ function obterResumoTitulares(im) {
       const proximoAno = ultimo ? (ultimo.ano + 1) : new Date().getFullYear();
       const valorBase = ultimo ? ultimo.aluguel : (im.aluguel || 5000);
       const vacBase = ultimo ? ultimo.vacanciaMeses : 0;
+      const iptuBase = ultimo ? (ultimo.iptu !== undefined ? ultimo.iptu : (im.iptu || 0)) : (im.iptu || 0);
 
       im.periodosAluguel.push({
         ano: proximoAno,
         aluguel: valorBase,
-        vacanciaMeses: vacBase
+        vacanciaMeses: vacBase,
+        iptu: iptuBase
       });
 
       renderizarListaModalAluguel();
@@ -3344,11 +3365,14 @@ function obterResumoTitulares(im) {
       const proximoAno = ultimo ? (ultimo.ano + 1) : new Date().getFullYear();
       const valorBase = ultimo ? ultimo.aluguel : (im.aluguel || 5000);
       const novoValorReajustado = Math.round(valorBase * fator);
+      const iptuBase = ultimo ? (ultimo.iptu !== undefined ? ultimo.iptu : (im.iptu || 0)) : (im.iptu || 0);
+      const novoIptuReajustado = Math.round(iptuBase * fator);
 
       im.periodosAluguel.push({
         ano: proximoAno,
         aluguel: novoValorReajustado,
-        vacanciaMeses: 0
+        vacanciaMeses: 0,
+        iptu: novoIptuReajustado
       });
 
       renderizarListaModalAluguel();
@@ -3397,6 +3421,9 @@ function obterResumoTitulares(im) {
         if (ultimo) {
           im.aluguel = ultimo.aluguel;
           im.vacanciaMeses = ultimo.vacanciaMeses !== undefined ? ultimo.vacanciaMeses : 0;
+          if (ultimo.iptu !== undefined) {
+            im.iptu = ultimo.iptu;
+          }
         }
       }
 
