@@ -483,7 +483,7 @@
               <span class="text-slate-400 dark:text-zinc-600 font-normal mx-0.5">|</span>
               <span id="lbl-tot-aluguel-anual-condensado">R$ 306.000,00/ano</span>
             </td>
-            <td class="p-2.5 text-center font-mono font-bold text-xs" id="lbl-tot-vacancia-condensado" title="Custo total somado anexado no período de vacância de todos os imóveis (Aluguel + IPTU + Condomínio)">R$ 4.200,00</td>
+            <td class="p-2.5 text-center font-mono font-bold text-xs whitespace-nowrap" id="lbl-tot-vacancia-condensado" title="Percentual ponderado e custo total somado na vacância de todos os imóveis (Aluguel + IPTU + Condomínio)">0,0% | R$ 0,00</td>
             
             <td class="p-2.5 text-center font-mono font-bold text-xs" id="lbl-tot-iptu-condensado">R$ 950,00/m</td>
             <td class="p-2.5 text-center font-mono font-bold text-xs" id="lbl-tot-condominio-condensado">R$ 2.300,00/m</td>
@@ -2486,15 +2486,49 @@ function renderizarImoveis() {
   if (elAlugAno) elAlugAno.innerText = formatMoney(totAluguelAnual) + '/ano';
 
   let totCustoVacancia = 0;
+  let totAluguelPotencial = 0;
+  let totCarregamentoPotencial = 0;
+
   state.imoveis.forEach(im => {
-    const v = (im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0);
-    const alug = (im.aluguel || 0);
-    const iptu = (im.iptu || 0);
-    const cond = (im.condominio || 0);
-    totCustoVacancia += (alug + iptu + cond) * v;
+    let custoVacIm = 0;
+    if (im.periodosAluguel && Array.isArray(im.periodosAluguel) && im.periodosAluguel.length > 0) {
+      const ultimo = im.periodosAluguel[im.periodosAluguel.length - 1];
+      if (im.vacanciaMeses !== undefined && ultimo) ultimo.vacanciaMeses = im.vacanciaMeses;
+      if (im.iptu !== undefined && ultimo) ultimo.iptu = im.iptu;
+      if (im.condominio !== undefined && ultimo) ultimo.condominio = im.condominio;
+      if (im.aluguel !== undefined && ultimo) ultimo.aluguel = im.aluguel;
+
+      im.periodosAluguel.forEach(p => {
+        const v = (p.vacanciaMeses !== undefined ? p.vacanciaMeses : (im.vacanciaMeses || 0));
+        const alug = (p.aluguel !== undefined ? p.aluguel : (im.aluguel || 0));
+        const iptu = (p.iptu !== undefined ? p.iptu : (im.iptu || 0));
+        const cond = (p.condominio !== undefined ? p.condominio : (im.condominio || 0));
+        custoVacIm += (alug + iptu + cond) * v;
+      });
+    } else {
+      const v = (im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0);
+      const alug = (im.aluguel || 0);
+      const iptu = (im.iptu || 0);
+      const cond = (im.condominio || 0);
+      custoVacIm = (alug + iptu + cond) * v;
+    }
+    totCustoVacancia += custoVacIm;
+    totAluguelPotencial += (im.aluguel || 0) * 12;
+    totCarregamentoPotencial += ((im.aluguel || 0) + (im.iptu || 0) + (im.condominio || 0)) * 12;
   });
+
+  const pctPonderado = totCarregamentoPotencial > 0 ? ((totCustoVacancia / totCarregamentoPotencial) * 100) : (totAluguelPotencial > 0 ? ((totCustoVacancia / totAluguelPotencial) * 100) : 0);
+  const pctPonderadoStr = `${pctPonderado.toFixed(1).replace('.', ',')}%`;
+
   const elVac = document.getElementById('lbl-tot-vacancia-condensado');
-  if (elVac) elVac.innerText = formatMoney(totCustoVacancia);
+  if (elVac) {
+    elVac.innerHTML = `
+      <span class="font-mono font-bold text-xs text-amber-600 dark:text-amber-400">${pctPonderadoStr}</span>
+      <span class="text-slate-400 dark:text-zinc-600 font-normal mx-0.5">|</span>
+      <span class="font-mono font-bold text-xs">${formatMoney(totCustoVacancia)}</span>
+    `;
+    elVac.title = `Percentual ponderado (${pctPonderadoStr}) e custo total somado na vacância (${formatMoney(totCustoVacancia)}) de todos os botões de imóveis`;
+  }
 
   const elIptu = document.getElementById('lbl-tot-iptu-condensado');
   if (elIptu) elIptu.innerText = formatMoney(totIptu) + '/m';
