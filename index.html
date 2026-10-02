@@ -1678,14 +1678,27 @@
             </div>
           </div>
 
-          <!-- Botões de Ação do Modal -->
-          <div class="flex justify-end items-center gap-2 pt-3 border-t border-black dark:border-zinc-700 shrink-0">
-            <button type="button" onclick="fecharModalAluguel()" class="px-4 py-2 rounded-xl bg-white dark:bg-zinc-900 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs transition cursor-pointer hover:bg-slate-100 dark:hover:bg-zinc-800">
-              Cancelar
-            </button>
-            <button type="button" onclick="salvarModalAluguel()" class="px-4 py-2 rounded-xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white font-black text-xs shadow-xs transition cursor-pointer">
-              ✓ Salvar &amp; Sincronizar com Imóvel
-            </button>
+          <!-- Botões de Ação do Modal com Indicador de Soma de Custos ao lado de Salvar -->
+          <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 pt-3 border-t border-black dark:border-zinc-700 shrink-0">
+            <!-- Indicador/Botão com a soma de custo de oportunidade + IPTU + Condomínio da época -->
+            <div class="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-100 dark:bg-zinc-900 border border-black dark:border-zinc-700 text-xs shadow-2xs">
+              <span class="text-[11px] font-bold text-slate-700 dark:text-zinc-300">
+                💰 Custo Total na Vacância (Aluguel + IPTU + Cond.):
+              </span>
+              <span class="font-mono font-black text-xs text-black dark:text-white px-2 py-0.5 rounded-md bg-white dark:bg-black border border-black dark:border-zinc-600" id="modal-aluguel-soma-total-rodape">
+                R$ 0,00
+              </span>
+            </div>
+
+            <!-- Botões Cancelar e Salvar & Sincronizar -->
+            <div class="flex items-center justify-end gap-2">
+              <button type="button" onclick="fecharModalAluguel()" class="px-4 py-2 rounded-xl bg-white dark:bg-zinc-900 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs transition cursor-pointer hover:bg-slate-100 dark:hover:bg-zinc-800">
+                Cancelar
+              </button>
+              <button type="button" onclick="salvarModalAluguel()" class="px-4 py-2 rounded-xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white font-black text-xs shadow-xs transition cursor-pointer hover:bg-slate-800 dark:hover:bg-slate-200">
+                ✓ Salvar &amp; Sincronizar com Imóvel
+              </button>
+            </div>
           </div>
 
         </div>
@@ -3256,6 +3269,15 @@ function obterResumoTitulares(im) {
         }
       }
 
+      if (im.periodosAluguel && Array.isArray(im.periodosAluguel)) {
+        im.periodosAluguel.forEach(p => {
+          if (p.iptu === undefined) p.iptu = im.iptu || 0;
+          if (p.condominio === undefined) p.condominio = im.condominio || 0;
+          if (p.vacanciaMeses === undefined) p.vacanciaMeses = (im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0);
+          if (p.aluguel === undefined) p.aluguel = im.aluguel || 10000;
+        });
+      }
+
       renderizarListaModalAluguel();
       atualizarResumoModalAluguel();
 
@@ -3475,6 +3497,9 @@ function obterResumoTitulares(im) {
 
       const elTot = document.getElementById('modal-aluguel-custo-total-vacancia');
       if (elTot) elTot.innerText = formatMoney(custoTotalVacancia);
+
+      const elSomaRodape = document.getElementById('modal-aluguel-soma-total-rodape');
+      if (elSomaRodape) elSomaRodape.innerText = formatMoney(custoTotalVacancia);
     }
 
     function salvarModalAluguel() {
