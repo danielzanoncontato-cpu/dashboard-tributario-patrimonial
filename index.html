@@ -445,7 +445,7 @@
             <th class="p-2.5 text-center">Tipo de Imóvel</th>
             <th class="p-2.5 text-center">Identificação / Imóvel</th>
             <th class="p-2.5 text-center">Localidade (UF)</th>
-            <th class="p-2.5 text-center" title="Cartório de Registro de Imóveis (RGI), Comarca, Estado e Fatores de Redução Legal (1º Imóvel SFH Art. 290, MCMV Leis 11.977/14.620, Holding Art. 64, REURB Art. 13)">Cartório &amp; Descontos Legais</th>
+            <th class="p-2.5 text-center" title="Cartório de Registro de Imóveis (RGI), Comarca, Estado e Custas de Registro">Cartório</th>
             <th class="p-2.5 text-center">Objetivo</th>
             <th class="p-2.5 text-center">Cláusulas na Matrícula</th>
             <th class="p-2.5 text-center">Regime Fiscal Atual</th>
@@ -1565,91 +1565,6 @@
               </div>
             </div>
 
-            <!-- 3. BENEFÍCIOS LEGAIS & FATORES DE DESCONTO CARTORÁRIO -->
-            <div class="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-black dark:border-zinc-700 space-y-2.5">
-              <div class="flex items-center justify-between">
-                <label class="block text-slate-900 dark:text-white font-black text-xs">
-                  ⚖️ 3. Benefícios Legais &amp; Fatores de Redução de Emolumentos:
-                </label>
-                <span id="modal-cartorio-badge-fator" class="px-2 py-0.5 rounded-full text-[10px] font-black bg-black text-white dark:bg-white dark:text-black">
-                  Tabela Integral
-                </span>
-              </div>
-              <p class="text-[11px] text-slate-600 dark:text-slate-400">
-                Selecione as variáveis legais que concedem redução de até 100% nas custas e emolumentos de registro/escritura:
-              </p>
-
-              <!-- Botões Rápidos dos Fatores de Redução de Custas de Cartório -->
-              <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5" id="modal-cartorio-grid-botoes">
-                <button type="button" id="btn-fator-padrao" onclick="setFatorDescontoModal('padrao')" class="p-2 rounded-xl border text-left transition cursor-pointer flex flex-col justify-between">
-                  <div class="flex items-center justify-between gap-1">
-                    <span class="font-black text-[11px]">🏛️ Padrão</span>
-                    <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-slate-200 dark:bg-zinc-800">100%</span>
-                  </div>
-                  <span class="text-[9px] text-slate-500 dark:text-slate-400 mt-1">Tabela Cheia TJ</span>
-                </button>
-
-                <button type="button" id="btn-fator-primeiro_imovel" onclick="setFatorDescontoModal('primeiro_imovel')" class="p-2 rounded-xl border text-left transition cursor-pointer flex flex-col justify-between">
-                  <div class="flex items-center justify-between gap-1">
-                    <span class="font-black text-[11px]">🏠 1º Imóvel</span>
-                    <span class="text-[9px] font-black px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">-50%</span>
-                  </div>
-                  <span class="text-[9px] text-slate-500 dark:text-slate-400 mt-1">Art. 290 Lei 6.015/73</span>
-                </button>
-
-                <button type="button" id="btn-fator-mcmv_geral" onclick="setFatorDescontoModal('mcmv_geral')" class="p-2 rounded-xl border text-left transition cursor-pointer flex flex-col justify-between">
-                  <div class="flex items-center justify-between gap-1">
-                    <span class="font-black text-[11px]">🏘️ MCMV</span>
-                    <span class="text-[9px] font-black px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">-50%</span>
-                  </div>
-                  <span class="text-[9px] text-slate-500 dark:text-slate-400 mt-1">Lei 11.977 / 14.620</span>
-                </button>
-
-                <button type="button" id="btn-fator-mcmv_faixa1" onclick="setFatorDescontoModal('mcmv_faixa1')" class="p-2 rounded-xl border text-left transition cursor-pointer flex flex-col justify-between">
-                  <div class="flex items-center justify-between gap-1">
-                    <span class="font-black text-[11px]">🏷️ MCMV Fx 1</span>
-                    <span class="text-[9px] font-black px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">-75%</span>
-                  </div>
-                  <span class="text-[9px] text-slate-500 dark:text-slate-400 mt-1">FAR / FDS Social</span>
-                </button>
-
-                <button type="button" id="btn-fator-holding_art64" onclick="setFatorDescontoModal('holding_art64')" class="p-2 rounded-xl border text-left transition cursor-pointer flex flex-col justify-between">
-                  <div class="flex items-center justify-between gap-1">
-                    <span class="font-black text-[11px]">🏢 Holding</span>
-                    <span class="text-[9px] font-black px-1.5 py-0.2 rounded bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300">-50%</span>
-                  </div>
-                  <span class="text-[9px] text-slate-500 dark:text-slate-400 mt-1">Art. 64 L. 8.934/94</span>
-                </button>
-
-                <button type="button" id="btn-fator-reurb" onclick="setFatorDescontoModal('reurb')" class="p-2 rounded-xl border text-left transition cursor-pointer flex flex-col justify-between">
-                  <div class="flex items-center justify-between gap-1">
-                    <span class="font-black text-[11px]">📜 REURB</span>
-                    <span class="text-[9px] font-black px-1.5 py-0.2 rounded bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300">ISENTO</span>
-                  </div>
-                  <span class="text-[9px] text-slate-500 dark:text-slate-400 mt-1">Art. 13 Lei 13.465</span>
-                </button>
-              </div>
-
-              <!-- Demonstração de Economia e Memória Legal -->
-              <div class="p-2.5 rounded-xl bg-white dark:bg-zinc-950 border border-slate-300 dark:border-zinc-800 space-y-1.5">
-                <div class="flex justify-between items-center text-[11px]">
-                  <span class="text-slate-600 dark:text-slate-400 font-bold">Custo Tabela Base TJ:</span>
-                  <span id="modal-cartorio-lbl-custo-base" class="font-mono font-bold text-black dark:text-white">R$ 1.500,00</span>
-                </div>
-                <div class="flex justify-between items-center text-[11px]">
-                  <span class="text-slate-600 dark:text-slate-400 font-bold">Economia Obtida por Lei:</span>
-                  <span id="modal-cartorio-lbl-economia" class="font-mono font-bold text-emerald-600 dark:text-emerald-400">R$ 0,00 (0%)</span>
-                </div>
-                <div class="flex justify-between items-center text-xs font-black pt-1 border-t border-slate-200 dark:border-zinc-800">
-                  <span class="text-slate-900 dark:text-white">Custas Efetivas com Desconto:</span>
-                  <span id="modal-cartorio-lbl-custo-final" class="font-mono text-black dark:text-white">R$ 1.500,00</span>
-                </div>
-                <p id="modal-cartorio-txt-base-legal" class="text-[10px] text-slate-500 dark:text-slate-400 pt-1 italic leading-tight">
-                  Base Legal: Tabela Regimental de Custas do Tribunal de Justiça estadual.
-                </p>
-              </div>
-            </div>
-
             <!-- Card informativo de Tributação Regional & Custas -->
             <div class="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-black dark:border-zinc-700 text-xs space-y-1">
               <span class="font-black text-black dark:text-white block">⚖️ Análise de Competência &amp; Custas:</span>
@@ -2291,102 +2206,6 @@
       recalcularTudo();
     }
 
-    /* ========================================================================= */
-    /* 📜 BENEFÍCIOS LEGAIS & FATORES DE REDUÇÃO CARTORÁRIA (LEGISLAÇÃO BRASILEIRA) */
-    /* ========================================================================= */
-    const FATORES_DESCONTO_CARTORIO = {
-      padrao: {
-        id: 'padrao',
-        nome: 'Tabela Padrão (Sem Desconto)',
-        rotuloCurto: 'Padrão',
-        fator: 1.0,
-        descontoPct: 0,
-        badge: 'Tabela TJ Cheia',
-        baseLegal: 'Tabela de Emolumentos Regimental do Tribunal de Justiça estadual',
-        desc: 'Sem desconto específico. Aplica a tabela cheia regimental do Tribunal de Justiça estadual.'
-      },
-      primeiro_imovel: {
-        id: 'primeiro_imovel',
-        nome: '1º Imóvel Residencial SFH (-50%)',
-        rotuloCurto: '🏠 1º Imóvel (-50%)',
-        fator: 0.5,
-        descontoPct: 50,
-        badge: '-50% SFH',
-        baseLegal: 'Art. 290 da Lei Federal nº 6.015/1973 (Lei de Registros Públicos)',
-        desc: 'Primeira aquisição imobiliária residencial financiada pelo SFH confere 50% de desconto compulsório por lei federal nos emolumentos de registro e escritura.'
-      },
-      mcmv_geral: {
-        id: 'mcmv_geral',
-        nome: 'Minha Casa Minha Vida Geral (-50%)',
-        rotuloCurto: '🏘️ MCMV (-50%)',
-        fator: 0.5,
-        descontoPct: 50,
-        badge: '-50% MCMV',
-        baseLegal: 'Art. 43, I da Lei Federal nº 11.977/2009 e Lei nº 14.620/2023',
-        desc: 'Redução obrigatória por lei de 50% dos emolumentos notariais e registrais para aquisição no programa habitacional Minha Casa Minha Vida.'
-      },
-      mcmv_faixa1: {
-        id: 'mcmv_faixa1',
-        nome: 'MCMV Faixa 1 FAR/FDS (-75%)',
-        rotuloCurto: '🏷️ MCMV Faixa 1 (-75%)',
-        fator: 0.25,
-        descontoPct: 75,
-        badge: '-75% Faixa 1',
-        baseLegal: 'Art. 43, II da Lei Federal nº 11.977/2009 e Lei nº 14.620/2023',
-        desc: 'Redução compulsória de 75% dos emolumentos cartorários para moradia de interesse social (Faixa 1 com recursos do FAR ou FDS).'
-      },
-      holding_art64: {
-        id: 'holding_art64',
-        nome: 'Holding Familiar - Dispensa Escritura (-50%)',
-        rotuloCurto: '🏢 Holding (-50%)',
-        fator: 0.5,
-        descontoPct: 50,
-        badge: 'Art. 64 JUCESP/RGI',
-        baseLegal: 'Art. 64 da Lei Federal nº 8.934/1994 e Art. 89 da Lei nº 6.404/1976',
-        desc: 'Integralização direta no capital social da holding via certidão da Junta Comercial dispensa escritura pública notarial, gerando economia expressiva de emolumentos.'
-      },
-      reurb: {
-        id: 'reurb',
-        nome: 'REURB Social / Gratuidade (100% Isento)',
-        rotuloCurto: '📜 REURB (100%)',
-        fator: 0.0,
-        descontoPct: 100,
-        badge: '100% Isento',
-        baseLegal: 'Art. 13 da Lei Federal nº 13.465/2017 e Art. 98 do CPC',
-        desc: 'Gratuidade e isenção total compulsória de emolumentos notariais e registrais para Regularização Fundiária Urbana de Interesse Social (REURB-S) ou gratuidade da justiça.'
-      }
-    };
-    if (typeof window !== 'undefined') { window.FATORES_DESCONTO_CARTORIO = FATORES_DESCONTO_CARTORIO; }
-
-    function aplicarDescontoCartorioRapido(idx, fatorKey) {
-      if (!state.imoveis[idx]) return;
-      const im = state.imoveis[idx];
-      const fatorInfo = FATORES_DESCONTO_CARTORIO[fatorKey] || FATORES_DESCONTO_CARTORIO.padrao;
-      
-      const ufCartorio = im.ufCartorio || im.uf || 'SP';
-      const lista = CARTORIOS_POR_ESTADO[ufCartorio] || [];
-      const found = lista.find(c => c.id === im.rgi || c.nome === im.rgi);
-      const custoBaseTJ = found && found.custo ? found.custo : ((typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[ufCartorio]) ? TABELA_ITCMD_ESTADOS[ufCartorio].rgiHolding : 1500);
-
-      if (!im.custoBaseCartorio || im.custoBaseCartorio <= 0) {
-        im.custoBaseCartorio = (im.custoRegistroRgi && im.fatorDescontoCartorio === 'padrao') ? im.custoRegistroRgi : custoBaseTJ;
-      }
-      
-      im.fatorDescontoCartorio = fatorInfo.id;
-      im.descontoCartorioPct = fatorInfo.descontoPct;
-      im.custoRegistroRgi = Math.round(im.custoBaseCartorio * fatorInfo.fator);
-
-      const aquisicao = im.aquisicao || 0;
-      const itbi = im.itbiAquisicao || 0;
-      const corretagem = im.corretagemAquisicao || 0;
-      const reforma = im.reformaGasto || 0;
-      const registroCartorio = im.custoRegistroRgi || 0;
-      im.custo = aquisicao + itbi + corretagem + reforma + registroCartorio;
-
-      renderizarImoveis();
-      recalcularTudo();
-    }
-
     function alterarUfCartorio(idx, ufCartorio) {
       if (!state.imoveis[idx]) return;
       const im = state.imoveis[idx];
@@ -2396,14 +2215,8 @@
       if (lista.length > 0) {
         im.rgi = lista[0].id;
         im.cidadeCartorio = lista[0].cidade;
-        im.custoBaseCartorio = lista[0].custo;
-      } else {
-        const tInfo = (typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[ufCartorio]) ? TABELA_ITCMD_ESTADOS[ufCartorio] : null;
-        im.custoBaseCartorio = tInfo ? tInfo.rgiHolding : 1500;
+        im.custoRegistroRgi = lista[0].custo;
       }
-      
-      const fatorInfo = FATORES_DESCONTO_CARTORIO[im.fatorDescontoCartorio || 'padrao'] || FATORES_DESCONTO_CARTORIO.padrao;
-      im.custoRegistroRgi = Math.round((im.custoBaseCartorio || 1500) * fatorInfo.fator);
       
       const aquisicao = im.aquisicao || 0;
       const itbi = im.itbiAquisicao || 0;
@@ -2430,11 +2243,8 @@
       const found = lista.find(c => c.id === val || c.nome === val);
       if (found) {
         if (found.cidade) im.cidadeCartorio = found.cidade;
-        if (found.custo) im.custoBaseCartorio = found.custo;
+        if (found.custo) im.custoRegistroRgi = found.custo;
       }
-      
-      const fatorInfo = FATORES_DESCONTO_CARTORIO[im.fatorDescontoCartorio || 'padrao'] || FATORES_DESCONTO_CARTORIO.padrao;
-      im.custoRegistroRgi = Math.round((im.custoBaseCartorio || 1500) * fatorInfo.fator);
       
       const aquisicao = im.aquisicao || 0;
       const itbi = im.itbiAquisicao || 0;
@@ -2455,7 +2265,7 @@
 /* Alternar visualização dos blocos dentro dos 4 cards */
  for (let i = 1; i <= 4; i++) { const boxMin = document.getElementById(`box-reg${i}-min`); const boxEst = document.getElementById(`box-reg${i}-estresse`); if (boxMin && boxEst) { if (cenario === 'minimo') { boxMin.classList.remove('hidden'); boxEst.classList.add('hidden'); } else if (cenario === 'estresse') { boxMin.classList.add('hidden'); boxEst.classList.remove('hidden'); } else { boxMin.classList.remove('hidden'); boxEst.classList.remove('hidden'); } } } } function switchCenarioRenda(modo) { const btnOti = document.getElementById('btn-cenario-renda-otimizado'); const btnEst = document.getElementById('btn-cenario-renda-estresse'); const btnLad = document.getElementById('btn-cenario-renda-lado-a-lado'); [btnOti, btnEst, btnLad].forEach(b => { if (b) { b.className = 'px-3 py-1 rounded-lg font-bold bg-white text-black dark:bg-black dark:text-white border border-slate-300 dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer'; } }); const activeCls = 'px-3 py-1 rounded-lg font-bold bg-black text-white dark:bg-white dark:text-black shadow-xs border border-black dark:border-white transition cursor-pointer'; if (modo === 'otimizado' && btnOti) { btnOti.className = activeCls; } else if (modo === 'estresse' && btnEst) { btnEst.className = activeCls; } else if (modo === 'lado-a-lado' && btnLad) { btnLad.className = activeCls; } for (let i = 1; i <= 4; i++) { const boxMin = document.getElementById(`box-renda-reg${i}-min`); const boxEst = document.getElementById(`box-renda-reg${i}-estresse`); if (boxMin && boxEst) { if (modo === 'otimizado') { boxMin.classList.remove('hidden'); boxEst.classList.add('hidden'); } else if (modo === 'estresse') { boxMin.classList.add('hidden'); boxEst.classList.remove('hidden'); } else { boxMin.classList.remove('hidden'); boxEst.classList.remove('hidden'); } } } } function switchCenarioGcap(modo) { const btnInt = document.getElementById('btn-cenario-gcap-integral'); const btnDes = document.getElementById('btn-cenario-gcap-desagio'); const btnLad = document.getElementById('btn-cenario-gcap-lado-a-lado'); [btnInt, btnDes, btnLad].forEach(b => { if (b) { b.className = 'px-3 py-1 rounded-lg font-bold bg-white text-black dark:bg-black dark:text-white border border-slate-300 dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer'; } }); const activeCls = 'px-3 py-1 rounded-lg font-bold bg-black text-white dark:bg-white dark:text-black shadow-xs border border-black dark:border-white transition cursor-pointer'; if (modo === 'integral' && btnInt) { btnInt.className = activeCls; } else if (modo === 'desagio' && btnDes) { btnDes.className = activeCls; } else if (modo === 'lado-a-lado' && btnLad) { btnLad.className = activeCls; } for (let i = 1; i <= 3; i++) { const boxMin = document.getElementById(`box-gcap-reg${i}-min`); const boxEst = document.getElementById(`box-gcap-reg${i}-estresse`); if (boxMin && boxEst) { if (modo === 'integral') { boxMin.classList.remove('hidden'); boxEst.classList.add('hidden'); } else if (modo === 'desagio') { boxMin.classList.add('hidden'); boxEst.classList.remove('hidden'); } else { boxMin.classList.remove('hidden'); boxEst.classList.remove('hidden'); } } } } function selecionarTaxaAdm(val) { const parsed = parseFloat(val); const num = isNaN(parsed) ? 0.08 : parsed; const valStr = num.toFixed(2); const s1 = document.getElementById('rng-taxa-adm'); const s2 = document.getElementById('rng-deducao-taxa-adm'); const s3 = document.getElementById('rng-renda-taxa-adm'); if (s1) s1.value = valStr; if (s2) s2.value = valStr; if (s3) s3.value = valStr; const sel1 = document.getElementById('sel-taxa-adm'); const sel2 = document.getElementById('sel-deducao-taxa-adm'); const sel3 = document.getElementById('sel-renda-taxa-adm'); if (sel1) sel1.value = valStr; if (sel2) sel2.value = valStr; if (sel3) sel3.value = valStr; const pctStr = `${Math.round(num * 100)}%`; if (document.getElementById('lbl-taxa-adm')) document.getElementById('lbl-taxa-adm').innerText = pctStr; if (document.getElementById('lbl-deducao-taxa-adm-pct')) document.getElementById('lbl-deducao-taxa-adm-pct').innerText = pctStr; if (document.getElementById('lbl-renda-taxa-adm-val')) document.getElementById('lbl-renda-taxa-adm-val').innerText = pctStr; recalcularTudo(); } function sincronizarTaxaAdm(val) { selecionarTaxaAdm(val); } function atualizarTaxaAdmSincronizada(val) { selecionarTaxaAdm(val); } function sincronizarCorretagem(val) { const s1 = document.getElementById('rng-corretagem'); const s2 = document.getElementById('rng-gcap-corretagem-slider'); if (s1) s1.value = val; if (s2) s2.value = val; const pct = (parseFloat(val) * 100).toFixed(1).replace('.', ',') + '%'; if (document.getElementById('lbl-corretagem-val')) document.getElementById('lbl-corretagem-val').innerText = pct; if (document.getElementById('lbl-gcap-corretagem-val')) document.getElementById('lbl-gcap-corretagem-val').innerText = pct; } function temObjetivo(im, objNome) { if (!im) return false; if (Array.isArray(im.objetivos)) { return im.objetivos.includes(objNome); } if (im.objetivo) { return im.objetivo.includes(objNome); } return false; } function toggleObjetivoImovel(idx, objNome) { if (!state.imoveis[idx]) return; const im = state.imoveis[idx]; if (!Array.isArray(im.objetivos)) { im.objetivos = im.objetivo ? im.objetivo.split(',').map(s => s.trim()) : ['Locação']; } const index = im.objetivos.indexOf(objNome); if (index > -1) { im.objetivos.splice(index, 1); } else { im.objetivos.push(objNome); } im.objetivo = im.objetivos.join(', '); renderizarImoveis(); renderizarSelecaoVenda(); recalcularTudo(); } function setObjetivoImovel(idx, objNome) { toggleObjetivoImovel(idx, objNome); } function toggleFinanciamentoImovel(idx) { if (state.imoveis[idx]) { state.imoveis[idx].financiado = (state.imoveis[idx].financiado === 'SIM') ? 'NAO' : 'SIM'; if (state.imoveis[idx].financiado === 'NAO') { state.imoveis[idx].saldoDevedor = 0; } else if (!state.imoveis[idx].saldoDevedor || state.imoveis[idx].saldoDevedor === 0) { state.imoveis[idx].saldoDevedor = Math.round((state.imoveis[idx].mercado || 500000) * 0.4); } sincronizarImoveisComTotais(); } } function toggleRiscoProprietario(idx) { if (state.proprietarios[idx]) { state.proprietarios[idx].risco = state.proprietarios[idx].risco === 'SIM' ? 'NÃO' : 'SIM'; renderizarParticipantes(); recalcularTudo(); } } function toggleClausula(id) { const c = state.clausulas.find(x => x.id === id); if (c) { c.ativa = !c.ativa; renderizarClausulas(); recalcularTudo(); } } 
 /* GESTÃO DE IMÓVEIS */
- function adicionarImovel() { const newId = state.imoveis.length + 1; state.imoveis.push({ id: newId, nome: `Imóvel ${newId}`, uf:"SP", cidade:"São Paulo", rgi:"13º RGI de São Paulo", matricula:"-", custoBaseCartorio: 1500, fatorDescontoCartorio: 'padrao', descontoCartorioPct: 0, custoRegistroRgi: 1500, clausulasMatricula: { inalienabilidade: true, impenhorabilidade: true, incomunicabilidade: true, usufruto: true, reversao: true, acrescer: true, acordo_socios: true, call_put: true, alienacao_fiduciaria: false, penhora_gravame: false }, tipo:"Residencial", objetivos: ["Sucessão","Locação"], objetivo:"Sucessão, Locação", regime:"Presumido", regimeFiscal:"Presumido", proprietarioResumo:"Patriarca 50% + Matriarca 50%", titularesPct: { 1: 50, 2: 50, 3: 0, 4: 0, 5: 0 }, usufrutoTipo:"Vitalício", usufrutoBeneficiario:"Patriarca e Matriarca (Ambos)", usufrutoVotosPct: { 1: 50, 2: 50, 3: 0, 4: 0, 5: 0 }, usufrutoTipos: { 1:"Vitalício", 2:"Vitalício", 3:"Sem Usufruto", 4:"Sem Usufruto", 5:"Sem Usufruto" }, usufrutoResumo:"Vitalício (100% Votos)", votoPct: 100, ano: 2015, aquisicao: 200000, itbiAquisicao: 6000, corretagemAquisicao: 12000, reformaGasto: 32000, custo: 250000, mercado: 750000, aluguelAquisicao: 1500, aluguel: 4000, vacanciaMeses: 0, periodosAluguel: [{ ano: 2024, aluguel: 3600, vacanciaMeses: 0 }, { ano: 2025, aluguel: 3800, vacanciaMeses: 0 }, { ano: 2026, aluguel: 4000, vacanciaMeses: 0 }], iptu: 200, condominio: 500, financiado:"NAO", saldoDevedor: 0, riscoTitular:"NÃO" }); sincronizarImoveisComTotais(); } function duplicarImovel(idx) { const orig = state.imoveis[idx]; const newId = state.imoveis.length + 1; state.imoveis.push({ id: newId, nome: `${orig.nome} (Cópia)`, uf: orig.uf ||"SP", cidade: orig.cidade ||"São Paulo", rgi: orig.rgi ||"13º RGI de São Paulo", matricula: orig.matricula ||"-", custoBaseCartorio: orig.custoBaseCartorio || 1500, fatorDescontoCartorio: orig.fatorDescontoCartorio || 'padrao', descontoCartorioPct: orig.descontoCartorioPct || 0, custoRegistroRgi: orig.custoRegistroRgi || 1500, clausulasMatricula: orig.clausulasMatricula ? { ...orig.clausulasMatricula } : { inalienabilidade: true, impenhorabilidade: true, incomunicabilidade: true, usufruto: true, reversao: true, acrescer: true, acordo_socios: true, call_put: true, alienacao_fiduciaria: false, penhora_gravame: false }, tipo: orig.tipo, objetivos: orig.objetivos ? [...orig.objetivos] : (orig.objetivo ? [orig.objetivo] : ["Locação"]), objetivo: orig.objetivo ||"Locação", regime: orig.regime || "Presumido", regimeFiscal: orig.regimeFiscal || orig.regime || "Presumido", proprietarioResumo: orig.proprietarioResumo ||"Patriarca 50% + Matriarca 50%", titularesPct: orig.titularesPct ? { ...orig.titularesPct } : { 1: 50, 2: 50, 3: 0, 4: 0, 5: 0 }, usufrutoTipo: orig.usufrutoTipo ||"Vitalício", usufrutoBeneficiario: orig.usufrutoBeneficiario ||"Patriarca e Matriarca (Ambos)", usufrutoVotosPct: orig.usufrutoVotosPct ? { ...orig.usufrutoVotosPct } : { 1: 50, 2: 50, 3: 0, 4: 0, 5: 0 }, usufrutoTipos: orig.usufrutoTipos ? { ...orig.usufrutoTipos } : { 1:"Vitalício", 2:"Vitalício", 3:"Sem Usufruto", 4:"Sem Usufruto", 5:"Sem Usufruto" }, usufrutoResumo: orig.usufrutoResumo ||"Vitalício (100% Votos)", votoPct: orig.votoPct !== undefined ? orig.votoPct : 100, ano: orig.ano, aquisicao: orig.aquisicao || orig.custo, itbiAquisicao: orig.itbiAquisicao || 0, corretagemAquisicao: orig.corretagemAquisicao || 0, reformaGasto: orig.reformaGasto || 0, custo: orig.custo, mercado: orig.mercado, aluguelAquisicao: orig.aluguelAquisicao || 0, aluguel: orig.aluguel, vacanciaMeses: (orig.vacanciaMeses !== undefined ? orig.vacanciaMeses : 0), periodosAluguel: orig.periodosAluguel ? JSON.parse(JSON.stringify(orig.periodosAluguel)) : [{ ano: 2026, aluguel: orig.aluguel || 4000, vacanciaMeses: 0 }], iptu: orig.iptu, condominio: orig.condominio, financiado: orig.financiado ||"NAO", saldoDevedor: orig.saldoDevedor || 0, riscoTitular: orig.riscoTitular }); sincronizarImoveisComTotais(); } function removerImovel(idx) { if (state.imoveis.length <= 1) { alert("É necessário manter ao menos 1 imóvel cadastrado no acervo."); return; } state.imoveis.splice(idx, 1); state.imoveis.forEach((im, i) => im.id = i + 1); sincronizarImoveisComTotais(); } function atualizarLinhaImovel(idx) { const im = state.imoveis[idx]; if (!im) return; const aluguelAnualImovel = (im.aluguel || 0) * 12; const elAluguel = document.getElementById(`lbl-row-aluguel-anual-${idx}`); if (elAluguel) elAluguel.innerText = formatMoney(aluguelAnualImovel); } function atualizarCustoFiscal(idx) { const im = state.imoveis[idx]; const aquisicao = im.aquisicao || 0; const itbi = im.itbiAquisicao || 0; const corretagem = im.corretagemAquisicao || 0; const reforma = im.reformaGasto || 0; im.custo = aquisicao + itbi + corretagem + reforma; const inpCusto = document.getElementById(`inp-imovel-custo-${idx}`); if (inpCusto) inpCusto.value = formatMoneyBR(im.custo); sincronizarImoveisComTotais(false); } function sincronizarImoveisComTotais(rebuild = true) { let totAquisicao = 0, totItbiAquisicao = 0, totCorretagemAquisicao = 0, totReformas = 0, totCusto = 0, totMercado = 0, totAluguelAquisicao = 0, totAluguel = 0, totIptu = 0, totCondominio = 0, totSaldoDevedor = 0, totVacanciaSoma = 0, totAluguelAnualEfetivo = 0; let somaAnosPonderados = 0; let temFinanciado = false; state.imoveis.forEach(im => { totAquisicao += (im.aquisicao || 0); totItbiAquisicao += (im.itbiAquisicao || 0); totCorretagemAquisicao += (im.corretagemAquisicao || 0); totReformas += (im.reformaGasto || 0); totCusto += (im.custo || 0); totMercado += (im.mercado || 0); totAluguelAquisicao += (im.aluguelAquisicao || 0); totAluguel += (im.aluguel || 0); totIptu += (im.iptu || 0); totCondominio += (im.condominio || 0); const vac = (im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0); totVacanciaSoma += vac; totAluguelAnualEfetivo += (im.aluguel || 0) * Math.max(0, 12 - vac); if (im.financiado === 'SIM') { totSaldoDevedor += (im.saldoDevedor || 0); temFinanciado = true; } somaAnosPonderados += ((im.ano || 2010) * (im.mercado || 1)); }); state.imovelFinanciado = temFinanciado ? 'SIM' : 'NAO'; const anoMedioPonderado = totMercado > 0 ? Math.round(somaAnosPonderados / totMercado) : 2010; const elInpAq = document.getElementById('inp-aquisicao-declarado'); if (elInpAq) elInpAq.value = formatMoney(totAquisicao); const elInpCusto = document.getElementById('inp-custo-declarado'); if (elInpCusto) elInpCusto.value = formatMoney(totCusto); const elInpMercado = document.getElementById('inp-valor-mercado-master'); if (elInpMercado) elInpMercado.value = formatMoney(totMercado); const elInpAluguel = document.getElementById('inp-renda-aluguel-master'); if (elInpAluguel) elInpAluguel.value = totAluguel; const elInpIptu = document.getElementById('inp-iptu-master'); if (elInpIptu) elInpIptu.value = totIptu; const elInpIptuDed = document.getElementById('inp-deducao-iptu-anual'); if (elInpIptuDed && (!elInpIptuDed.value || elInpIptuDed.value === '0' || elInpIptuDed.value === '0,00' || elInpIptuDed.getAttribute('data-auto') === 'true')) { elInpIptuDed.value = formatMoneyBR(totIptu * 12); elInpIptuDed.setAttribute('data-auto', 'true'); } const elInpQtd = document.getElementById('inp-qtd-imoveis'); if (elInpQtd) elInpQtd.value = state.imoveis.length; const elInpAno = document.getElementById('inp-ano-aquisicao-master'); if (elInpAno) elInpAno.value = anoMedioPonderado; const elSaldoTot = document.getElementById('inp-saldo-devedor'); if (elSaldoTot) elSaldoTot.value = formatMoney(totSaldoDevedor); const elLblSaldo = document.getElementById('lbl-tot-saldo-devedor-condensado'); if (elLblSaldo) { if (totSaldoDevedor > 0) { let somaPonderadaTaxa = 0; state.imoveis.forEach(im => { if (im.financiado === 'SIM') { const saldo = im.saldoDevedor || 0; const taxa = (im.taxaFinanciamento !== undefined) ? im.taxaFinanciamento : 9.5; somaPonderadaTaxa += (saldo * taxa); } }); const taxaMediaPonderada = somaPonderadaTaxa / totSaldoDevedor; elLblSaldo.innerHTML = '<span class="font-mono font-bold text-xs">' + formatMoney(totSaldoDevedor) + '</span><span class="block text-[9px] text-amber-600 dark:text-amber-400 font-bold">Méd. ' + taxaMediaPonderada.toFixed(2).replace('.', ',') + '% a.a.</span>'; elLblSaldo.title = 'Saldo devedor total: ' + formatMoney(totSaldoDevedor) + ' com taxa de juros média ponderada de ' + taxaMediaPonderada.toFixed(2).replace('.', ',') + '% a.a.'; } else { elLblSaldo.innerText = formatMoney(0); elLblSaldo.title = 'Nenhum imóvel financiado'; } } const elRendaBloco = document.getElementById('lbl-tot-renda-bloco-consolidados'); if (elRendaBloco) elRendaBloco.value = `${formatMoney(totAluguel)}/m`; const elQtd = document.getElementById('lbl-tot-imoveis-qtd'); if (elQtd) elQtd.innerText = state.imoveis.length; const elAq = document.getElementById('lbl-tot-aquisicao-condensado'); if (elAq) elAq.innerText = formatMoney(totAquisicao); const elItbiTot = document.getElementById('lbl-tot-itbi-aquisicao-condensado'); if (elItbiTot) elItbiTot.innerText = formatMoney(totItbiAquisicao); const elCorretagemTot = document.getElementById('lbl-tot-corretagem-aquisicao-condensado'); if (elCorretagemTot) elCorretagemTot.innerText = formatMoney(totCorretagemAquisicao); const elRefTot = document.getElementById('lbl-tot-reformas-condensado'); if (elRefTot) elRefTot.innerText = formatMoney(totReformas); const elCusto = document.getElementById('lbl-tot-custo-condensado'); if (elCusto) elCusto.innerText = formatMoney(totCusto); const elMerc = document.getElementById('lbl-tot-mercado-condensado'); if (elMerc) elMerc.innerText = formatMoney(totMercado); const elAlugAq = document.getElementById('lbl-tot-aluguel-aquisicao-condensado'); if (elAlugAq) elAlugAq.innerText = `${formatMoney(totAluguelAquisicao)}/m`; const elAlug = document.getElementById('lbl-tot-aluguel-condensado'); if (elAlug) elAlug.innerText = `${formatMoney(totAluguel)}/m`; const elAnual = document.getElementById('lbl-tot-aluguel-anual-condensado'); if (elAnual) elAnual.innerText = `${formatMoney(totAluguelAnualEfetivo)}/ano`; let totCustoVacanciaConsolidado = 0; state.imoveis.forEach(im => { const v = (im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0); const alug = (im.aluguel || 0); const iptu = (im.iptu || 0); const cond = (im.condominio || 0); totCustoVacanciaConsolidado += (alug + iptu + cond) * v; }); const elVacTot = document.getElementById('lbl-tot-vacancia-condensado'); if (elVacTot) elVacTot.innerText = formatMoney(totCustoVacanciaConsolidado); const elIptu = document.getElementById('lbl-tot-iptu-condensado'); if (elIptu) elIptu.innerText = `${formatMoney(totIptu)}/m`; const elCond = document.getElementById('lbl-tot-condominio-condensado'); if (elCond) elCond.innerText = `${formatMoney(totCondominio)}/m`; const btnN = document.getElementById('btn-financiado-nao'); const btnS = document.getElementById('btn-financiado-sim'); const boxSaldo = document.getElementById('box-saldo-devedor'); if (btnN && btnS) { if (temFinanciado) { btnS.className = 'flex-1 py-1.5 rounded-lg font-black text-xs bg-black text-white dark:bg-white dark:text-black text-white shadow-sm transition'; btnN.className = 'flex-1 py-1.5 rounded-lg font-bold text-xs bg-transparent text-white border border-slate-700 hover:bg-slate-800 transition'; if (boxSaldo) boxSaldo.classList.remove('hidden'); } else { btnN.className = 'flex-1 py-1.5 rounded-lg font-black text-xs bg-black text-white dark:bg-white dark:text-black text-white shadow-sm transition'; btnS.className = 'flex-1 py-1.5 rounded-lg font-bold text-xs bg-transparent text-white border border-slate-700 hover:bg-slate-800 transition'; if (boxSaldo) boxSaldo.classList.add('hidden'); } } if (rebuild) { renderizarImoveis(); } recalcularTudo(); } 
+ function adicionarImovel() { const newId = state.imoveis.length + 1; state.imoveis.push({ id: newId, nome: `Imóvel ${newId}`, uf:"SP", cidade:"São Paulo", rgi:"RGI Competente", matricula:"-", clausulasMatricula: { inalienabilidade: true, impenhorabilidade: true, incomunicabilidade: true, usufruto: true, reversao: true, acrescer: true, acordo_socios: true, call_put: true, alienacao_fiduciaria: false, penhora_gravame: false }, tipo:"Residencial", objetivos: ["Sucessão","Locação"], objetivo:"Sucessão, Locação", regime:"Presumido", regimeFiscal:"Presumido", proprietarioResumo:"Patriarca 50% + Matriarca 50%", titularesPct: { 1: 50, 2: 50, 3: 0, 4: 0, 5: 0 }, usufrutoTipo:"Vitalício", usufrutoBeneficiario:"Patriarca e Matriarca (Ambos)", usufrutoVotosPct: { 1: 50, 2: 50, 3: 0, 4: 0, 5: 0 }, usufrutoTipos: { 1:"Vitalício", 2:"Vitalício", 3:"Sem Usufruto", 4:"Sem Usufruto", 5:"Sem Usufruto" }, usufrutoResumo:"Vitalício (100% Votos)", votoPct: 100, ano: 2015, aquisicao: 200000, itbiAquisicao: 6000, corretagemAquisicao: 12000, reformaGasto: 32000, custo: 250000, mercado: 750000, aluguelAquisicao: 1500, aluguel: 4000, vacanciaMeses: 0, periodosAluguel: [{ ano: 2024, aluguel: 3600, vacanciaMeses: 0 }, { ano: 2025, aluguel: 3800, vacanciaMeses: 0 }, { ano: 2026, aluguel: 4000, vacanciaMeses: 0 }], iptu: 200, condominio: 500, financiado:"NAO", saldoDevedor: 0, riscoTitular:"NÃO" }); sincronizarImoveisComTotais(); } function duplicarImovel(idx) { const orig = state.imoveis[idx]; const newId = state.imoveis.length + 1; state.imoveis.push({ id: newId, nome: `${orig.nome} (Cópia)`, uf: orig.uf ||"SP", cidade: orig.cidade ||"São Paulo", rgi: orig.rgi ||"RGI Competente", matricula: orig.matricula ||"-", clausulasMatricula: orig.clausulasMatricula ? { ...orig.clausulasMatricula } : { inalienabilidade: true, impenhorabilidade: true, incomunicabilidade: true, usufruto: true, reversao: true, acrescer: true, acordo_socios: true, call_put: true, alienacao_fiduciaria: false, penhora_gravame: false }, tipo: orig.tipo, objetivos: orig.objetivos ? [...orig.objetivos] : (orig.objetivo ? [orig.objetivo] : ["Locação"]), objetivo: orig.objetivo ||"Locação", regime: orig.regime || "Presumido", regimeFiscal: orig.regimeFiscal || orig.regime || "Presumido", proprietarioResumo: orig.proprietarioResumo ||"Patriarca 50% + Matriarca 50%", titularesPct: orig.titularesPct ? { ...orig.titularesPct } : { 1: 50, 2: 50, 3: 0, 4: 0, 5: 0 }, usufrutoTipo: orig.usufrutoTipo ||"Vitalício", usufrutoBeneficiario: orig.usufrutoBeneficiario ||"Patriarca e Matriarca (Ambos)", usufrutoVotosPct: orig.usufrutoVotosPct ? { ...orig.usufrutoVotosPct } : { 1: 50, 2: 50, 3: 0, 4: 0, 5: 0 }, usufrutoTipos: orig.usufrutoTipos ? { ...orig.usufrutoTipos } : { 1:"Vitalício", 2:"Vitalício", 3:"Sem Usufruto", 4:"Sem Usufruto", 5:"Sem Usufruto" }, usufrutoResumo: orig.usufrutoResumo ||"Vitalício (100% Votos)", votoPct: orig.votoPct !== undefined ? orig.votoPct : 100, ano: orig.ano, aquisicao: orig.aquisicao || orig.custo, itbiAquisicao: orig.itbiAquisicao || 0, corretagemAquisicao: orig.corretagemAquisicao || 0, reformaGasto: orig.reformaGasto || 0, custo: orig.custo, mercado: orig.mercado, aluguelAquisicao: orig.aluguelAquisicao || 0, aluguel: orig.aluguel, vacanciaMeses: (orig.vacanciaMeses !== undefined ? orig.vacanciaMeses : 0), periodosAluguel: orig.periodosAluguel ? JSON.parse(JSON.stringify(orig.periodosAluguel)) : [{ ano: 2026, aluguel: orig.aluguel || 4000, vacanciaMeses: 0 }], iptu: orig.iptu, condominio: orig.condominio, financiado: orig.financiado ||"NAO", saldoDevedor: orig.saldoDevedor || 0, riscoTitular: orig.riscoTitular }); sincronizarImoveisComTotais(); } function removerImovel(idx) { if (state.imoveis.length <= 1) { alert("É necessário manter ao menos 1 imóvel cadastrado no acervo."); return; } state.imoveis.splice(idx, 1); state.imoveis.forEach((im, i) => im.id = i + 1); sincronizarImoveisComTotais(); } function atualizarLinhaImovel(idx) { const im = state.imoveis[idx]; if (!im) return; const aluguelAnualImovel = (im.aluguel || 0) * 12; const elAluguel = document.getElementById(`lbl-row-aluguel-anual-${idx}`); if (elAluguel) elAluguel.innerText = formatMoney(aluguelAnualImovel); } function atualizarCustoFiscal(idx) { const im = state.imoveis[idx]; const aquisicao = im.aquisicao || 0; const itbi = im.itbiAquisicao || 0; const corretagem = im.corretagemAquisicao || 0; const reforma = im.reformaGasto || 0; im.custo = aquisicao + itbi + corretagem + reforma; const inpCusto = document.getElementById(`inp-imovel-custo-${idx}`); if (inpCusto) inpCusto.value = formatMoneyBR(im.custo); sincronizarImoveisComTotais(false); } function sincronizarImoveisComTotais(rebuild = true) { let totAquisicao = 0, totItbiAquisicao = 0, totCorretagemAquisicao = 0, totReformas = 0, totCusto = 0, totMercado = 0, totAluguelAquisicao = 0, totAluguel = 0, totIptu = 0, totCondominio = 0, totSaldoDevedor = 0, totVacanciaSoma = 0, totAluguelAnualEfetivo = 0; let somaAnosPonderados = 0; let temFinanciado = false; state.imoveis.forEach(im => { totAquisicao += (im.aquisicao || 0); totItbiAquisicao += (im.itbiAquisicao || 0); totCorretagemAquisicao += (im.corretagemAquisicao || 0); totReformas += (im.reformaGasto || 0); totCusto += (im.custo || 0); totMercado += (im.mercado || 0); totAluguelAquisicao += (im.aluguelAquisicao || 0); totAluguel += (im.aluguel || 0); totIptu += (im.iptu || 0); totCondominio += (im.condominio || 0); const vac = (im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0); totVacanciaSoma += vac; totAluguelAnualEfetivo += (im.aluguel || 0) * Math.max(0, 12 - vac); if (im.financiado === 'SIM') { totSaldoDevedor += (im.saldoDevedor || 0); temFinanciado = true; } somaAnosPonderados += ((im.ano || 2010) * (im.mercado || 1)); }); state.imovelFinanciado = temFinanciado ? 'SIM' : 'NAO'; const anoMedioPonderado = totMercado > 0 ? Math.round(somaAnosPonderados / totMercado) : 2010; const elInpAq = document.getElementById('inp-aquisicao-declarado'); if (elInpAq) elInpAq.value = formatMoney(totAquisicao); const elInpCusto = document.getElementById('inp-custo-declarado'); if (elInpCusto) elInpCusto.value = formatMoney(totCusto); const elInpMercado = document.getElementById('inp-valor-mercado-master'); if (elInpMercado) elInpMercado.value = formatMoney(totMercado); const elInpAluguel = document.getElementById('inp-renda-aluguel-master'); if (elInpAluguel) elInpAluguel.value = totAluguel; const elInpIptu = document.getElementById('inp-iptu-master'); if (elInpIptu) elInpIptu.value = totIptu; const elInpIptuDed = document.getElementById('inp-deducao-iptu-anual'); if (elInpIptuDed && (!elInpIptuDed.value || elInpIptuDed.value === '0' || elInpIptuDed.value === '0,00' || elInpIptuDed.getAttribute('data-auto') === 'true')) { elInpIptuDed.value = formatMoneyBR(totIptu * 12); elInpIptuDed.setAttribute('data-auto', 'true'); } const elInpQtd = document.getElementById('inp-qtd-imoveis'); if (elInpQtd) elInpQtd.value = state.imoveis.length; const elInpAno = document.getElementById('inp-ano-aquisicao-master'); if (elInpAno) elInpAno.value = anoMedioPonderado; const elSaldoTot = document.getElementById('inp-saldo-devedor'); if (elSaldoTot) elSaldoTot.value = formatMoney(totSaldoDevedor); const elLblSaldo = document.getElementById('lbl-tot-saldo-devedor-condensado'); if (elLblSaldo) { if (totSaldoDevedor > 0) { let somaPonderadaTaxa = 0; state.imoveis.forEach(im => { if (im.financiado === 'SIM') { const saldo = im.saldoDevedor || 0; const taxa = (im.taxaFinanciamento !== undefined) ? im.taxaFinanciamento : 9.5; somaPonderadaTaxa += (saldo * taxa); } }); const taxaMediaPonderada = somaPonderadaTaxa / totSaldoDevedor; elLblSaldo.innerHTML = '<span class="font-mono font-bold text-xs">' + formatMoney(totSaldoDevedor) + '</span><span class="block text-[9px] text-amber-600 dark:text-amber-400 font-bold">Méd. ' + taxaMediaPonderada.toFixed(2).replace('.', ',') + '% a.a.</span>'; elLblSaldo.title = 'Saldo devedor total: ' + formatMoney(totSaldoDevedor) + ' com taxa de juros média ponderada de ' + taxaMediaPonderada.toFixed(2).replace('.', ',') + '% a.a.'; } else { elLblSaldo.innerText = formatMoney(0); elLblSaldo.title = 'Nenhum imóvel financiado'; } } const elRendaBloco = document.getElementById('lbl-tot-renda-bloco-consolidados'); if (elRendaBloco) elRendaBloco.value = `${formatMoney(totAluguel)}/m`; const elQtd = document.getElementById('lbl-tot-imoveis-qtd'); if (elQtd) elQtd.innerText = state.imoveis.length; const elAq = document.getElementById('lbl-tot-aquisicao-condensado'); if (elAq) elAq.innerText = formatMoney(totAquisicao); const elItbiTot = document.getElementById('lbl-tot-itbi-aquisicao-condensado'); if (elItbiTot) elItbiTot.innerText = formatMoney(totItbiAquisicao); const elCorretagemTot = document.getElementById('lbl-tot-corretagem-aquisicao-condensado'); if (elCorretagemTot) elCorretagemTot.innerText = formatMoney(totCorretagemAquisicao); const elRefTot = document.getElementById('lbl-tot-reformas-condensado'); if (elRefTot) elRefTot.innerText = formatMoney(totReformas); const elCusto = document.getElementById('lbl-tot-custo-condensado'); if (elCusto) elCusto.innerText = formatMoney(totCusto); const elMerc = document.getElementById('lbl-tot-mercado-condensado'); if (elMerc) elMerc.innerText = formatMoney(totMercado); const elAlugAq = document.getElementById('lbl-tot-aluguel-aquisicao-condensado'); if (elAlugAq) elAlugAq.innerText = `${formatMoney(totAluguelAquisicao)}/m`; const elAlug = document.getElementById('lbl-tot-aluguel-condensado'); if (elAlug) elAlug.innerText = `${formatMoney(totAluguel)}/m`; const elAnual = document.getElementById('lbl-tot-aluguel-anual-condensado'); if (elAnual) elAnual.innerText = `${formatMoney(totAluguelAnualEfetivo)}/ano`; let totCustoVacanciaConsolidado = 0; state.imoveis.forEach(im => { const v = (im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0); const alug = (im.aluguel || 0); const iptu = (im.iptu || 0); const cond = (im.condominio || 0); totCustoVacanciaConsolidado += (alug + iptu + cond) * v; }); const elVacTot = document.getElementById('lbl-tot-vacancia-condensado'); if (elVacTot) elVacTot.innerText = formatMoney(totCustoVacanciaConsolidado); const elIptu = document.getElementById('lbl-tot-iptu-condensado'); if (elIptu) elIptu.innerText = `${formatMoney(totIptu)}/m`; const elCond = document.getElementById('lbl-tot-condominio-condensado'); if (elCond) elCond.innerText = `${formatMoney(totCondominio)}/m`; const btnN = document.getElementById('btn-financiado-nao'); const btnS = document.getElementById('btn-financiado-sim'); const boxSaldo = document.getElementById('box-saldo-devedor'); if (btnN && btnS) { if (temFinanciado) { btnS.className = 'flex-1 py-1.5 rounded-lg font-black text-xs bg-black text-white dark:bg-white dark:text-black text-white shadow-sm transition'; btnN.className = 'flex-1 py-1.5 rounded-lg font-bold text-xs bg-transparent text-white border border-slate-700 hover:bg-slate-800 transition'; if (boxSaldo) boxSaldo.classList.remove('hidden'); } else { btnN.className = 'flex-1 py-1.5 rounded-lg font-black text-xs bg-black text-white dark:bg-white dark:text-black text-white shadow-sm transition'; btnS.className = 'flex-1 py-1.5 rounded-lg font-bold text-xs bg-transparent text-white border border-slate-700 hover:bg-slate-800 transition'; if (boxSaldo) boxSaldo.classList.add('hidden'); } } if (rebuild) { renderizarImoveis(); } recalcularTudo(); } 
 
 function alterarFinanciamentoImovel(idx, val) {
   if (state.imoveis[idx]) {
@@ -2856,63 +2666,22 @@ function renderizarImoveis() {
         </div>
       </td>
 
-      <!-- 5. CARTÓRIO & DESCONTOS LEGAIS (SELETOR ESTADO/RGI + BOTÕES DE DESCONTO LEGAL + VALOR EFETIVO) -->
+      <!-- 5. CARTÓRIO (ESTADO DO CARTÓRIO COM % CUSTO DE CARTÓRIO + SELETOR DE RGI) -->
       <td class="p-2 text-center whitespace-nowrap">
-        <div class="flex flex-col items-center justify-center gap-1.5 min-w-[280px]">
-          <!-- Linha 1: Seletor UF TJ + Seletor RGI + Botão Modal 🏛️ -->
-          <div class="flex items-center justify-center gap-1 w-full">
-            <select onchange="alterarUfCartorio(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer" title="Estado do Cartório e % de Custas Notariais e Registrais do Tribunal de Justiça">
-              ${Object.keys(TABELA_ITCMD_ESTADOS).filter(k => k !== 'OUTROS').map(uf => {
-                const pctCartorio = ((TABELA_ITCMD_ESTADOS[uf].escrPfPct || 0.01) * 100).toFixed(1).replace('.', ',');
-                return `<option value="${uf}" ${(im.ufCartorio || im.uf || 'SP') === uf ? 'selected' : ''}>${uf} (${pctCartorio}%)</option>`;
-              }).join('')}
-              <option value="OUTROS" ${(im.ufCartorio || im.uf) === 'OUTROS' ? 'selected' : ''}>OUT (1,0%)</option>
-            </select>
-
-            <select onchange="alterarRgiImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer max-w-[170px]" title="Cartório / Circunscrição do Estado ${im.ufCartorio || im.uf || 'SP'}">
-              ${obterOpcoesCartoriosSelect(im.ufCartorio || im.uf || 'SP', im.rgi || '13º RGI de São Paulo')}
-            </select>
-
-            <button type="button" onclick="abrirModalCartorio(${idx})" class="p-1 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-slate-300 dark:border-zinc-700 text-xs transition cursor-pointer" title="Abrir configurações de Localidade, Matrícula e Fatores de Redução de Cartório">
-              🏛️
-            </button>
-          </div>
-
-          <!-- Linha 2: Botões Interativos de Fatores de Desconto Legal -->
-          <div class="inline-flex items-center gap-0.5 p-0.5 rounded-xl bg-slate-100 dark:bg-zinc-900 border border-slate-300 dark:border-zinc-700">
-            ${['padrao', 'primeiro_imovel', 'mcmv_geral', 'mcmv_faixa1', 'holding_art64', 'reurb'].map(fKey => {
-              const fInfo = FATORES_DESCONTO_CARTORIO[fKey];
-              const isAtivo = (im.fatorDescontoCartorio || 'padrao') === fKey;
-              return `<button type="button" onclick="aplicarDescontoCartorioRapido(${idx}, '${fKey}')" class="px-1.5 py-0.5 rounded-lg text-[9px] font-bold transition cursor-pointer ${isAtivo ? 'bg-black text-white dark:bg-white dark:text-black font-black shadow-xs' : 'bg-transparent text-slate-600 dark:text-slate-400 hover:text-black dark:hover:text-white'}" title="${fInfo.nome} - ${fInfo.baseLegal}&#10;${fInfo.desc}">
-                ${fInfo.rotuloCurto}
-              </button>`;
+        <div class="flex items-center justify-center gap-1">
+          <!-- 1. Estado do Cartório com % de Custo Notarial/Registral por Estado -->
+          <select onchange="alterarUfCartorio(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer" title="Estado do Cartório e % de Custas Notariais e Registrais do Tribunal de Justiça">
+            ${Object.keys(TABELA_ITCMD_ESTADOS).filter(k => k !== 'OUTROS').map(uf => {
+              const pctCartorio = ((TABELA_ITCMD_ESTADOS[uf].escrPfPct || 0.01) * 100).toFixed(1).replace('.', ',');
+              return `<option value="${uf}" ${(im.ufCartorio || im.uf || 'SP') === uf ? 'selected' : ''}>${uf} (${pctCartorio}%)</option>`;
             }).join('')}
-          </div>
+            <option value="OUTROS" ${(im.ufCartorio || im.uf) === 'OUTROS' ? 'selected' : ''}>OUT (1,0%)</option>
+          </select>
 
-          <!-- Linha 3: Valor Efetivo & Badge de Economia Legal -->
-          ${(() => {
-            const fatorAtivo = FATORES_DESCONTO_CARTORIO[im.fatorDescontoCartorio || 'padrao'] || FATORES_DESCONTO_CARTORIO.padrao;
-            const ufCartorioAtual = im.ufCartorio || im.uf || 'SP';
-            const custoBaseTJ_linha = (im.custoBaseCartorio && im.custoBaseCartorio > 0) ? im.custoBaseCartorio : ((typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[ufCartorioAtual]) ? TABELA_ITCMD_ESTADOS[ufCartorioAtual].rgiHolding : 1500);
-            const custoFinalLinha = (im.custoRegistroRgi !== undefined && im.custoRegistroRgi !== null) ? im.custoRegistroRgi : Math.round(custoBaseTJ_linha * fatorAtivo.fator);
-            const economiaLinha = Math.max(0, custoBaseTJ_linha - custoFinalLinha);
-
-            let badgeHtml = '';
-            if (fatorAtivo.id === 'reurb') {
-              badgeHtml = `<span class="px-1.5 py-0.2 rounded text-[9px] font-black bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300 border border-purple-300 dark:border-purple-800" title="Isenção compulsória de 100% dos emolumentos por lei federal (REURB-S Art. 13 da Lei 13.465/17)">100% Isento (REURB)</span>`;
-            } else if (fatorAtivo.descontoPct > 0) {
-              badgeHtml = `<span class="px-1.5 py-0.2 rounded text-[9px] font-black bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800" title="Economia de ${formatMoney(economiaLinha)} concedida por lei federal (${fatorAtivo.baseLegal})">-${fatorAtivo.descontoPct}% (${fatorAtivo.badge})</span>`;
-            } else {
-              badgeHtml = `<span class="px-1.5 py-0.2 rounded text-[9px] font-bold bg-slate-200 dark:bg-zinc-800 text-slate-700 dark:text-slate-300" title="Emolumentos integrais regulados pela tabela do Tribunal de Justiça">Tabela TJ Integral</span>`;
-            }
-
-            return `<div class="flex items-center justify-center gap-1.5 text-[10px]">
-              <span class="font-mono font-black text-black dark:text-white" title="Custo final de registro/averbação">
-                ${formatMoney(custoFinalLinha)}
-              </span>
-              ${badgeHtml}
-            </div>`;
-          })()}
+          <!-- 2. Cartório / RGI daquele Estado -->
+          <select onchange="alterarRgiImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer max-w-[210px]" title="Cartório / Circunscrição do Estado ${im.ufCartorio || im.uf || 'SP'}">
+            ${obterOpcoesCartoriosSelect(im.ufCartorio || im.uf || 'SP', im.rgi || '13º RGI de São Paulo')}
+          </select>
         </div>
       </td>
 
@@ -3666,64 +3435,7 @@ function obterResumoTitulares(im) {
     }
 
     
-/* MODAL DE LOCALIDADE DO IMÓVEL (UF / MUNICÍPIO / ITCMD / ITBI / RGI & FATORES DE DESCONTO) */
-
-    let modalFatorDescontoAtivo = 'padrao';
-
-    function setFatorDescontoModal(fatorKey, atualizarInput = true) {
-      modalFatorDescontoAtivo = fatorKey;
-      const fatorInfo = FATORES_DESCONTO_CARTORIO[fatorKey] || FATORES_DESCONTO_CARTORIO.padrao;
-      
-      const selUfCartorio = document.getElementById('modal-sel-cartorio-uf') || document.getElementById('modal-sel-localidade-uf');
-      const ufCartorio = selUfCartorio ? selUfCartorio.value : 'SP';
-      const tInfo = (typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[ufCartorio]) ? TABELA_ITCMD_ESTADOS[ufCartorio] : null;
-      const custoBaseTJ = tInfo ? tInfo.rgiHolding : 1500;
-      
-      let baseVal = custoBaseTJ;
-      if (state.modalImovelIndex !== null && state.imoveis[state.modalImovelIndex]) {
-        const im = state.imoveis[state.modalImovelIndex];
-        if (im.custoBaseCartorio && im.custoBaseCartorio > 0) {
-          baseVal = im.custoBaseCartorio;
-        }
-      }
-      
-      const custoFinal = Math.round(baseVal * fatorInfo.fator);
-      const economia = Math.max(0, baseVal - custoFinal);
-      
-      const inpCustoRgi = document.getElementById('modal-inp-localidade-custo-rgi');
-      if (inpCustoRgi && atualizarInput) {
-        inpCustoRgi.value = custoFinal;
-      }
-      
-      const lblBase = document.getElementById('modal-cartorio-lbl-custo-base');
-      const lblEcon = document.getElementById('modal-cartorio-lbl-economia');
-      const lblFinal = document.getElementById('modal-cartorio-lbl-custo-final');
-      const txtLegal = document.getElementById('modal-cartorio-txt-base-legal');
-      const badgeFator = document.getElementById('modal-cartorio-badge-fator');
-      
-      if (lblBase) lblBase.innerText = formatMoney(baseVal);
-      if (lblEcon) lblEcon.innerText = `${formatMoney(economia)} (${fatorInfo.descontoPct}%)`;
-      if (lblFinal) lblFinal.innerText = formatMoney(custoFinal);
-      if (txtLegal) txtLegal.innerHTML = `<strong>${fatorInfo.nome}:</strong> ${fatorInfo.desc} <em>(${fatorInfo.baseLegal})</em>`;
-      if (badgeFator) {
-        badgeFator.innerText = fatorInfo.badge;
-        badgeFator.className = `px-2 py-0.5 rounded-full text-[10px] font-black ${fatorInfo.descontoPct > 0 ? 'bg-emerald-600 text-white dark:bg-emerald-500 dark:text-black' : 'bg-black text-white dark:bg-white dark:text-black'}`;
-      }
-      
-      // Atualiza botões no modal
-      ['padrao', 'primeiro_imovel', 'mcmv_geral', 'mcmv_faixa1', 'holding_art64', 'reurb'].forEach(k => {
-        const btn = document.getElementById('btn-fator-' + k);
-        if (btn) {
-          if (k === fatorKey) {
-            btn.classList.add('ring-2', 'ring-black', 'dark:ring-white', 'border-black', 'dark:border-white', 'bg-black/5', 'dark:bg-white/10');
-            btn.classList.remove('border-slate-300', 'dark:border-zinc-700');
-          } else {
-            btn.classList.remove('ring-2', 'ring-black', 'dark:ring-white', 'border-black', 'dark:border-white', 'bg-black/5', 'dark:bg-white/10');
-            btn.classList.add('border-slate-300', 'dark:border-zinc-700');
-          }
-        }
-      });
-    }
+/* MODAL DE LOCALIDADE DO IMÓVEL (UF / MUNICÍPIO / ITCMD / ITBI / RGI) */
 
     function abrirModalCartorio(idx) {
       if (!state.imoveis[idx]) return;
@@ -3749,18 +3461,7 @@ function obterResumoTitulares(im) {
       if (inpMatricula) inpMatricula.value = im.matricula || '-';
       
       const tInfo = (typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[ufCartorio]) ? TABELA_ITCMD_ESTADOS[ufCartorio] : null;
-      const custoBaseTJ = tInfo ? tInfo.rgiHolding : 1500;
-      
-      if (!im.custoBaseCartorio) {
-        im.custoBaseCartorio = (im.custoRegistroRgi !== undefined && im.custoRegistroRgi !== null && im.custoRegistroRgi > 0) ? im.custoRegistroRgi : custoBaseTJ;
-      }
-      
-      const fatorKey = im.fatorDescontoCartorio || 'padrao';
-      setFatorDescontoModal(fatorKey, false);
-      
-      if (inpCustoRgi) {
-        inpCustoRgi.value = (im.custoRegistroRgi !== undefined && im.custoRegistroRgi !== null) ? im.custoRegistroRgi : im.custoBaseCartorio;
-      }
+      if (inpCustoRgi) inpCustoRgi.value = (im.custoRegistroRgi !== undefined && im.custoRegistroRgi !== null) ? im.custoRegistroRgi : (tInfo ? tInfo.rgiHolding : 1500);
       
       atualizarInfoModalLocalidade();
       
@@ -3803,16 +3504,7 @@ function obterResumoTitulares(im) {
         const inpCustoRgi = document.getElementById('modal-inp-localidade-custo-rgi');
         if (inpRgi) inpRgi.value = found.id;
         if (inpCidade && found.cidade) inpCidade.value = found.cidade;
-        
-        let baseVal = found.custo || 1500;
-        if (state.modalImovelIndex !== null && state.imoveis[state.modalImovelIndex]) {
-          state.imoveis[state.modalImovelIndex].custoBaseCartorio = baseVal;
-        }
-        
-        const fatorInfo = FATORES_DESCONTO_CARTORIO[modalFatorDescontoAtivo || 'padrao'] || FATORES_DESCONTO_CARTORIO.padrao;
-        if (inpCustoRgi) inpCustoRgi.value = Math.round(baseVal * fatorInfo.fator);
-        
-        setFatorDescontoModal(modalFatorDescontoAtivo || 'padrao', true);
+        if (inpCustoRgi && found.custo) inpCustoRgi.value = found.custo;
         atualizarInfoModalLocalidade();
       }
     }
@@ -3829,13 +3521,7 @@ function obterResumoTitulares(im) {
       if (!selUfCartorio || !inpCustoRgi) return;
       const uf = selUfCartorio.value;
       const tInfo = (typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[uf]) ? TABELA_ITCMD_ESTADOS[uf] : null;
-      const baseVal = tInfo ? tInfo.rgiHolding : 1500;
-      if (state.modalImovelIndex !== null && state.imoveis[state.modalImovelIndex]) {
-        state.imoveis[state.modalImovelIndex].custoBaseCartorio = baseVal;
-      }
-      const fatorInfo = FATORES_DESCONTO_CARTORIO[modalFatorDescontoAtivo || 'padrao'] || FATORES_DESCONTO_CARTORIO.padrao;
-      inpCustoRgi.value = Math.round(baseVal * fatorInfo.fator);
-      setFatorDescontoModal(modalFatorDescontoAtivo || 'padrao', true);
+      inpCustoRgi.value = tInfo ? tInfo.rgiHolding : 1500;
     }
 
     function atualizarInfoModalLocalidade() {
@@ -3854,7 +3540,7 @@ function obterResumoTitulares(im) {
       const tjCartorio = tInfoCartorio ? tInfoCartorio.tjNome : 'TJ';
       const custaRef = tInfoCartorio ? ('R$ ' + tInfoCartorio.rgiHolding.toLocaleString('pt-BR') + ',00') : 'R$ 1.500,00';
 
-      elResumo.innerHTML = `Imóvel situado em <strong>${ufImovel}</strong> (ITCMD: ${aliqItcmd} - ${regItcmd}). Registro/Escritura lavrado no Estado <strong>${ufCartorio}</strong> (${tjCartorio} - Custas da Tabela: ${custaRef}).`;
+      elResumo.innerHTML = `Imóvel situado em <strong>${ufImovel}</strong> (ITCMD: ${aliqItcmd} - ${regItcmd}). Registro/Escritura lavrado no Estado <strong>${ufCartorio}</strong> (${tjCartorio} - Custas estimadas: ${custaRef}).`;
     }
 
     function salvarModalLocalidade() {
@@ -3872,18 +3558,8 @@ function obterResumoTitulares(im) {
       if (inpCidade) im.cidadeCartorio = inpCidade.value.trim() || 'São Paulo';
       if (inpRgi) im.rgi = inpRgi.value.trim() || 'Cartório de RGI';
       if (inpMatricula) im.matricula = inpMatricula.value.trim() || '-';
-      
-      im.fatorDescontoCartorio = modalFatorDescontoAtivo || 'padrao';
-      const fatorInfo = FATORES_DESCONTO_CARTORIO[im.fatorDescontoCartorio] || FATORES_DESCONTO_CARTORIO.padrao;
-      im.descontoCartorioPct = fatorInfo.descontoPct;
-
       if (inpCustoRgi) {
         im.custoRegistroRgi = parseFloat(inpCustoRgi.value) || 0;
-        if (fatorInfo.fator > 0 && im.fatorDescontoCartorio !== 'padrao') {
-          im.custoBaseCartorio = Math.round(im.custoRegistroRgi / fatorInfo.fator);
-        } else if (im.fatorDescontoCartorio === 'padrao') {
-          im.custoBaseCartorio = im.custoRegistroRgi;
-        }
       }
 
       const aquisicao = im.aquisicao || 0;
@@ -3904,19 +3580,11 @@ function obterResumoTitulares(im) {
         selUfCartorio.value = ufCartorio;
         popularPresetsCartoriosModal(ufCartorio);
         const lista = CARTORIOS_POR_ESTADO[ufCartorio] || [];
-        let novoCustoBase = 1500;
         if (lista.length > 0) {
           selecionarCartorioPresetModal(lista[0].id);
-          novoCustoBase = lista[0].custo || 1500;
         } else {
           restaurarCustoPadraoCartorioModal();
-          const tInfo = (typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[ufCartorio]) ? TABELA_ITCMD_ESTADOS[ufCartorio] : null;
-          novoCustoBase = tInfo ? tInfo.rgiHolding : 1500;
         }
-        if (state.modalImovelIndex !== null && state.imoveis[state.modalImovelIndex]) {
-          state.imoveis[state.modalImovelIndex].custoBaseCartorio = novoCustoBase;
-        }
-        setFatorDescontoModal(modalFatorDescontoAtivo || 'padrao', true);
         atualizarInfoModalLocalidade();
       }
     }
