@@ -450,7 +450,7 @@
             <th class="p-2.5 text-center">Cláusulas na Matrícula</th>
             <th class="p-2.5 text-center">Regime Fiscal Atual</th>
             <th class="p-2.5 text-center">Proprietário(s) &amp; Titularidade</th>
-            <th class="p-2.5 text-center">Usufruto &amp; Votos (%)</th>
+            <th class="p-2.5 text-center" title="Cláusula de Reserva de Usufruto &amp; Poder Político de Voto (%)">Cláusula de Usufruto &amp; Votos (%)</th>
             <th class="p-2.5 text-center">Ano</th>
             <th class="p-2.5 text-center">Valor de Aquisição (R$)</th>
             <th class="p-2.5 text-center" title="ITBI recolhido na época da compra (Art. 17 Lei 9.250/95 - dedutível no custo DIRPF)">ITBI Pago na Época (R$)</th>
@@ -1468,7 +1468,15 @@
             <button type="button" onclick="fecharModalUsufruto()" class="px-4 py-2 rounded-xl bg-white dark:bg-zinc-900 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs transition cursor-pointer hover:bg-slate-100 dark:hover:bg-zinc-800">
               Cancelar
             </button>
-            <button type="button" onclick="salvarModalUsufruto()" class="px-4 py-2 rounded-xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white font-black text-xs shadow-xs transition cursor-pointer<!-- 4. MODAL DE CARTÓRIO, ESTADOS INDEPENDENTES & ESPECIFICAÇÃO DE RGI -->
+            <button type="button" onclick="salvarModalUsufruto()" class="px-4 py-2 rounded-xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white font-black text-xs shadow-xs transition cursor-pointer hover:bg-slate-800 dark:hover:bg-slate-200">
+              ✓ Salvar Usufruto &amp; Votos
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 4. MODAL DE CARTÓRIO, ESTADOS INDEPENDENTES & ESPECIFICAÇÃO DE RGI -->
       <div id="modal-localidade-imovel" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 hidden">
         <div class="bg-white dark:bg-black border-2 border-black dark:border-zinc-700 rounded-2xl shadow-2xl max-w-xl w-full p-6 text-black dark:text-white space-y-4 max-h-[92vh] overflow-y-auto">
           <!-- Cabeçalho -->
@@ -2198,12 +2206,16 @@ function renderizarImoveis() {
     let totalTit = 100;
     if (im.proprietarios && Array.isArray(im.proprietarios)) {
       totalTit = im.proprietarios.reduce((sum, p) => sum + (parseFloat(p.percentual) || 0), 0);
+    } else if (im.titularesPct) {
+      totalTit = Object.values(im.titularesPct).reduce((sum, v) => sum + (parseFloat(v) || 0), 0);
     }
 
     // Calcular resumo de usufruto
     let totalUsuf = 100;
     if (im.usufrutuarios && Array.isArray(im.usufrutuarios)) {
       totalUsuf = im.usufrutuarios.reduce((sum, u) => sum + (parseFloat(u.percentualVotos) || 0), 0);
+    } else if (im.usufrutoVotosPct) {
+      totalUsuf = Object.values(im.usufrutoVotosPct).reduce((sum, v) => sum + (parseFloat(v) || 0), 0);
     }
 
     // Períodos e resumo de vacância / datas
@@ -2325,11 +2337,11 @@ function renderizarImoveis() {
         </div>
       </td>
 
-      <!-- 9. USUFRUTO & VOTOS (%) (APENAS EMOJI) -->
+      <!-- 9. CLÁUSULA DE USUFRUTO & VOTOS (%) (EMOJI) -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center">
-          <button type="button" onclick="abrirModalUsufruto(${idx})" class="w-8 h-8 rounded-lg border border-black dark:border-white bg-white dark:bg-black hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-base transition shadow-2xs cursor-pointer flex items-center justify-center hover:scale-110" title="Usufruto & Poder de Voto (${totalUsuf.toFixed(0)}%) - Clique para abrir e preencher">
-            ⚙️
+          <button type="button" onclick="abrirModalUsufruto(${idx})" class="w-8 h-8 rounded-lg border border-black dark:border-white bg-white dark:bg-black hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-base transition shadow-2xs cursor-pointer flex items-center justify-center hover:scale-110" title="Cláusula de Usufruto &amp; Poder de Voto (${totalUsuf.toFixed(0)}% • ${im.usufrutoResumo || 'Vitalício'}) - Clique para abrir e preencher">
+            ⚖️
           </button>
         </div>
       </td>
@@ -2665,26 +2677,26 @@ function obterResumoTitulares(im) {
         const regime = p.regime || "Comunhão Parcial";
 
         const row = document.createElement('div');
-        row.className = 'p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2';
+        row.className = 'p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 space-y-2';
         row.innerHTML = `
           <div class="flex items-center justify-between">
             <div class="flex-1 min-w-0 pr-2">
-              <input type="text" value="${p.nome}" onchange="renomearPessoaModal(${p.id}, this.value)" class="font-bold text-slate-900 text-xs bg-transparent border-b border-transparent hover:border-slate-300 focus:border-slate-300 dark:border-zinc-700 focus:bg-white px-1 py-0.5 rounded w-full outline-none" title="Nome do titular / sócio">
-              <span class="text-[10px] text-slate-500 font-mono px-1">Valor Proporcional: ${formatMoney(valorProporcional)}</span>
+              <input type="text" value="${p.nome}" onchange="renomearPessoaModal(${p.id}, this.value)" class="font-bold text-slate-900 dark:text-white text-xs bg-transparent border-b border-transparent hover:border-slate-300 dark:hover:border-zinc-700 focus:border-black dark:focus:border-white focus:bg-white dark:focus:bg-zinc-950 px-1 py-0.5 rounded w-full outline-none" title="Nome do titular / sócio">
+              <span class="text-[10px] text-slate-500 dark:text-zinc-400 font-mono px-1">Valor Proporcional: ${formatMoney(valorProporcional)}</span>
             </div>
             <div class="flex items-center gap-1">
-              <input type="number" min="0" max="100" step="1" value="${pct}" oninput="alterarPctTitularModal(${p.id}, this.value)" class="w-16 p-1 rounded-lg bg-white border border-slate-300 dark:border-zinc-700 text-black dark:text-white font-black text-xs text-center font-mono focus:ring-2 focus:ring-purple-400 focus:outline-none" title="Porcentagem de participação deste titular">
-              <span class="font-bold text-slate-700 text-xs">%</span>
-              <button type="button" onclick="removerPessoaModal(${p.id})" class="p-1 text-slate-400 hover:text-black dark:text-white rounded transition cursor-pointer ml-1" title="Remover esta pessoa">
+              <input type="number" min="0" max="100" step="1" value="${pct}" oninput="alterarPctTitularModal(${p.id}, this.value)" class="w-16 p-1 rounded-lg bg-white dark:bg-zinc-950 border border-slate-300 dark:border-zinc-700 text-black dark:text-white font-black text-xs text-center font-mono focus:ring-2 focus:ring-black dark:focus:ring-white focus:outline-none" title="Porcentagem de participação deste titular">
+              <span class="font-bold text-slate-700 dark:text-zinc-300 text-xs">%</span>
+              <button type="button" onclick="removerPessoaModal(${p.id})" class="p-1 text-slate-400 hover:text-black dark:hover:text-white rounded transition cursor-pointer ml-1" title="Remover esta pessoa">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
               </button>
             </div>
           </div>
-          <div class="flex flex-wrap items-center gap-2 pt-1 border-t border-slate-200 text-[10px]">
+          <div class="flex flex-wrap items-center gap-2 pt-1 border-t border-slate-200 dark:border-zinc-800 text-[10px]">
             <!-- Estado Civil -->
             <div class="flex items-center gap-1">
-              <span class="font-bold text-slate-600">Estado Civil:</span>
-              <select onchange="alterarEstadoCivilModal(${p.id}, this.value)" class="p-1 rounded-lg bg-white border border-slate-300 text-slate-800 font-bold focus:outline-none cursor-pointer text-[10px]" title="Estado civil">
+              <span class="font-bold text-slate-600 dark:text-zinc-400">Estado Civil:</span>
+              <select onchange="alterarEstadoCivilModal(${p.id}, this.value)" class="p-1 rounded-lg bg-white dark:bg-zinc-950 border border-slate-300 dark:border-zinc-700 text-slate-800 dark:text-zinc-200 font-bold focus:outline-none cursor-pointer text-[10px]" title="Estado civil">
                 <option value="Casado" ${civil === 'Casado' || civil === 'Casada' ? 'selected' : ''}>Casado(a)</option>
                 <option value="Solteiro" ${civil === 'Solteiro' || civil === 'Solteira' ? 'selected' : ''}>Solteiro(a)</option>
                 <option value="União Estável" ${civil === 'União Estável' ? 'selected' : ''}>União Estável</option>
@@ -2694,8 +2706,8 @@ function obterResumoTitulares(im) {
             </div>
             <!-- Comunhão de Bens / Regime -->
             <div class="flex items-center gap-1 flex-1 min-w-[150px]">
-              <span class="font-bold text-slate-600">Comunhão de Bens:</span>
-              <select onchange="alterarRegimeTitularModal(${p.id}, this.value)" class="p-1 rounded-lg bg-white border border-slate-300 text-slate-800 font-bold focus:outline-none cursor-pointer flex-1 text-[10px]" title="Regime de casamento / união estável">
+              <span class="font-bold text-slate-600 dark:text-zinc-400">Comunhão de Bens:</span>
+              <select onchange="alterarRegimeTitularModal(${p.id}, this.value)" class="p-1 rounded-lg bg-white dark:bg-zinc-950 border border-slate-300 dark:border-zinc-700 text-slate-800 dark:text-zinc-200 font-bold focus:outline-none cursor-pointer flex-1 text-[10px]" title="Regime de casamento / união estável">
                 <option value="Comunhão Parcial" ${regime === 'Comunhão Parcial' ? 'selected' : ''}>Comunhão Parcial</option>
                 <option value="Comunhão Universal" ${regime === 'Comunhão Universal' ? 'selected' : ''}>Comunhão Universal</option>
                 <option value="Separação Total" ${regime === 'Separação Total' ? 'selected' : ''}>Separação Total (Convencional)</option>
@@ -2705,8 +2717,8 @@ function obterResumoTitulares(im) {
             </div>
             <!-- Profissão de Risco -->
             <div class="flex items-center gap-1">
-              <span class="font-bold text-slate-600">Profissão de Risco:</span>
-              <button type="button" onclick="toggleRiscoTitularModal(${p.id})" class="px-2 py-0.5 rounded-lg font-bold transition cursor-pointer ${risco === 'SIM' ? 'bg-slate-100 dark:bg-zinc-900 text-white shadow-2xs' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}" title="Clique para alternar o risco profissional/empresarial deste sócio">
+              <span class="font-bold text-slate-600 dark:text-zinc-400">Profissão de Risco:</span>
+              <button type="button" onclick="toggleRiscoTitularModal(${p.id})" class="px-2 py-0.5 rounded-lg font-bold transition cursor-pointer ${risco === 'SIM' ? 'bg-black text-white dark:bg-white dark:text-black shadow-2xs' : 'bg-slate-200 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-300 dark:hover:bg-zinc-700'}" title="Clique para alternar o risco profissional/empresarial deste sócio">
                 ${risco === 'SIM' ? '⚠️ SIM (Risco)' : '🛡️ NÃO (Seguro)'}
               </button>
             </div>
@@ -2827,26 +2839,26 @@ function obterResumoTitulares(im) {
         const regime = p.regime || "Comunhão Parcial";
 
         const row = document.createElement('div');
-        row.className = 'p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2';
+        row.className = 'p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 space-y-2';
         row.innerHTML = `
           <div class="flex items-center justify-between">
             <div class="flex-1 min-w-0 pr-2">
-              <input type="text" value="${p.nome}" onchange="renomearPessoaModal(${p.id}, this.value)" class="font-bold text-slate-900 text-xs bg-transparent border-b border-transparent hover:border-slate-300 focus:border-slate-300 dark:border-zinc-700 focus:bg-white px-1 py-0.5 rounded w-full outline-none" title="Nome da pessoa / usufrutuário">
-              <span class="text-[10px] text-slate-500 font-mono px-1">Valor Político Proporcional: ${formatMoney(valorProporcional)}</span>
+              <input type="text" value="${p.nome}" onchange="renomearPessoaModal(${p.id}, this.value)" class="font-bold text-slate-900 dark:text-white text-xs bg-transparent border-b border-transparent hover:border-slate-300 dark:hover:border-zinc-700 focus:border-black dark:focus:border-white focus:bg-white dark:focus:bg-zinc-950 px-1 py-0.5 rounded w-full outline-none" title="Nome da pessoa / usufrutuário">
+              <span class="text-[10px] text-slate-500 dark:text-zinc-400 font-mono px-1">Valor Político Proporcional: ${formatMoney(valorProporcional)}</span>
             </div>
             <div class="flex items-center gap-1">
-              <input type="number" min="0" max="100" step="1" value="${pctVoto}" oninput="alterarPctVotoModal(${p.id}, this.value)" class="w-16 p-1 rounded-lg bg-white border border-slate-300 dark:border-zinc-700 text-black dark:text-white font-black text-xs text-center font-mono focus:ring-2 focus:ring-blue-400 focus:outline-none" title="Porcentagem de poder de voto político">
-              <span class="font-bold text-slate-700 text-xs">%</span>
-              <button type="button" onclick="removerPessoaModal(${p.id})" class="p-1 text-slate-400 hover:text-black dark:text-white rounded transition cursor-pointer ml-1" title="Remover esta pessoa">
+              <input type="number" min="0" max="100" step="1" value="${pctVoto}" oninput="alterarPctVotoModal(${p.id}, this.value)" class="w-16 p-1 rounded-lg bg-white dark:bg-zinc-950 border border-slate-300 dark:border-zinc-700 text-black dark:text-white font-black text-xs text-center font-mono focus:ring-2 focus:ring-black dark:focus:ring-white focus:outline-none" title="Porcentagem de poder de voto político">
+              <span class="font-bold text-slate-700 dark:text-zinc-300 text-xs">%</span>
+              <button type="button" onclick="removerPessoaModal(${p.id})" class="p-1 text-slate-400 hover:text-black dark:hover:text-white rounded transition cursor-pointer ml-1" title="Remover esta pessoa">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
               </button>
             </div>
           </div>
-          <div class="flex flex-wrap items-center gap-2 pt-1 border-t border-slate-200 text-[10px]">
+          <div class="flex flex-wrap items-center gap-2 pt-1 border-t border-slate-200 dark:border-zinc-800 text-[10px]">
             <!-- Tipo de Usufruto -->
             <div class="flex items-center gap-1 min-w-[170px]">
-              <span class="font-bold text-slate-600">Modalidade:</span>
-              <select onchange="alterarTipoUsufrutoModal(${p.id}, this.value)" class="p-1 rounded-lg bg-white border border-slate-300 text-slate-800 font-bold focus:outline-none cursor-pointer flex-1 text-[10px]" title="Modalidade de Usufruto para esta pessoa">
+              <span class="font-bold text-slate-600 dark:text-zinc-400">Modalidade:</span>
+              <select onchange="alterarTipoUsufrutoModal(${p.id}, this.value)" class="p-1 rounded-lg bg-white dark:bg-zinc-950 border border-slate-300 dark:border-zinc-700 text-slate-800 dark:text-zinc-200 font-bold focus:outline-none cursor-pointer flex-1 text-[10px]" title="Modalidade de Usufruto para esta pessoa">
                 <option value="Vitalício" ${tipoUsufruto === 'Vitalício' ? 'selected' : ''}>Usufruto Vitalício (Art. 1.410 CC)</option>
                 <option value="Temporário (10 Anos)" ${tipoUsufruto === 'Temporário (10 Anos)' ? 'selected' : ''}>Temporário (10 Anos)</option>
                 <option value="Temporário (20 Anos)" ${tipoUsufruto === 'Temporário (20 Anos)' ? 'selected' : ''}>Temporário (20 Anos)</option>
@@ -2857,8 +2869,8 @@ function obterResumoTitulares(im) {
             </div>
             <!-- Estado Civil -->
             <div class="flex items-center gap-1">
-              <span class="font-bold text-slate-600">Estado Civil:</span>
-              <select onchange="alterarEstadoCivilModal(${p.id}, this.value)" class="p-1 rounded-lg bg-white border border-slate-300 text-slate-800 font-bold focus:outline-none cursor-pointer text-[10px]" title="Estado civil">
+              <span class="font-bold text-slate-600 dark:text-zinc-400">Estado Civil:</span>
+              <select onchange="alterarEstadoCivilModal(${p.id}, this.value)" class="p-1 rounded-lg bg-white dark:bg-zinc-950 border border-slate-300 dark:border-zinc-700 text-slate-800 dark:text-zinc-200 font-bold focus:outline-none cursor-pointer text-[10px]" title="Estado civil">
                 <option value="Casado" ${civil === 'Casado' || civil === 'Casada' ? 'selected' : ''}>Casado(a)</option>
                 <option value="Solteiro" ${civil === 'Solteiro' || civil === 'Solteira' ? 'selected' : ''}>Solteiro(a)</option>
                 <option value="União Estável" ${civil === 'União Estável' ? 'selected' : ''}>União Estável</option>
@@ -2868,8 +2880,8 @@ function obterResumoTitulares(im) {
             </div>
             <!-- Comunhão de Bens / Regime -->
             <div class="flex items-center gap-1 flex-1 min-w-[150px]">
-              <span class="font-bold text-slate-600">Comunhão de Bens:</span>
-              <select onchange="alterarRegimeTitularModal(${p.id}, this.value)" class="p-1 rounded-lg bg-white border border-slate-300 text-slate-800 font-bold focus:outline-none cursor-pointer flex-1 text-[10px]" title="Regime de casamento / união estável">
+              <span class="font-bold text-slate-600 dark:text-zinc-400">Comunhão de Bens:</span>
+              <select onchange="alterarRegimeTitularModal(${p.id}, this.value)" class="p-1 rounded-lg bg-white dark:bg-zinc-950 border border-slate-300 dark:border-zinc-700 text-slate-800 dark:text-zinc-200 font-bold focus:outline-none cursor-pointer flex-1 text-[10px]" title="Regime de casamento / união estável">
                 <option value="Comunhão Parcial" ${regime === 'Comunhão Parcial' ? 'selected' : ''}>Comunhão Parcial</option>
                 <option value="Comunhão Universal" ${regime === 'Comunhão Universal' ? 'selected' : ''}>Comunhão Universal</option>
                 <option value="Separação Total" ${regime === 'Separação Total' ? 'selected' : ''}>Separação Total (Convencional)</option>
@@ -2879,8 +2891,8 @@ function obterResumoTitulares(im) {
             </div>
             <!-- Profissão de Risco -->
             <div class="flex items-center gap-1">
-              <span class="font-bold text-slate-600">Profissão de Risco:</span>
-              <button type="button" onclick="toggleRiscoTitularModal(${p.id})" class="px-2 py-0.5 rounded-lg font-bold transition cursor-pointer ${risco === 'SIM' ? 'bg-slate-100 dark:bg-zinc-900 text-white shadow-2xs' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}" title="Clique para alternar o risco profissional/empresarial deste sócio">
+              <span class="font-bold text-slate-600 dark:text-zinc-400">Profissão de Risco:</span>
+              <button type="button" onclick="toggleRiscoTitularModal(${p.id})" class="px-2 py-0.5 rounded-lg font-bold transition cursor-pointer ${risco === 'SIM' ? 'bg-black text-white dark:bg-white dark:text-black shadow-2xs' : 'bg-slate-200 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-300 dark:hover:bg-zinc-700'}" title="Clique para alternar o risco profissional/empresarial deste sócio">
                 ${risco === 'SIM' ? '⚠️ SIM (Risco)' : '🛡️ NÃO (Seguro)'}
               </button>
             </div>
@@ -4462,10 +4474,15 @@ function obterResumoTitulares(im) {
               <p class="text-[10px] text-slate-600 mt-0.5 leading-tight">${c.desc}</p>
             </div>
             <div class="flex items-center gap-1 shrink-0 pt-0.5">
-              <button type="button" onclick="setClausulaImovelModal('${c.id}', true)" class="px-2.5 py-1 rounded-lg font-black text-[10px] transition cursor-pointer ${ativa ? 'bg-slate-100 dark:bg-zinc-900 text-white shadow-xs' : 'bg-slate-200 text-slate-600 hover:bg-slate-300'}">
+              ${c.id === 'usufruto' ? `
+                <button type="button" onclick="fecharModalClausulasImovel(); abrirModalUsufruto(state.modalImovelIndex);" class="px-2 py-1 rounded-lg font-bold text-[10px] bg-slate-200 dark:bg-zinc-800 text-black dark:text-white border border-slate-300 dark:border-zinc-700 hover:bg-slate-300 dark:hover:bg-zinc-700 cursor-pointer transition flex items-center gap-1" title="Especificar quotas de voto e modalidades da Cláusula de Usufruto">
+                  ⚖️ Preencher
+                </button>
+              ` : ''}
+              <button type="button" onclick="setClausulaImovelModal('${c.id}', true)" class="px-2.5 py-1 rounded-lg font-black text-[10px] transition cursor-pointer ${ativa ? 'bg-black text-white dark:bg-white dark:text-black shadow-xs' : 'bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400 hover:bg-slate-300 dark:hover:bg-zinc-700'}">
                 SIM
               </button>
-              <button type="button" onclick="setClausulaImovelModal('${c.id}', false)" class="px-2.5 py-1 rounded-lg font-black text-[10px] transition cursor-pointer ${!ativa ? 'bg-slate-600 text-white shadow-xs' : 'bg-slate-200 text-slate-600 hover:bg-slate-300'}">
+              <button type="button" onclick="setClausulaImovelModal('${c.id}', false)" class="px-2.5 py-1 rounded-lg font-black text-[10px] transition cursor-pointer ${!ativa ? 'bg-slate-600 text-white shadow-xs' : 'bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400 hover:bg-slate-300 dark:hover:bg-zinc-700'}">
                 NÃO
               </button>
             </div>
