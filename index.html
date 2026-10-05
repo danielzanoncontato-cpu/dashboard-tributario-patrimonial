@@ -457,7 +457,7 @@
             <th class="p-2.5 text-center" title="Comissão de corretagem imobiliária paga na aquisição pelo comprador (Art. 17 Lei 9.250/95 e IN SRF 84/01 - dedutível no custo DIRPF)">Corretagem na Época (R$)</th>
             <th class="p-2.5 text-center" title="Reformas e benfeitorias comprovadas com notas fiscais (Art. 17 Lei 9.250/95 - acresce ao custo DIRPF)">Reformas &amp; Benfeitorias (R$)</th>
             <th class="p-2.5 text-center" title="Aluguel mensal em reais na época em que comprou o imóvel">Aluguel na Aquisição (R$/m)</th>
-            <th class="p-2.5 text-center" title="Situação do imóvel (Quitado ou Financiado, saldo devedor, taxa e indexador)">Financiamento / Saldo</th>
+            <th class="p-2.5 text-center" title="Situação do imóvel (Quitado ou Financiado, saldo devedor, taxa acordada e indexador)">Financiamento (Valores &amp; Taxa)</th>
             <th class="p-2.5 text-center" title="Custo Declarado na DIRPF (Aquisição + ITBI + Corretagem + Reformas)">Valor Declarado / DIRPF (R$)</th>
             <th class="p-2.5 text-center">Valor de Mercado</th>
             <th class="p-2.5 text-center" title="Aluguel mensal atual em reais hoje">Aluguel Hoje (R$/m)</th>
@@ -1712,6 +1712,156 @@
         </div>
       </div>
 
+      <!-- 7. MODAL DE FINANCIAMENTO IMOBILIÁRIO & TAXA DE JUROS ACORDADA -->
+      <div id="modal-financiamento-imovel" class="hidden fixed inset-0 bg-black/70 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-black border-2 border-black dark:border-zinc-700 rounded-2xl shadow-2xl max-w-xl w-full p-6 text-black dark:text-white space-y-4 max-h-[92vh] overflow-y-auto flex flex-col">
+          
+          <!-- Cabeçalho do Modal -->
+          <div class="flex items-center justify-between border-b border-black dark:border-zinc-700 pb-3 shrink-0">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">🏦</span>
+              <div>
+                <h3 class="font-black text-sm text-black dark:text-white leading-tight">Financiamento Imobiliário &amp; Taxa de Juros</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-400 mt-0.5" id="modal-fin-imovel-nome">
+                  Identificação do Imóvel
+                </p>
+              </div>
+            </div>
+            <button type="button" onclick="fecharModalFinanciamento()" class="text-slate-400 hover:text-black dark:hover:text-white text-lg font-black transition cursor-pointer p-1">
+              ✕
+            </button>
+          </div>
+
+          <!-- Seletor Rápido: Quitado vs Financiado -->
+          <div class="flex items-center justify-center gap-2 p-1.5 rounded-xl bg-slate-100 dark:bg-zinc-900 border border-slate-300 dark:border-zinc-700 shrink-0">
+            <button type="button" id="btn-modal-fin-quitado" onclick="setModalFinStatus('NAO')" class="flex-1 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer">
+              ✓ Imóvel Quitado
+            </button>
+            <button type="button" id="btn-modal-fin-financiado" onclick="setModalFinStatus('SIM')" class="flex-1 py-1.5 rounded-lg text-xs font-black transition cursor-pointer">
+              ⏳ Imóvel Financiado
+            </button>
+          </div>
+
+          <!-- Caixa de Detalhes do Financiamento (Visível quando Financiado) -->
+          <div id="box-modal-fin-detalhes" class="space-y-3.5 flex-1 text-xs">
+            
+            <!-- 1. Saldo Devedor & Taxa Acordada -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <!-- Saldo Devedor -->
+              <div class="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-black dark:border-zinc-700 space-y-1.5">
+                <label class="block text-[11px] font-black uppercase text-black dark:text-white">
+                  💰 Saldo Devedor Atual:
+                </label>
+                <div class="flex items-center gap-1.5">
+                  <input type="text" inputmode="numeric" id="modal-fin-saldo" onfocus="this.select()" oninput="aplicarMascaraMoedaInput(this, () => recalcularSimulacaoFinModal())" onblur="formatarMoedaBlur(this, () => recalcularSimulacaoFinModal())" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-black text-xs font-mono text-right" placeholder="R$ 0,00" title="Saldo devedor restante do financiamento">
+                  <span class="text-xs text-slate-400 select-none">✏️</span>
+                </div>
+                <span class="text-[10px] text-slate-500 dark:text-slate-400 block" id="modal-fin-saldo-pct-mercado">
+                  Representa ~40% do valor de mercado
+                </span>
+              </div>
+
+              <!-- Taxa de Juros Acordada -->
+              <div class="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-black dark:border-zinc-700 space-y-1.5">
+                <div class="flex justify-between items-center">
+                  <label class="block text-[11px] font-black uppercase text-black dark:text-white">
+                    📈 Taxa de Juros Acordada:
+                  </label>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-black text-white dark:bg-white dark:text-black">% a.a.</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <input type="text" inputmode="decimal" id="modal-fin-taxa" onfocus="this.select()" oninput="recalcularSimulacaoFinModal()" onblur="formatarTaxaFinBlur(this)" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-black text-xs font-mono text-right" placeholder="9,50" title="Taxa anual contratual acordada">
+                  <span class="font-bold text-xs text-black dark:text-white select-none">% a.a.</span>
+                </div>
+                <!-- Atalhos de Taxa de Mercado -->
+                <div class="flex flex-wrap gap-1 pt-1">
+                  <button type="button" onclick="setModalFinTaxa(8.5)" class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 hover:bg-slate-100 cursor-pointer">8,5%</button>
+                  <button type="button" onclick="setModalFinTaxa(9.5)" class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 hover:bg-slate-100 cursor-pointer">9,5%</button>
+                  <button type="button" onclick="setModalFinTaxa(10.5)" class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 hover:bg-slate-100 cursor-pointer">10,5%</button>
+                  <button type="button" onclick="setModalFinTaxa(11.5)" class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 hover:bg-slate-100 cursor-pointer">11,5%</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Indexador, Sistema de Amortização & Prazo Restante -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <!-- Indexador -->
+              <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-black dark:border-zinc-700 space-y-1">
+                <label class="block text-[10px] font-black uppercase text-slate-700 dark:text-slate-300">
+                  📑 Indexador:
+                </label>
+                <select id="modal-fin-indexador" onchange="recalcularSimulacaoFinModal()" class="w-full p-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs cursor-pointer">
+                  <option value="TR">+ TR (Taxa Referencial)</option>
+                  <option value="IPCA">+ IPCA (Inflação)</option>
+                  <option value="Poupança">+ Poupança</option>
+                  <option value="Pré">Pré-Fixado (Fixo)</option>
+                  <option value="CDI">+ CDI</option>
+                </select>
+              </div>
+
+              <!-- Sistema de Amortização -->
+              <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-black dark:border-zinc-700 space-y-1">
+                <label class="block text-[10px] font-black uppercase text-slate-700 dark:text-slate-300">
+                  ⚖️ Amortização:
+                </label>
+                <select id="modal-fin-amortizacao" onchange="recalcularSimulacaoFinModal()" class="w-full p-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs cursor-pointer">
+                  <option value="SAC">SAC (Decrescente)</option>
+                  <option value="Price">Price (Fixa)</option>
+                </select>
+              </div>
+
+              <!-- Prazo Restante -->
+              <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-black dark:border-zinc-700 space-y-1">
+                <div class="flex justify-between items-center">
+                  <label class="block text-[10px] font-black uppercase text-slate-700 dark:text-slate-300">
+                    ⏳ Prazo Restante:
+                  </label>
+                  <span id="modal-fin-prazo-anos" class="text-[9px] font-bold text-slate-500">20 anos</span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <input type="number" id="modal-fin-prazo" min="1" max="420" value="240" oninput="recalcularSimulacaoFinModal()" class="w-full p-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs font-mono text-center">
+                  <span class="text-[10px] text-slate-500 font-bold select-none">meses</span>
+                </div>
+                <div class="flex gap-1 pt-0.5 justify-center">
+                  <button type="button" onclick="setModalFinPrazo(120)" class="px-1 py-0.2 rounded text-[8px] font-bold bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 hover:bg-slate-100 cursor-pointer">10a</button>
+                  <button type="button" onclick="setModalFinPrazo(180)" class="px-1 py-0.2 rounded text-[8px] font-bold bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 hover:bg-slate-100 cursor-pointer">15a</button>
+                  <button type="button" onclick="setModalFinPrazo(240)" class="px-1 py-0.2 rounded text-[8px] font-bold bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 hover:bg-slate-100 cursor-pointer">20a</button>
+                  <button type="button" onclick="setModalFinPrazo(360)" class="px-1 py-0.2 rounded text-[8px] font-bold bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 hover:bg-slate-100 cursor-pointer">30a</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Demonstrativo Dinâmico de Parcelas e Juros Acordados -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 p-3 rounded-xl bg-slate-100 dark:bg-zinc-900 border border-black dark:border-zinc-700">
+              <div class="text-center p-2 rounded-lg bg-white dark:bg-black border border-slate-200 dark:border-zinc-800 shadow-2xs">
+                <span class="text-[10px] text-slate-500 dark:text-slate-400 font-bold block uppercase">📅 Parcela Estimada:</span>
+                <span class="text-xs font-black font-mono text-black dark:text-white" id="modal-fin-lbl-parcela">R$ 0,00/mês</span>
+              </div>
+              <div class="text-center p-2 rounded-lg bg-white dark:bg-black border border-slate-200 dark:border-zinc-800 shadow-2xs">
+                <span class="text-[10px] text-slate-500 dark:text-slate-400 font-bold block uppercase">📊 Juros Totais no Prazo:</span>
+                <span class="text-xs font-black font-mono text-black dark:text-white" id="modal-fin-lbl-juros-totais">R$ 0,00</span>
+              </div>
+              <div class="text-center p-2 rounded-lg bg-white dark:bg-black border border-slate-200 dark:border-zinc-800 shadow-2xs">
+                <span class="text-[10px] text-slate-500 dark:text-slate-400 font-bold block uppercase">🛡️ Alavancagem (LTV):</span>
+                <span class="text-xs font-black font-mono text-black dark:text-white" id="modal-fin-lbl-ltv">0,0%</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Botões de Ação do Modal -->
+          <div class="flex justify-end gap-2 pt-3 border-t border-black dark:border-zinc-700 shrink-0">
+            <button type="button" onclick="fecharModalFinanciamento()" class="px-4 py-2 rounded-xl bg-white dark:bg-zinc-900 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs transition cursor-pointer hover:bg-slate-100 dark:hover:bg-zinc-800">
+              Cancelar
+            </button>
+            <button type="button" onclick="salvarModalFinanciamento()" class="px-4 py-2 rounded-xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white font-black text-xs shadow-xs transition cursor-pointer hover:bg-slate-800 dark:hover:bg-slate-200">
+              ✓ Salvar Financiamento &amp; Taxa
+            </button>
+          </div>
+
+        </div>
+      </div>
+
       <!-- JAVASCRIPT MASTER ENGINE --> <script>
  /* ========================================================================= */
     /* 🏛️ BANCO DE DADOS NACIONAL DE CARTÓRIOS DE REGISTRO DE IMÓVEIS (RGI) */
@@ -2115,26 +2265,262 @@
 /* Alternar visualização dos blocos dentro dos 4 cards */
  for (let i = 1; i <= 4; i++) { const boxMin = document.getElementById(`box-reg${i}-min`); const boxEst = document.getElementById(`box-reg${i}-estresse`); if (boxMin && boxEst) { if (cenario === 'minimo') { boxMin.classList.remove('hidden'); boxEst.classList.add('hidden'); } else if (cenario === 'estresse') { boxMin.classList.add('hidden'); boxEst.classList.remove('hidden'); } else { boxMin.classList.remove('hidden'); boxEst.classList.remove('hidden'); } } } } function switchCenarioRenda(modo) { const btnOti = document.getElementById('btn-cenario-renda-otimizado'); const btnEst = document.getElementById('btn-cenario-renda-estresse'); const btnLad = document.getElementById('btn-cenario-renda-lado-a-lado'); [btnOti, btnEst, btnLad].forEach(b => { if (b) { b.className = 'px-3 py-1 rounded-lg font-bold bg-white text-black dark:bg-black dark:text-white border border-slate-300 dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer'; } }); const activeCls = 'px-3 py-1 rounded-lg font-bold bg-black text-white dark:bg-white dark:text-black shadow-xs border border-black dark:border-white transition cursor-pointer'; if (modo === 'otimizado' && btnOti) { btnOti.className = activeCls; } else if (modo === 'estresse' && btnEst) { btnEst.className = activeCls; } else if (modo === 'lado-a-lado' && btnLad) { btnLad.className = activeCls; } for (let i = 1; i <= 4; i++) { const boxMin = document.getElementById(`box-renda-reg${i}-min`); const boxEst = document.getElementById(`box-renda-reg${i}-estresse`); if (boxMin && boxEst) { if (modo === 'otimizado') { boxMin.classList.remove('hidden'); boxEst.classList.add('hidden'); } else if (modo === 'estresse') { boxMin.classList.add('hidden'); boxEst.classList.remove('hidden'); } else { boxMin.classList.remove('hidden'); boxEst.classList.remove('hidden'); } } } } function switchCenarioGcap(modo) { const btnInt = document.getElementById('btn-cenario-gcap-integral'); const btnDes = document.getElementById('btn-cenario-gcap-desagio'); const btnLad = document.getElementById('btn-cenario-gcap-lado-a-lado'); [btnInt, btnDes, btnLad].forEach(b => { if (b) { b.className = 'px-3 py-1 rounded-lg font-bold bg-white text-black dark:bg-black dark:text-white border border-slate-300 dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer'; } }); const activeCls = 'px-3 py-1 rounded-lg font-bold bg-black text-white dark:bg-white dark:text-black shadow-xs border border-black dark:border-white transition cursor-pointer'; if (modo === 'integral' && btnInt) { btnInt.className = activeCls; } else if (modo === 'desagio' && btnDes) { btnDes.className = activeCls; } else if (modo === 'lado-a-lado' && btnLad) { btnLad.className = activeCls; } for (let i = 1; i <= 3; i++) { const boxMin = document.getElementById(`box-gcap-reg${i}-min`); const boxEst = document.getElementById(`box-gcap-reg${i}-estresse`); if (boxMin && boxEst) { if (modo === 'integral') { boxMin.classList.remove('hidden'); boxEst.classList.add('hidden'); } else if (modo === 'desagio') { boxMin.classList.add('hidden'); boxEst.classList.remove('hidden'); } else { boxMin.classList.remove('hidden'); boxEst.classList.remove('hidden'); } } } } function selecionarTaxaAdm(val) { const parsed = parseFloat(val); const num = isNaN(parsed) ? 0.08 : parsed; const valStr = num.toFixed(2); const s1 = document.getElementById('rng-taxa-adm'); const s2 = document.getElementById('rng-deducao-taxa-adm'); const s3 = document.getElementById('rng-renda-taxa-adm'); if (s1) s1.value = valStr; if (s2) s2.value = valStr; if (s3) s3.value = valStr; const sel1 = document.getElementById('sel-taxa-adm'); const sel2 = document.getElementById('sel-deducao-taxa-adm'); const sel3 = document.getElementById('sel-renda-taxa-adm'); if (sel1) sel1.value = valStr; if (sel2) sel2.value = valStr; if (sel3) sel3.value = valStr; const pctStr = `${Math.round(num * 100)}%`; if (document.getElementById('lbl-taxa-adm')) document.getElementById('lbl-taxa-adm').innerText = pctStr; if (document.getElementById('lbl-deducao-taxa-adm-pct')) document.getElementById('lbl-deducao-taxa-adm-pct').innerText = pctStr; if (document.getElementById('lbl-renda-taxa-adm-val')) document.getElementById('lbl-renda-taxa-adm-val').innerText = pctStr; recalcularTudo(); } function sincronizarTaxaAdm(val) { selecionarTaxaAdm(val); } function atualizarTaxaAdmSincronizada(val) { selecionarTaxaAdm(val); } function sincronizarCorretagem(val) { const s1 = document.getElementById('rng-corretagem'); const s2 = document.getElementById('rng-gcap-corretagem-slider'); if (s1) s1.value = val; if (s2) s2.value = val; const pct = (parseFloat(val) * 100).toFixed(1).replace('.', ',') + '%'; if (document.getElementById('lbl-corretagem-val')) document.getElementById('lbl-corretagem-val').innerText = pct; if (document.getElementById('lbl-gcap-corretagem-val')) document.getElementById('lbl-gcap-corretagem-val').innerText = pct; } function temObjetivo(im, objNome) { if (!im) return false; if (Array.isArray(im.objetivos)) { return im.objetivos.includes(objNome); } if (im.objetivo) { return im.objetivo.includes(objNome); } return false; } function toggleObjetivoImovel(idx, objNome) { if (!state.imoveis[idx]) return; const im = state.imoveis[idx]; if (!Array.isArray(im.objetivos)) { im.objetivos = im.objetivo ? im.objetivo.split(',').map(s => s.trim()) : ['Locação']; } const index = im.objetivos.indexOf(objNome); if (index > -1) { im.objetivos.splice(index, 1); } else { im.objetivos.push(objNome); } im.objetivo = im.objetivos.join(', '); renderizarImoveis(); renderizarSelecaoVenda(); recalcularTudo(); } function setObjetivoImovel(idx, objNome) { toggleObjetivoImovel(idx, objNome); } function toggleFinanciamentoImovel(idx) { if (state.imoveis[idx]) { state.imoveis[idx].financiado = (state.imoveis[idx].financiado === 'SIM') ? 'NAO' : 'SIM'; if (state.imoveis[idx].financiado === 'NAO') { state.imoveis[idx].saldoDevedor = 0; } else if (!state.imoveis[idx].saldoDevedor || state.imoveis[idx].saldoDevedor === 0) { state.imoveis[idx].saldoDevedor = Math.round((state.imoveis[idx].mercado || 500000) * 0.4); } sincronizarImoveisComTotais(); } } function toggleRiscoProprietario(idx) { if (state.proprietarios[idx]) { state.proprietarios[idx].risco = state.proprietarios[idx].risco === 'SIM' ? 'NÃO' : 'SIM'; renderizarParticipantes(); recalcularTudo(); } } function toggleClausula(id) { const c = state.clausulas.find(x => x.id === id); if (c) { c.ativa = !c.ativa; renderizarClausulas(); recalcularTudo(); } } 
 /* GESTÃO DE IMÓVEIS */
- function adicionarImovel() { const newId = state.imoveis.length + 1; state.imoveis.push({ id: newId, nome: `Imóvel ${newId}`, uf:"SP", cidade:"São Paulo", rgi:"RGI Competente", matricula:"-", clausulasMatricula: { inalienabilidade: true, impenhorabilidade: true, incomunicabilidade: true, usufruto: true, reversao: true, acrescer: true, acordo_socios: true, call_put: true, alienacao_fiduciaria: false, penhora_gravame: false }, tipo:"Residencial", objetivos: ["Sucessão","Locação"], objetivo:"Sucessão, Locação", regime:"Presumido", regimeFiscal:"Presumido", proprietarioResumo:"Patriarca 50% + Matriarca 50%", titularesPct: { 1: 50, 2: 50, 3: 0, 4: 0, 5: 0 }, usufrutoTipo:"Vitalício", usufrutoBeneficiario:"Patriarca e Matriarca (Ambos)", usufrutoVotosPct: { 1: 50, 2: 50, 3: 0, 4: 0, 5: 0 }, usufrutoTipos: { 1:"Vitalício", 2:"Vitalício", 3:"Sem Usufruto", 4:"Sem Usufruto", 5:"Sem Usufruto" }, usufrutoResumo:"Vitalício (100% Votos)", votoPct: 100, ano: 2015, aquisicao: 200000, itbiAquisicao: 6000, corretagemAquisicao: 12000, reformaGasto: 32000, custo: 250000, mercado: 750000, aluguelAquisicao: 1500, aluguel: 4000, vacanciaMeses: 0, periodosAluguel: [{ ano: 2024, aluguel: 3600, vacanciaMeses: 0 }, { ano: 2025, aluguel: 3800, vacanciaMeses: 0 }, { ano: 2026, aluguel: 4000, vacanciaMeses: 0 }], iptu: 200, condominio: 500, financiado:"NAO", saldoDevedor: 0, riscoTitular:"NÃO" }); sincronizarImoveisComTotais(); } function duplicarImovel(idx) { const orig = state.imoveis[idx]; const newId = state.imoveis.length + 1; state.imoveis.push({ id: newId, nome: `${orig.nome} (Cópia)`, uf: orig.uf ||"SP", cidade: orig.cidade ||"São Paulo", rgi: orig.rgi ||"RGI Competente", matricula: orig.matricula ||"-", clausulasMatricula: orig.clausulasMatricula ? { ...orig.clausulasMatricula } : { inalienabilidade: true, impenhorabilidade: true, incomunicabilidade: true, usufruto: true, reversao: true, acrescer: true, acordo_socios: true, call_put: true, alienacao_fiduciaria: false, penhora_gravame: false }, tipo: orig.tipo, objetivos: orig.objetivos ? [...orig.objetivos] : (orig.objetivo ? [orig.objetivo] : ["Locação"]), objetivo: orig.objetivo ||"Locação", regime: orig.regime || "Presumido", regimeFiscal: orig.regimeFiscal || orig.regime || "Presumido", proprietarioResumo: orig.proprietarioResumo ||"Patriarca 50% + Matriarca 50%", titularesPct: orig.titularesPct ? { ...orig.titularesPct } : { 1: 50, 2: 50, 3: 0, 4: 0, 5: 0 }, usufrutoTipo: orig.usufrutoTipo ||"Vitalício", usufrutoBeneficiario: orig.usufrutoBeneficiario ||"Patriarca e Matriarca (Ambos)", usufrutoVotosPct: orig.usufrutoVotosPct ? { ...orig.usufrutoVotosPct } : { 1: 50, 2: 50, 3: 0, 4: 0, 5: 0 }, usufrutoTipos: orig.usufrutoTipos ? { ...orig.usufrutoTipos } : { 1:"Vitalício", 2:"Vitalício", 3:"Sem Usufruto", 4:"Sem Usufruto", 5:"Sem Usufruto" }, usufrutoResumo: orig.usufrutoResumo ||"Vitalício (100% Votos)", votoPct: orig.votoPct !== undefined ? orig.votoPct : 100, ano: orig.ano, aquisicao: orig.aquisicao || orig.custo, itbiAquisicao: orig.itbiAquisicao || 0, corretagemAquisicao: orig.corretagemAquisicao || 0, reformaGasto: orig.reformaGasto || 0, custo: orig.custo, mercado: orig.mercado, aluguelAquisicao: orig.aluguelAquisicao || 0, aluguel: orig.aluguel, vacanciaMeses: (orig.vacanciaMeses !== undefined ? orig.vacanciaMeses : 0), periodosAluguel: orig.periodosAluguel ? JSON.parse(JSON.stringify(orig.periodosAluguel)) : [{ ano: 2026, aluguel: orig.aluguel || 4000, vacanciaMeses: 0 }], iptu: orig.iptu, condominio: orig.condominio, financiado: orig.financiado ||"NAO", saldoDevedor: orig.saldoDevedor || 0, riscoTitular: orig.riscoTitular }); sincronizarImoveisComTotais(); } function removerImovel(idx) { if (state.imoveis.length <= 1) { alert("É necessário manter ao menos 1 imóvel cadastrado no acervo."); return; } state.imoveis.splice(idx, 1); state.imoveis.forEach((im, i) => im.id = i + 1); sincronizarImoveisComTotais(); } function atualizarLinhaImovel(idx) { const im = state.imoveis[idx]; if (!im) return; const aluguelAnualImovel = (im.aluguel || 0) * 12; const elAluguel = document.getElementById(`lbl-row-aluguel-anual-${idx}`); if (elAluguel) elAluguel.innerText = formatMoney(aluguelAnualImovel); } function atualizarCustoFiscal(idx) { const im = state.imoveis[idx]; const aquisicao = im.aquisicao || 0; const itbi = im.itbiAquisicao || 0; const corretagem = im.corretagemAquisicao || 0; const reforma = im.reformaGasto || 0; im.custo = aquisicao + itbi + corretagem + reforma; const inpCusto = document.getElementById(`inp-imovel-custo-${idx}`); if (inpCusto) inpCusto.value = formatMoneyBR(im.custo); sincronizarImoveisComTotais(false); } function sincronizarImoveisComTotais(rebuild = true) { let totAquisicao = 0, totItbiAquisicao = 0, totCorretagemAquisicao = 0, totReformas = 0, totCusto = 0, totMercado = 0, totAluguelAquisicao = 0, totAluguel = 0, totIptu = 0, totCondominio = 0, totSaldoDevedor = 0, totVacanciaSoma = 0, totAluguelAnualEfetivo = 0; let somaAnosPonderados = 0; let temFinanciado = false; state.imoveis.forEach(im => { totAquisicao += (im.aquisicao || 0); totItbiAquisicao += (im.itbiAquisicao || 0); totCorretagemAquisicao += (im.corretagemAquisicao || 0); totReformas += (im.reformaGasto || 0); totCusto += (im.custo || 0); totMercado += (im.mercado || 0); totAluguelAquisicao += (im.aluguelAquisicao || 0); totAluguel += (im.aluguel || 0); totIptu += (im.iptu || 0); totCondominio += (im.condominio || 0); const vac = (im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0); totVacanciaSoma += vac; totAluguelAnualEfetivo += (im.aluguel || 0) * Math.max(0, 12 - vac); if (im.financiado === 'SIM') { totSaldoDevedor += (im.saldoDevedor || 0); temFinanciado = true; } somaAnosPonderados += ((im.ano || 2010) * (im.mercado || 1)); }); state.imovelFinanciado = temFinanciado ? 'SIM' : 'NAO'; const anoMedioPonderado = totMercado > 0 ? Math.round(somaAnosPonderados / totMercado) : 2010; const elInpAq = document.getElementById('inp-aquisicao-declarado'); if (elInpAq) elInpAq.value = formatMoney(totAquisicao); const elInpCusto = document.getElementById('inp-custo-declarado'); if (elInpCusto) elInpCusto.value = formatMoney(totCusto); const elInpMercado = document.getElementById('inp-valor-mercado-master'); if (elInpMercado) elInpMercado.value = formatMoney(totMercado); const elInpAluguel = document.getElementById('inp-renda-aluguel-master'); if (elInpAluguel) elInpAluguel.value = totAluguel; const elInpIptu = document.getElementById('inp-iptu-master'); if (elInpIptu) elInpIptu.value = totIptu; const elInpIptuDed = document.getElementById('inp-deducao-iptu-anual'); if (elInpIptuDed && (!elInpIptuDed.value || elInpIptuDed.value === '0' || elInpIptuDed.value === '0,00' || elInpIptuDed.getAttribute('data-auto') === 'true')) { elInpIptuDed.value = formatMoneyBR(totIptu * 12); elInpIptuDed.setAttribute('data-auto', 'true'); } const elInpQtd = document.getElementById('inp-qtd-imoveis'); if (elInpQtd) elInpQtd.value = state.imoveis.length; const elInpAno = document.getElementById('inp-ano-aquisicao-master'); if (elInpAno) elInpAno.value = anoMedioPonderado; const elSaldoTot = document.getElementById('inp-saldo-devedor'); if (elSaldoTot) elSaldoTot.value = formatMoney(totSaldoDevedor); const elLblSaldo = document.getElementById('lbl-tot-saldo-devedor-condensado'); if (elLblSaldo) elLblSaldo.innerText = formatMoney(totSaldoDevedor); const elRendaBloco = document.getElementById('lbl-tot-renda-bloco-consolidados'); if (elRendaBloco) elRendaBloco.value = `${formatMoney(totAluguel)}/m`; const elQtd = document.getElementById('lbl-tot-imoveis-qtd'); if (elQtd) elQtd.innerText = state.imoveis.length; const elAq = document.getElementById('lbl-tot-aquisicao-condensado'); if (elAq) elAq.innerText = formatMoney(totAquisicao); const elItbiTot = document.getElementById('lbl-tot-itbi-aquisicao-condensado'); if (elItbiTot) elItbiTot.innerText = formatMoney(totItbiAquisicao); const elCorretagemTot = document.getElementById('lbl-tot-corretagem-aquisicao-condensado'); if (elCorretagemTot) elCorretagemTot.innerText = formatMoney(totCorretagemAquisicao); const elRefTot = document.getElementById('lbl-tot-reformas-condensado'); if (elRefTot) elRefTot.innerText = formatMoney(totReformas); const elCusto = document.getElementById('lbl-tot-custo-condensado'); if (elCusto) elCusto.innerText = formatMoney(totCusto); const elMerc = document.getElementById('lbl-tot-mercado-condensado'); if (elMerc) elMerc.innerText = formatMoney(totMercado); const elAlugAq = document.getElementById('lbl-tot-aluguel-aquisicao-condensado'); if (elAlugAq) elAlugAq.innerText = `${formatMoney(totAluguelAquisicao)}/m`; const elAlug = document.getElementById('lbl-tot-aluguel-condensado'); if (elAlug) elAlug.innerText = `${formatMoney(totAluguel)}/m`; const elAnual = document.getElementById('lbl-tot-aluguel-anual-condensado'); if (elAnual) elAnual.innerText = `${formatMoney(totAluguelAnualEfetivo)}/ano`; let totCustoVacanciaConsolidado = 0; state.imoveis.forEach(im => { const v = (im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0); const alug = (im.aluguel || 0); const iptu = (im.iptu || 0); const cond = (im.condominio || 0); totCustoVacanciaConsolidado += (alug + iptu + cond) * v; }); const elVacTot = document.getElementById('lbl-tot-vacancia-condensado'); if (elVacTot) elVacTot.innerText = formatMoney(totCustoVacanciaConsolidado); const elIptu = document.getElementById('lbl-tot-iptu-condensado'); if (elIptu) elIptu.innerText = `${formatMoney(totIptu)}/m`; const elCond = document.getElementById('lbl-tot-condominio-condensado'); if (elCond) elCond.innerText = `${formatMoney(totCondominio)}/m`; const btnN = document.getElementById('btn-financiado-nao'); const btnS = document.getElementById('btn-financiado-sim'); const boxSaldo = document.getElementById('box-saldo-devedor'); if (btnN && btnS) { if (temFinanciado) { btnS.className = 'flex-1 py-1.5 rounded-lg font-black text-xs bg-black text-white dark:bg-white dark:text-black text-white shadow-sm transition'; btnN.className = 'flex-1 py-1.5 rounded-lg font-bold text-xs bg-transparent text-white border border-slate-700 hover:bg-slate-800 transition'; if (boxSaldo) boxSaldo.classList.remove('hidden'); } else { btnN.className = 'flex-1 py-1.5 rounded-lg font-black text-xs bg-black text-white dark:bg-white dark:text-black text-white shadow-sm transition'; btnS.className = 'flex-1 py-1.5 rounded-lg font-bold text-xs bg-transparent text-white border border-slate-700 hover:bg-slate-800 transition'; if (boxSaldo) boxSaldo.classList.add('hidden'); } } if (rebuild) { renderizarImoveis(); } recalcularTudo(); } 
+ function adicionarImovel() { const newId = state.imoveis.length + 1; state.imoveis.push({ id: newId, nome: `Imóvel ${newId}`, uf:"SP", cidade:"São Paulo", rgi:"RGI Competente", matricula:"-", clausulasMatricula: { inalienabilidade: true, impenhorabilidade: true, incomunicabilidade: true, usufruto: true, reversao: true, acrescer: true, acordo_socios: true, call_put: true, alienacao_fiduciaria: false, penhora_gravame: false }, tipo:"Residencial", objetivos: ["Sucessão","Locação"], objetivo:"Sucessão, Locação", regime:"Presumido", regimeFiscal:"Presumido", proprietarioResumo:"Patriarca 50% + Matriarca 50%", titularesPct: { 1: 50, 2: 50, 3: 0, 4: 0, 5: 0 }, usufrutoTipo:"Vitalício", usufrutoBeneficiario:"Patriarca e Matriarca (Ambos)", usufrutoVotosPct: { 1: 50, 2: 50, 3: 0, 4: 0, 5: 0 }, usufrutoTipos: { 1:"Vitalício", 2:"Vitalício", 3:"Sem Usufruto", 4:"Sem Usufruto", 5:"Sem Usufruto" }, usufrutoResumo:"Vitalício (100% Votos)", votoPct: 100, ano: 2015, aquisicao: 200000, itbiAquisicao: 6000, corretagemAquisicao: 12000, reformaGasto: 32000, custo: 250000, mercado: 750000, aluguelAquisicao: 1500, aluguel: 4000, vacanciaMeses: 0, periodosAluguel: [{ ano: 2024, aluguel: 3600, vacanciaMeses: 0 }, { ano: 2025, aluguel: 3800, vacanciaMeses: 0 }, { ano: 2026, aluguel: 4000, vacanciaMeses: 0 }], iptu: 200, condominio: 500, financiado:"NAO", saldoDevedor: 0, riscoTitular:"NÃO" }); sincronizarImoveisComTotais(); } function duplicarImovel(idx) { const orig = state.imoveis[idx]; const newId = state.imoveis.length + 1; state.imoveis.push({ id: newId, nome: `${orig.nome} (Cópia)`, uf: orig.uf ||"SP", cidade: orig.cidade ||"São Paulo", rgi: orig.rgi ||"RGI Competente", matricula: orig.matricula ||"-", clausulasMatricula: orig.clausulasMatricula ? { ...orig.clausulasMatricula } : { inalienabilidade: true, impenhorabilidade: true, incomunicabilidade: true, usufruto: true, reversao: true, acrescer: true, acordo_socios: true, call_put: true, alienacao_fiduciaria: false, penhora_gravame: false }, tipo: orig.tipo, objetivos: orig.objetivos ? [...orig.objetivos] : (orig.objetivo ? [orig.objetivo] : ["Locação"]), objetivo: orig.objetivo ||"Locação", regime: orig.regime || "Presumido", regimeFiscal: orig.regimeFiscal || orig.regime || "Presumido", proprietarioResumo: orig.proprietarioResumo ||"Patriarca 50% + Matriarca 50%", titularesPct: orig.titularesPct ? { ...orig.titularesPct } : { 1: 50, 2: 50, 3: 0, 4: 0, 5: 0 }, usufrutoTipo: orig.usufrutoTipo ||"Vitalício", usufrutoBeneficiario: orig.usufrutoBeneficiario ||"Patriarca e Matriarca (Ambos)", usufrutoVotosPct: orig.usufrutoVotosPct ? { ...orig.usufrutoVotosPct } : { 1: 50, 2: 50, 3: 0, 4: 0, 5: 0 }, usufrutoTipos: orig.usufrutoTipos ? { ...orig.usufrutoTipos } : { 1:"Vitalício", 2:"Vitalício", 3:"Sem Usufruto", 4:"Sem Usufruto", 5:"Sem Usufruto" }, usufrutoResumo: orig.usufrutoResumo ||"Vitalício (100% Votos)", votoPct: orig.votoPct !== undefined ? orig.votoPct : 100, ano: orig.ano, aquisicao: orig.aquisicao || orig.custo, itbiAquisicao: orig.itbiAquisicao || 0, corretagemAquisicao: orig.corretagemAquisicao || 0, reformaGasto: orig.reformaGasto || 0, custo: orig.custo, mercado: orig.mercado, aluguelAquisicao: orig.aluguelAquisicao || 0, aluguel: orig.aluguel, vacanciaMeses: (orig.vacanciaMeses !== undefined ? orig.vacanciaMeses : 0), periodosAluguel: orig.periodosAluguel ? JSON.parse(JSON.stringify(orig.periodosAluguel)) : [{ ano: 2026, aluguel: orig.aluguel || 4000, vacanciaMeses: 0 }], iptu: orig.iptu, condominio: orig.condominio, financiado: orig.financiado ||"NAO", saldoDevedor: orig.saldoDevedor || 0, riscoTitular: orig.riscoTitular }); sincronizarImoveisComTotais(); } function removerImovel(idx) { if (state.imoveis.length <= 1) { alert("É necessário manter ao menos 1 imóvel cadastrado no acervo."); return; } state.imoveis.splice(idx, 1); state.imoveis.forEach((im, i) => im.id = i + 1); sincronizarImoveisComTotais(); } function atualizarLinhaImovel(idx) { const im = state.imoveis[idx]; if (!im) return; const aluguelAnualImovel = (im.aluguel || 0) * 12; const elAluguel = document.getElementById(`lbl-row-aluguel-anual-${idx}`); if (elAluguel) elAluguel.innerText = formatMoney(aluguelAnualImovel); } function atualizarCustoFiscal(idx) { const im = state.imoveis[idx]; const aquisicao = im.aquisicao || 0; const itbi = im.itbiAquisicao || 0; const corretagem = im.corretagemAquisicao || 0; const reforma = im.reformaGasto || 0; im.custo = aquisicao + itbi + corretagem + reforma; const inpCusto = document.getElementById(`inp-imovel-custo-${idx}`); if (inpCusto) inpCusto.value = formatMoneyBR(im.custo); sincronizarImoveisComTotais(false); } function sincronizarImoveisComTotais(rebuild = true) { let totAquisicao = 0, totItbiAquisicao = 0, totCorretagemAquisicao = 0, totReformas = 0, totCusto = 0, totMercado = 0, totAluguelAquisicao = 0, totAluguel = 0, totIptu = 0, totCondominio = 0, totSaldoDevedor = 0, totVacanciaSoma = 0, totAluguelAnualEfetivo = 0; let somaAnosPonderados = 0; let temFinanciado = false; state.imoveis.forEach(im => { totAquisicao += (im.aquisicao || 0); totItbiAquisicao += (im.itbiAquisicao || 0); totCorretagemAquisicao += (im.corretagemAquisicao || 0); totReformas += (im.reformaGasto || 0); totCusto += (im.custo || 0); totMercado += (im.mercado || 0); totAluguelAquisicao += (im.aluguelAquisicao || 0); totAluguel += (im.aluguel || 0); totIptu += (im.iptu || 0); totCondominio += (im.condominio || 0); const vac = (im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0); totVacanciaSoma += vac; totAluguelAnualEfetivo += (im.aluguel || 0) * Math.max(0, 12 - vac); if (im.financiado === 'SIM') { totSaldoDevedor += (im.saldoDevedor || 0); temFinanciado = true; } somaAnosPonderados += ((im.ano || 2010) * (im.mercado || 1)); }); state.imovelFinanciado = temFinanciado ? 'SIM' : 'NAO'; const anoMedioPonderado = totMercado > 0 ? Math.round(somaAnosPonderados / totMercado) : 2010; const elInpAq = document.getElementById('inp-aquisicao-declarado'); if (elInpAq) elInpAq.value = formatMoney(totAquisicao); const elInpCusto = document.getElementById('inp-custo-declarado'); if (elInpCusto) elInpCusto.value = formatMoney(totCusto); const elInpMercado = document.getElementById('inp-valor-mercado-master'); if (elInpMercado) elInpMercado.value = formatMoney(totMercado); const elInpAluguel = document.getElementById('inp-renda-aluguel-master'); if (elInpAluguel) elInpAluguel.value = totAluguel; const elInpIptu = document.getElementById('inp-iptu-master'); if (elInpIptu) elInpIptu.value = totIptu; const elInpIptuDed = document.getElementById('inp-deducao-iptu-anual'); if (elInpIptuDed && (!elInpIptuDed.value || elInpIptuDed.value === '0' || elInpIptuDed.value === '0,00' || elInpIptuDed.getAttribute('data-auto') === 'true')) { elInpIptuDed.value = formatMoneyBR(totIptu * 12); elInpIptuDed.setAttribute('data-auto', 'true'); } const elInpQtd = document.getElementById('inp-qtd-imoveis'); if (elInpQtd) elInpQtd.value = state.imoveis.length; const elInpAno = document.getElementById('inp-ano-aquisicao-master'); if (elInpAno) elInpAno.value = anoMedioPonderado; const elSaldoTot = document.getElementById('inp-saldo-devedor'); if (elSaldoTot) elSaldoTot.value = formatMoney(totSaldoDevedor); const elLblSaldo = document.getElementById('lbl-tot-saldo-devedor-condensado'); if (elLblSaldo) { if (totSaldoDevedor > 0) { let somaPonderadaTaxa = 0; state.imoveis.forEach(im => { if (im.financiado === 'SIM') { const saldo = im.saldoDevedor || 0; const taxa = (im.taxaFinanciamento !== undefined) ? im.taxaFinanciamento : 9.5; somaPonderadaTaxa += (saldo * taxa); } }); const taxaMediaPonderada = somaPonderadaTaxa / totSaldoDevedor; elLblSaldo.innerHTML = '<span class="font-mono font-bold text-xs">' + formatMoney(totSaldoDevedor) + '</span><span class="block text-[9px] text-amber-600 dark:text-amber-400 font-bold">Méd. ' + taxaMediaPonderada.toFixed(2).replace('.', ',') + '% a.a.</span>'; elLblSaldo.title = 'Saldo devedor total: ' + formatMoney(totSaldoDevedor) + ' com taxa de juros média ponderada de ' + taxaMediaPonderada.toFixed(2).replace('.', ',') + '% a.a.'; } else { elLblSaldo.innerText = formatMoney(0); elLblSaldo.title = 'Nenhum imóvel financiado'; } } const elRendaBloco = document.getElementById('lbl-tot-renda-bloco-consolidados'); if (elRendaBloco) elRendaBloco.value = `${formatMoney(totAluguel)}/m`; const elQtd = document.getElementById('lbl-tot-imoveis-qtd'); if (elQtd) elQtd.innerText = state.imoveis.length; const elAq = document.getElementById('lbl-tot-aquisicao-condensado'); if (elAq) elAq.innerText = formatMoney(totAquisicao); const elItbiTot = document.getElementById('lbl-tot-itbi-aquisicao-condensado'); if (elItbiTot) elItbiTot.innerText = formatMoney(totItbiAquisicao); const elCorretagemTot = document.getElementById('lbl-tot-corretagem-aquisicao-condensado'); if (elCorretagemTot) elCorretagemTot.innerText = formatMoney(totCorretagemAquisicao); const elRefTot = document.getElementById('lbl-tot-reformas-condensado'); if (elRefTot) elRefTot.innerText = formatMoney(totReformas); const elCusto = document.getElementById('lbl-tot-custo-condensado'); if (elCusto) elCusto.innerText = formatMoney(totCusto); const elMerc = document.getElementById('lbl-tot-mercado-condensado'); if (elMerc) elMerc.innerText = formatMoney(totMercado); const elAlugAq = document.getElementById('lbl-tot-aluguel-aquisicao-condensado'); if (elAlugAq) elAlugAq.innerText = `${formatMoney(totAluguelAquisicao)}/m`; const elAlug = document.getElementById('lbl-tot-aluguel-condensado'); if (elAlug) elAlug.innerText = `${formatMoney(totAluguel)}/m`; const elAnual = document.getElementById('lbl-tot-aluguel-anual-condensado'); if (elAnual) elAnual.innerText = `${formatMoney(totAluguelAnualEfetivo)}/ano`; let totCustoVacanciaConsolidado = 0; state.imoveis.forEach(im => { const v = (im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0); const alug = (im.aluguel || 0); const iptu = (im.iptu || 0); const cond = (im.condominio || 0); totCustoVacanciaConsolidado += (alug + iptu + cond) * v; }); const elVacTot = document.getElementById('lbl-tot-vacancia-condensado'); if (elVacTot) elVacTot.innerText = formatMoney(totCustoVacanciaConsolidado); const elIptu = document.getElementById('lbl-tot-iptu-condensado'); if (elIptu) elIptu.innerText = `${formatMoney(totIptu)}/m`; const elCond = document.getElementById('lbl-tot-condominio-condensado'); if (elCond) elCond.innerText = `${formatMoney(totCondominio)}/m`; const btnN = document.getElementById('btn-financiado-nao'); const btnS = document.getElementById('btn-financiado-sim'); const boxSaldo = document.getElementById('box-saldo-devedor'); if (btnN && btnS) { if (temFinanciado) { btnS.className = 'flex-1 py-1.5 rounded-lg font-black text-xs bg-black text-white dark:bg-white dark:text-black text-white shadow-sm transition'; btnN.className = 'flex-1 py-1.5 rounded-lg font-bold text-xs bg-transparent text-white border border-slate-700 hover:bg-slate-800 transition'; if (boxSaldo) boxSaldo.classList.remove('hidden'); } else { btnN.className = 'flex-1 py-1.5 rounded-lg font-black text-xs bg-black text-white dark:bg-white dark:text-black text-white shadow-sm transition'; btnS.className = 'flex-1 py-1.5 rounded-lg font-bold text-xs bg-transparent text-white border border-slate-700 hover:bg-slate-800 transition'; if (boxSaldo) boxSaldo.classList.add('hidden'); } } if (rebuild) { renderizarImoveis(); } recalcularTudo(); } 
 
 function alterarFinanciamentoImovel(idx, val) {
   if (state.imoveis[idx]) {
     state.imoveis[idx].financiado = val;
     if (val === 'NAO' || val === 'QUITADO') {
       state.imoveis[idx].saldoDevedor = 0;
+      sincronizarImoveisComTotais();
     } else {
       if (!state.imoveis[idx].saldoDevedor || state.imoveis[idx].saldoDevedor === 0) {
         state.imoveis[idx].saldoDevedor = Math.round((state.imoveis[idx].mercado || 500000) * 0.4);
       }
-      if (!state.imoveis[idx].taxaFinanciamento) {
+      if (state.imoveis[idx].taxaFinanciamento === undefined || state.imoveis[idx].taxaFinanciamento === null) {
         state.imoveis[idx].taxaFinanciamento = 9.5;
       }
       if (!state.imoveis[idx].indexadorFinanciamento) {
         state.imoveis[idx].indexadorFinanciamento = 'TR';
       }
+      if (!state.imoveis[idx].amortizacaoFinanciamento) {
+        state.imoveis[idx].amortizacaoFinanciamento = 'SAC';
+      }
+      if (!state.imoveis[idx].prazoFinanciamentoMeses) {
+        state.imoveis[idx].prazoFinanciamentoMeses = 240;
+      }
+      sincronizarImoveisComTotais();
+      abrirModalFinanciamento(idx);
     }
-    sincronizarImoveisComTotais();
   }
+}
+
+/* ========================================================================= */
+/* 🏦 MODAL DE FINANCIAMENTO IMOBILIÁRIO & TAXA DE JUROS ACORDADA            */
+/* ========================================================================= */
+
+function abrirModalFinanciamento(idx) {
+  state.modalImovelIndex = idx;
+  const im = state.imoveis[idx];
+  if (!im) return;
+
+  const modal = document.getElementById('modal-financiamento-imovel');
+  const lblNome = document.getElementById('modal-fin-imovel-nome');
+  if (lblNome) lblNome.innerText = `${im.nome} • Matrícula: ${im.matricula || '-'} (${im.cidade || 'SP'})`;
+
+  const isFin = (im.financiado === 'SIM');
+  setModalFinStatus(isFin ? 'SIM' : 'NAO', false);
+
+  const inpSaldo = document.getElementById('modal-fin-saldo');
+  if (inpSaldo) {
+    const valSaldo = (im.saldoDevedor !== undefined && im.saldoDevedor !== null && im.saldoDevedor > 0) ? im.saldoDevedor : (isFin ? Math.round((im.mercado || 500000) * 0.4) : 0);
+    inpSaldo.value = formatMoney(valSaldo);
+  }
+
+  const inpTaxa = document.getElementById('modal-fin-taxa');
+  if (inpTaxa) {
+    const t = (im.taxaFinanciamento !== undefined && im.taxaFinanciamento !== null) ? im.taxaFinanciamento : 9.5;
+    inpTaxa.value = (typeof t === 'number') ? t.toFixed(2).replace('.', ',') : t;
+  }
+
+  const selIdx = document.getElementById('modal-fin-indexador');
+  if (selIdx) {
+    selIdx.value = im.indexadorFinanciamento || 'TR';
+  }
+
+  const selAmort = document.getElementById('modal-fin-amortizacao');
+  if (selAmort) {
+    selAmort.value = im.amortizacaoFinanciamento || 'SAC';
+  }
+
+  const inpPrazo = document.getElementById('modal-fin-prazo');
+  if (inpPrazo) {
+    inpPrazo.value = im.prazoFinanciamentoMeses || 240;
+  }
+
+  recalcularSimulacaoFinModal();
+
+  if (modal) modal.classList.remove('hidden');
+}
+
+function fecharModalFinanciamento() {
+  const modal = document.getElementById('modal-financiamento-imovel');
+  if (modal) modal.classList.add('hidden');
+  state.modalImovelIndex = null;
+}
+
+function setModalFinStatus(status, triggerCalc = true) {
+  const btnQ = document.getElementById('btn-modal-fin-quitado');
+  const btnF = document.getElementById('btn-modal-fin-financiado');
+  const boxDet = document.getElementById('box-modal-fin-detalhes');
+
+  if (status === 'NAO') {
+    if (btnQ) {
+      btnQ.className = 'flex-1 py-1.5 rounded-lg text-xs font-black bg-black text-white dark:bg-white dark:text-black shadow-xs transition cursor-pointer';
+    }
+    if (btnF) {
+      btnF.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-zinc-400 hover:text-black dark:hover:text-white transition cursor-pointer';
+    }
+    if (boxDet) boxDet.classList.add('hidden');
+  } else {
+    if (btnF) {
+      btnF.className = 'flex-1 py-1.5 rounded-lg text-xs font-black bg-black text-white dark:bg-white dark:text-black shadow-xs transition cursor-pointer';
+    }
+    if (btnQ) {
+      btnQ.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-zinc-400 hover:text-black dark:hover:text-white transition cursor-pointer';
+    }
+    if (boxDet) boxDet.classList.remove('hidden');
+
+    const inpSaldo = document.getElementById('modal-fin-saldo');
+    if (inpSaldo && parseMoneyBR(inpSaldo.value) === 0 && state.modalImovelIndex !== null) {
+      const im = state.imoveis[state.modalImovelIndex];
+      if (im) inpSaldo.value = formatMoney(Math.round((im.mercado || 500000) * 0.4));
+    }
+  }
+
+  if (triggerCalc) {
+    recalcularSimulacaoFinModal();
+  }
+}
+
+function setModalFinTaxa(taxa) {
+  const inpTaxa = document.getElementById('modal-fin-taxa');
+  if (inpTaxa) {
+    inpTaxa.value = (typeof taxa === 'number') ? taxa.toFixed(2).replace('.', ',') : taxa;
+    recalcularSimulacaoFinModal();
+  }
+}
+
+function setModalFinPrazo(meses) {
+  const inpPrazo = document.getElementById('modal-fin-prazo');
+  if (inpPrazo) {
+    inpPrazo.value = meses;
+    recalcularSimulacaoFinModal();
+  }
+}
+
+function formatarTaxaFinBlur(inp) {
+  if (!inp) return;
+  let raw = inp.value.replace('%', '').replace('a.a.', '').replace(/\s+/g, '').replace(',', '.');
+  let num = parseFloat(raw);
+  if (isNaN(num) || num < 0) num = 9.5;
+  inp.value = num.toFixed(2).replace('.', ',');
+  recalcularSimulacaoFinModal();
+}
+
+function recalcularSimulacaoFinModal() {
+  const btnF = document.getElementById('btn-modal-fin-financiado');
+  const isFin = btnF && btnF.classList.contains('font-black');
+
+  const inpSaldo = document.getElementById('modal-fin-saldo');
+  const inpTaxa = document.getElementById('modal-fin-taxa');
+  const selAmort = document.getElementById('modal-fin-amortizacao');
+  const inpPrazo = document.getElementById('modal-fin-prazo');
+
+  const saldo = inpSaldo ? parseMoneyBR(inpSaldo.value) : 0;
+  let rawTaxa = inpTaxa ? parseFloat(inpTaxa.value.replace('%', '').replace('a.a.', '').replace(/\s+/g, '').replace(',', '.')) : 9.5;
+  if (isNaN(rawTaxa) || rawTaxa < 0) rawTaxa = 9.5;
+  const amort = selAmort ? selAmort.value : 'SAC';
+  let prazo = inpPrazo ? parseInt(inpPrazo.value) : 240;
+  if (isNaN(prazo) || prazo <= 0) prazo = 240;
+
+  const lblPrazoAnos = document.getElementById('modal-fin-prazo-anos');
+  if (lblPrazoAnos) {
+    const anos = (prazo / 12).toFixed(1).replace('.0', '');
+    lblPrazoAnos.innerText = `${anos} ${anos === '1' ? 'ano' : 'anos'}`;
+  }
+
+  let im = null;
+  if (state.modalImovelIndex !== null && state.imoveis[state.modalImovelIndex]) {
+    im = state.imoveis[state.modalImovelIndex];
+  }
+  const mercado = im ? (im.mercado || 0) : 0;
+  const ltv = (mercado > 0) ? (saldo / mercado) * 100 : 0;
+
+  const lblPctMercado = document.getElementById('modal-fin-saldo-pct-mercado');
+  if (lblPctMercado) {
+    lblPctMercado.innerText = `Representa ${ltv.toFixed(1).replace('.', ',')}% do valor de mercado (${formatMoney(mercado)})`;
+  }
+
+  const lblLtv = document.getElementById('modal-fin-lbl-ltv');
+  if (lblLtv) {
+    lblLtv.innerText = `${ltv.toFixed(1).replace('.', ',')}%`;
+  }
+
+  const lblParcela = document.getElementById('modal-fin-lbl-parcela');
+  const lblJuros = document.getElementById('modal-fin-lbl-juros-totais');
+
+  if (!isFin || saldo <= 0) {
+    if (lblParcela) lblParcela.innerText = 'R$ 0,00/mês';
+    if (lblJuros) lblJuros.innerText = 'R$ 0,00';
+    return;
+  }
+
+  const iMensal = Math.pow(1 + (rawTaxa / 100), 1 / 12) - 1;
+
+  let parcelaInicial = 0;
+  let jurosTotais = 0;
+
+  if (amort === 'SAC') {
+    const amortMensal = saldo / prazo;
+    const jurosPrimeiroMes = saldo * iMensal;
+    parcelaInicial = amortMensal + jurosPrimeiroMes;
+    jurosTotais = iMensal * amortMensal * (prazo * (prazo + 1) / 2);
+  } else {
+    if (iMensal > 0) {
+      parcelaInicial = saldo * (iMensal / (1 - Math.pow(1 + iMensal, -prazo)));
+      jurosTotais = (parcelaInicial * prazo) - saldo;
+    } else {
+      parcelaInicial = saldo / prazo;
+      jurosTotais = 0;
+    }
+  }
+
+  if (lblParcela) lblParcela.innerText = `${formatMoney(parcelaInicial)}/mês (${amort})`;
+  if (lblJuros) lblJuros.innerText = formatMoney(jurosTotais);
+}
+
+function salvarModalFinanciamento() {
+  if (state.modalImovelIndex === null) return;
+  const im = state.imoveis[state.modalImovelIndex];
+  if (!im) return;
+
+  const btnF = document.getElementById('btn-modal-fin-financiado');
+  const isFin = btnF && btnF.classList.contains('font-black');
+
+  if (!isFin) {
+    im.financiado = 'NAO';
+    im.saldoDevedor = 0;
+  } else {
+    im.financiado = 'SIM';
+    const inpSaldo = document.getElementById('modal-fin-saldo');
+    im.saldoDevedor = inpSaldo ? parseMoneyBR(inpSaldo.value) : 0;
+
+    const inpTaxa = document.getElementById('modal-fin-taxa');
+    let t = inpTaxa ? parseFloat(inpTaxa.value.replace('%', '').replace('a.a.', '').replace(/\s+/g, '').replace(',', '.')) : 9.5;
+    if (isNaN(t) || t < 0) t = 9.5;
+    im.taxaFinanciamento = t;
+
+    const selIdx = document.getElementById('modal-fin-indexador');
+    if (selIdx) im.indexadorFinanciamento = selIdx.value;
+
+    const selAmort = document.getElementById('modal-fin-amortizacao');
+    if (selAmort) im.amortizacaoFinanciamento = selAmort.value;
+
+    const inpPrazo = document.getElementById('modal-fin-prazo');
+    if (inpPrazo) im.prazoFinanciamentoMeses = parseInt(inpPrazo.value) || 240;
+  }
+
+  fecharModalFinanciamento();
+  sincronizarImoveisComTotais(true);
+}
+
+function salvarTaxaFinanciamentoInput(idx, val) {
+  if (!state.imoveis[idx]) return;
+  let parsed = parseFloat(String(val).replace('%', '').replace('a.a.', '').replace(/\s+/g, '').replace(',', '.'));
+  if (isNaN(parsed) || parsed < 0) parsed = 9.5;
+  state.imoveis[idx].taxaFinanciamento = parsed;
+  sincronizarImoveisComTotais(true);
 }
 
 function toggleObjetivoImovel(idx, objNome) {
@@ -2403,18 +2789,26 @@ function renderizarImoveis() {
         </div>
       </td>
 
-      <!-- 16. FINANCIAMENTO / SALDO -->
+      <!-- 16. FINANCIAMENTO (VALORES & TAXA) -->
       <td class="p-2 text-center whitespace-nowrap">
-        <div class="flex items-center justify-center gap-1">
-          <select onchange="alterarFinanciamentoImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer">
+        <div class="flex items-center justify-center gap-1.5">
+          <select onchange="alterarFinanciamentoImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer">
             <option value="NAO" ${isQuitado ? 'selected' : ''}>✓ Quitado</option>
             <option value="SIM" ${!isQuitado ? 'selected' : ''}>⏳ Financiado</option>
           </select>
           ${!isQuitado ? `
             <div class="flex items-center gap-1 pl-1 border-l border-slate-300 dark:border-zinc-700">
-              <input type="text" value="${formatMoney(im.saldoDevedor || 0)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].saldoDevedor || 0)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].saldoDevedor=parseMoneyBR(this.value); sincronizarImoveisComTotais(false);" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-1 font-bold text-xs focus:outline-none w-24 shadow-2xs font-mono text-center" title="Saldo devedor atual do financiamento">
+              <input type="text" value="${formatMoney(im.saldoDevedor || 0)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].saldoDevedor || 0)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].saldoDevedor=parseMoneyBR(this.value); sincronizarImoveisComTotais(false);" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-1 font-bold text-xs focus:outline-none w-24 shadow-2xs font-mono text-center" title="Saldo devedor restante acordado do financiamento">
+              <input type="text" value="${(im.taxaFinanciamento !== undefined ? im.taxaFinanciamento : 9.5).toString().replace('.', ',')}% a.a." onfocus="this.value=(state.imoveis[${idx}].taxaFinanciamento || 9.5).toString().replace('.', ',')" onblur="salvarTaxaFinanciamentoInput(${idx}, this.value)" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-1 font-bold text-xs focus:outline-none w-20 shadow-2xs font-mono text-center" title="Taxa de juros anual acordada (% a.a.)">
+              <button type="button" onclick="abrirModalFinanciamento(${idx})" class="w-6 h-6 rounded-md border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-slate-100 dark:hover:bg-zinc-800 text-black dark:text-white font-bold text-xs flex items-center justify-center transition cursor-pointer shadow-2xs" title="Configurar financiamento, taxa de juros, parcelas e prazos">
+                🏦
+              </button>
             </div>
-          ` : ''}
+          ` : `
+            <button type="button" onclick="abrirModalFinanciamento(${idx})" class="w-6 h-6 rounded-md border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-400 hover:text-black dark:hover:text-white font-bold text-xs flex items-center justify-center transition cursor-pointer shadow-2xs" title="Configurar financiamento deste imóvel">
+              🏦
+            </button>
+          `}
         </div>
       </td>
 
@@ -2496,7 +2890,27 @@ function renderizarImoveis() {
   const elAlugAq = document.getElementById('lbl-tot-aluguel-aquisicao-condensado');
   if (elAlugAq) elAlugAq.innerText = formatMoney(totAluguelAquisicao) + '/m';
   const elSaldo = document.getElementById('lbl-tot-saldo-devedor-condensado');
-  if (elSaldo) elSaldo.innerText = formatMoney(totSaldoDevedor);
+  if (elSaldo) {
+    if (totSaldoDevedor > 0) {
+      let somaPonderadaTaxa = 0;
+      state.imoveis.forEach(im => {
+        if (im.financiado === 'SIM') {
+          const saldo = im.saldoDevedor || 0;
+          const taxa = (im.taxaFinanciamento !== undefined) ? im.taxaFinanciamento : 9.5;
+          somaPonderadaTaxa += (saldo * taxa);
+        }
+      });
+      const taxaMediaPonderada = somaPonderadaTaxa / totSaldoDevedor;
+      elSaldo.innerHTML = `
+        <span class="font-mono font-bold text-xs">${formatMoney(totSaldoDevedor)}</span>
+        <span class="block text-[9px] text-amber-600 dark:text-amber-400 font-bold">Méd. ${taxaMediaPonderada.toFixed(2).replace('.', ',')}% a.a.</span>
+      `;
+      elSaldo.title = `Saldo devedor total: ${formatMoney(totSaldoDevedor)} com taxa de juros média ponderada de ${taxaMediaPonderada.toFixed(2).replace('.', ',')}% a.a.`;
+    } else {
+      elSaldo.innerText = formatMoney(0);
+      elSaldo.title = 'Nenhum imóvel financiado';
+    }
+  }
   const elCusto = document.getElementById('lbl-tot-custo-condensado');
   if (elCusto) elCusto.innerText = formatMoney(totCusto);
   const elMerc = document.getElementById('lbl-tot-mercado-condensado');
