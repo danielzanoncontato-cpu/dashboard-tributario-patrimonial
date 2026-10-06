@@ -3115,14 +3115,14 @@ function obterResumoTitulares(im) {
               </select>
             </div>
             <!-- Comunhão de Bens / Regime -->
-            <div class="flex items-center gap-1 flex-1 min-w-[150px]">
+            <div class="flex items-center gap-1">
               <span class="font-bold text-slate-600 dark:text-zinc-400">Comunhão de Bens:</span>
-              <select onchange="alterarRegimeTitularModal(${p.id}, this.value)" class="p-1 rounded-lg bg-white dark:bg-zinc-950 border border-slate-300 dark:border-zinc-700 text-slate-800 dark:text-zinc-200 font-bold focus:outline-none cursor-pointer flex-1 text-[10px]" title="Regime de casamento / união estável">
+              <select onchange="alterarRegimeTitularModal(${p.id}, this.value)" class="py-0.5 px-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-slate-300 dark:border-zinc-700 text-slate-800 dark:text-zinc-200 font-bold focus:outline-none cursor-pointer text-[10px] max-w-[130px]" title="Regime de casamento / união estável">
                 <option value="Comunhão Parcial" ${regime === 'Comunhão Parcial' ? 'selected' : ''}>Comunhão Parcial</option>
                 <option value="Comunhão Universal" ${regime === 'Comunhão Universal' ? 'selected' : ''}>Comunhão Universal</option>
-                <option value="Separação Total" ${regime === 'Separação Total' ? 'selected' : ''}>Separação Total (Convencional)</option>
-                <option value="Separação Obrigatória" ${regime === 'Separação Obrigatória' ? 'selected' : ''}>Separação Obrigatória (Art. 1.641 CC)</option>
-                <option value="Solteiro / Não Aplicável" ${regime === 'Solteiro / Não Aplicável' || regime === '-' ? 'selected' : ''}>Solteiro / Não Aplicável</option>
+                <option value="Separação Total" ${regime === 'Separação Total' ? 'selected' : ''}>Separação Total</option>
+                <option value="Separação Obrigatória" ${regime === 'Separação Obrigatória' ? 'selected' : ''}>Separação Obrigatória</option>
+                <option value="Solteiro / Não Aplicável" ${regime === 'Solteiro / Não Aplicável' || regime === '-' ? 'selected' : ''}>Solteiro / N/A</option>
               </select>
             </div>
             <!-- Profissão de Risco -->
@@ -3289,14 +3289,14 @@ function obterResumoTitulares(im) {
               </select>
             </div>
             <!-- Comunhão de Bens / Regime -->
-            <div class="flex items-center gap-1 flex-1 min-w-[150px]">
+            <div class="flex items-center gap-1">
               <span class="font-bold text-slate-600 dark:text-zinc-400">Comunhão de Bens:</span>
-              <select onchange="alterarRegimeTitularModal(${p.id}, this.value)" class="p-1 rounded-lg bg-white dark:bg-zinc-950 border border-slate-300 dark:border-zinc-700 text-slate-800 dark:text-zinc-200 font-bold focus:outline-none cursor-pointer flex-1 text-[10px]" title="Regime de casamento / união estável">
+              <select onchange="alterarRegimeTitularModal(${p.id}, this.value)" class="py-0.5 px-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-slate-300 dark:border-zinc-700 text-slate-800 dark:text-zinc-200 font-bold focus:outline-none cursor-pointer text-[10px] max-w-[130px]" title="Regime de casamento / união estável">
                 <option value="Comunhão Parcial" ${regime === 'Comunhão Parcial' ? 'selected' : ''}>Comunhão Parcial</option>
                 <option value="Comunhão Universal" ${regime === 'Comunhão Universal' ? 'selected' : ''}>Comunhão Universal</option>
-                <option value="Separação Total" ${regime === 'Separação Total' ? 'selected' : ''}>Separação Total (Convencional)</option>
-                <option value="Separação Obrigatória" ${regime === 'Separação Obrigatória' ? 'selected' : ''}>Separação Obrigatória (Art. 1.641 CC)</option>
-                <option value="Solteiro / Não Aplicável" ${regime === 'Solteiro / Não Aplicável' || regime === '-' ? 'selected' : ''}>Solteiro / Não Aplicável</option>
+                <option value="Separação Total" ${regime === 'Separação Total' ? 'selected' : ''}>Separação Total</option>
+                <option value="Separação Obrigatória" ${regime === 'Separação Obrigatória' ? 'selected' : ''}>Separação Obrigatória</option>
+                <option value="Solteiro / Não Aplicável" ${regime === 'Solteiro / Não Aplicável' || regime === '-' ? 'selected' : ''}>Solteiro / N/A</option>
               </select>
             </div>
             <!-- Profissão de Risco -->
