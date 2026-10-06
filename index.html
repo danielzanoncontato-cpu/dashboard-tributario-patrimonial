@@ -2789,26 +2789,13 @@ function renderizarImoveis() {
         </div>
       </td>
 
-      <!-- 16. FINANCIAMENTO (VALORES & TAXA) -->
+      <!-- 16. FINANCIAMENTO (VALORES & TAXA - APENAS EMOJI BANCO 🏦) -->
       <td class="p-2 text-center whitespace-nowrap">
-        <div class="flex items-center justify-center gap-1.5">
-          <select onchange="alterarFinanciamentoImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer">
-            <option value="NAO" ${isQuitado ? 'selected' : ''}>✓ Quitado</option>
-            <option value="SIM" ${!isQuitado ? 'selected' : ''}>⏳ Financiado</option>
-          </select>
-          ${!isQuitado ? `
-            <div class="flex items-center gap-1 pl-1 border-l border-slate-300 dark:border-zinc-700">
-              <input type="text" value="${formatMoney(im.saldoDevedor || 0)}" onfocus="this.value=formatarNumeroDigitacaoBR(state.imoveis[${idx}].saldoDevedor || 0)" oninput="aplicarMascaraMoedaInput(this)" onblur="formatarMoedaBlur(this); state.imoveis[${idx}].saldoDevedor=parseMoneyBR(this.value); sincronizarImoveisComTotais(false);" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-1 font-bold text-xs focus:outline-none w-24 shadow-2xs font-mono text-center" title="Saldo devedor restante acordado do financiamento">
-              <input type="text" value="${(im.taxaFinanciamento !== undefined ? im.taxaFinanciamento : 9.5).toString().replace('.', ',')}% a.a." onfocus="this.value=(state.imoveis[${idx}].taxaFinanciamento || 9.5).toString().replace('.', ',')" onblur="salvarTaxaFinanciamentoInput(${idx}, this.value)" class="bg-white dark:bg-black text-black dark:text-white border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-1 font-bold text-xs focus:outline-none w-20 shadow-2xs font-mono text-center" title="Taxa de juros anual acordada (% a.a.)">
-              <button type="button" onclick="abrirModalFinanciamento(${idx})" class="w-6 h-6 rounded-md border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-slate-100 dark:hover:bg-zinc-800 text-black dark:text-white font-bold text-xs flex items-center justify-center transition cursor-pointer shadow-2xs" title="Configurar financiamento, taxa de juros, parcelas e prazos">
-                🏦
-              </button>
-            </div>
-          ` : `
-            <button type="button" onclick="abrirModalFinanciamento(${idx})" class="w-6 h-6 rounded-md border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-400 hover:text-black dark:hover:text-white font-bold text-xs flex items-center justify-center transition cursor-pointer shadow-2xs" title="Configurar financiamento deste imóvel">
-              🏦
-            </button>
-          `}
+        <div class="flex items-center justify-center">
+          <button type="button" onclick="abrirModalFinanciamento(${idx})" class="relative w-8 h-8 rounded-lg border border-black dark:border-white bg-white dark:bg-black hover:bg-slate-100 dark:hover:bg-zinc-900 text-black dark:text-white font-bold text-base transition shadow-2xs cursor-pointer flex items-center justify-center hover:scale-110" title="Financiamento Imobiliário &amp; Taxa Acordada (${isQuitado ? 'Quitado' : 'Financiado: Saldo ' + formatMoney(im.saldoDevedor || 0) + ' • Taxa ' + (im.taxaFinanciamento !== undefined ? im.taxaFinanciamento : 9.5).toString().replace('.', ',') + '% a.a.'}) - Clique para abrir e preencher">
+            🏦
+            ${!isQuitado ? '<span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-500 border border-white dark:border-black" title="Imóvel Financiado"></span>' : ''}
+          </button>
         </div>
       </td>
 
