@@ -2624,6 +2624,7 @@ function renderizarImoveis() {
     if (regFiscal === 'Holding_Presumido' || regFiscal === 'pj_presumido' || regFiscal === 'Lucro_Presumido' || regFiscal === 'Presumido') regFiscal = 'Presumido';
     else if (regFiscal === 'PJ_LucroReal' || regFiscal === 'pj_real' || regFiscal === 'Lucro_Real' || regFiscal === 'Real') regFiscal = 'Real';
     else if (regFiscal === 'PJ_Simples' || regFiscal === 'pj_simples_nacional' || regFiscal === 'Simples_Nacional' || regFiscal === 'Simples Nacional') regFiscal = 'Simples_Nacional';
+    else if (regFiscal === 'PJ_Arbitrado' || regFiscal === 'pj_arbitrado' || regFiscal === 'Lucro_Arbitrado' || regFiscal === 'Arbitrado' || regFiscal === 'Lucro Arbitrado') regFiscal = 'Arbitrado';
     else if (regFiscal === 'PF_CarnêLeão' || regFiscal === 'pf' || regFiscal === 'irpf_completa' || regFiscal === 'Pessoa_Fisica' || regFiscal === 'Pessoa Física') regFiscal = 'Pessoa_Fisica';
     else if (regFiscal === 'Uso_Proprio' || regFiscal === 'Uso Próprio') regFiscal = 'Uso_Proprio';
 
@@ -2716,6 +2717,7 @@ function renderizarImoveis() {
             <option value="Presumido" ${regFiscal === 'Presumido' ? 'selected' : ''}>🏢 Presumido</option>
             <option value="Real" ${regFiscal === 'Real' ? 'selected' : ''}>🏭 Real</option>
             <option value="Simples_Nacional" ${regFiscal === 'Simples_Nacional' ? 'selected' : ''}>🏢 Simples Nacional</option>
+            <option value="Arbitrado" ${regFiscal === 'Arbitrado' ? 'selected' : ''}>⚖️ Lucro Arbitrado</option>
             <option value="Pessoa_Fisica" ${regFiscal === 'Pessoa_Fisica' ? 'selected' : ''}>👤 Pessoa Física</option>
             <option value="Uso_Proprio" ${regFiscal === 'Uso_Proprio' ? 'selected' : ''}>🏡 Uso Próprio</option>
           </select>
@@ -4973,6 +4975,12 @@ function obterResumoTitulares(im) {
         case 'PJ_Simples':
         case 'Simples Nacional':
           return 'Simples Nacional';
+        case 'Arbitrado':
+        case 'Lucro_Arbitrado':
+        case 'PJ_Arbitrado':
+        case 'pj_arbitrado':
+        case 'Lucro Arbitrado':
+          return 'Lucro Arbitrado';
         case 'Pessoa_Fisica':
         case 'Pessoa Física':
         case 'PF_CarnêLeão':
