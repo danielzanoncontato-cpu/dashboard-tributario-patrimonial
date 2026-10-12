@@ -2638,12 +2638,12 @@ function renderizarImoveis() {
       <!-- 2. TIPO DE IMÓVEL -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
-          <select onchange="state.imoveis[${idx}].tipo=this.value; recalcularTudo();" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer">
-            <option value="Residencial" ${im.tipo === 'Residencial' ? 'selected' : ''}>🏠 Residencial</option>
-            <option value="Comercial" ${im.tipo === 'Comercial' ? 'selected' : ''}>🏢 Comercial</option>
-            <option value="Terreno" ${im.tipo === 'Terreno' ? 'selected' : ''}>🌱 Terreno</option>
-            <option value="Rural" ${im.tipo === 'Rural' ? 'selected' : ''}>🚜 Rural</option>
-            <option value="Galpão" ${im.tipo === 'Galpão' ? 'selected' : ''}>🏭 Galpão</option>
+          <select onchange="state.imoveis[${idx}].tipo=this.value; recalcularTudo();" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2.5 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-left cursor-pointer min-w-[110px]">
+            <option value="Residencial" ${im.tipo === 'Residencial' ? 'selected' : ''}>Residencial</option>
+            <option value="Comercial" ${im.tipo === 'Comercial' ? 'selected' : ''}>Comercial</option>
+            <option value="Terreno" ${im.tipo === 'Terreno' ? 'selected' : ''}>Terreno</option>
+            <option value="Rural" ${im.tipo === 'Rural' ? 'selected' : ''}>Rural</option>
+            <option value="Galpão" ${im.tipo === 'Galpão' ? 'selected' : ''}>Galpão</option>
           </select>
           <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Selecionar tipo">✏️</span>
         </div>
@@ -2713,13 +2713,13 @@ function renderizarImoveis() {
       <!-- 7. REGIME FISCAL ATUAL -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
-          <select onchange="state.imoveis[${idx}].regimeFiscal=this.value; state.imoveis[${idx}].regime=this.value; recalcularTudo();" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer" title="Selecione o Regime Fiscal Atual do Imóvel">
-            <option value="Presumido" ${regFiscal === 'Presumido' ? 'selected' : ''}>🏢 Presumido</option>
-            <option value="Real" ${regFiscal === 'Real' ? 'selected' : ''}>🏭 Real</option>
-            <option value="Simples_Nacional" ${regFiscal === 'Simples_Nacional' ? 'selected' : ''}>🏢 Simples Nacional</option>
-            <option value="Arbitrado" ${regFiscal === 'Arbitrado' ? 'selected' : ''}>⚖️ Lucro Arbitrado</option>
-            <option value="Pessoa_Fisica" ${regFiscal === 'Pessoa_Fisica' ? 'selected' : ''}>👤 Pessoa Física</option>
-            <option value="Uso_Proprio" ${regFiscal === 'Uso_Proprio' ? 'selected' : ''}>🏡 Uso Próprio</option>
+          <select onchange="state.imoveis[${idx}].regimeFiscal=this.value; state.imoveis[${idx}].regime=this.value; recalcularTudo();" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2.5 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-left cursor-pointer min-w-[135px]" title="Selecione o Regime Fiscal Atual do Imóvel">
+            <option value="Presumido" ${regFiscal === 'Presumido' ? 'selected' : ''}>Presumido</option>
+            <option value="Real" ${regFiscal === 'Real' ? 'selected' : ''}>Real</option>
+            <option value="Simples_Nacional" ${regFiscal === 'Simples_Nacional' ? 'selected' : ''}>Simples Nacional</option>
+            <option value="Arbitrado" ${regFiscal === 'Arbitrado' ? 'selected' : ''}>Lucro Arbitrado</option>
+            <option value="Pessoa_Fisica" ${regFiscal === 'Pessoa_Fisica' ? 'selected' : ''}>Pessoa Física</option>
+            <option value="Uso_Proprio" ${regFiscal === 'Uso_Proprio' ? 'selected' : ''}>Uso Próprio</option>
           </select>
           <span class="text-[10px] text-slate-400 select-none flex-shrink-0" title="Selecionar regime">✏️</span>
         </div>
