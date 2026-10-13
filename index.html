@@ -478,7 +478,15 @@
                 <span class="block text-[9px] text-slate-500 dark:text-slate-400 font-bold">São Paulo (ITCMD)</span>
               </div>
             </td>
-            <td colspan="7" class="p-2.5 text-right uppercase text-[10px] font-black">TOTAIS CONSOLIDADOS (<span id="lbl-tot-imoveis-qtd">3</span> imóveis):</td>
+            <td class="p-2 text-center font-mono font-bold text-xs" id="lbl-tot-cartorio-condensado" title="Custas Notariais e Registrais: São Paulo (SP): 1,0%">
+              <div class="flex flex-col items-center justify-center text-center">
+                <div class="text-[11px] font-mono font-bold whitespace-nowrap text-black dark:text-white">
+                  <span class="font-black">SP:</span> 1,0%
+                </div>
+                <span class="block text-[9px] text-slate-500 dark:text-slate-400 font-bold">São Paulo (Cartório)</span>
+              </div>
+            </td>
+            <td colspan="6" class="p-2.5 text-right uppercase text-[10px] font-black">TOTAIS CONSOLIDADOS (<span id="lbl-tot-imoveis-qtd">3</span> imóveis):</td>
             <td class="p-2.5 text-center font-mono font-bold text-xs" id="lbl-tot-aquisicao-condensado">R$ 880.000,00</td>
             <td class="p-2.5 text-center font-mono font-bold text-xs" id="lbl-tot-itbi-aquisicao-condensado" title="Total ITBI de aquisição: R$ 26.400,00 (Alíquota média de 3,0%)">
               <span class="font-mono font-bold text-xs">R$ 26.400,00</span>
@@ -1520,22 +1528,22 @@
             <div class="p-3 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-black dark:border-zinc-700 space-y-3">
               <div class="space-y-1.5">
                 <label class="block text-slate-900 dark:text-white font-black text-xs">
-                  🏛️ 2. Estado do Cartório (com % e Tabela de Custas Notariais/Registrais):
+                  2. Estado do Cartório (Tribunal de Justiça competente):
                 </label>
-                <!-- Botões Rápidos de Estado do Cartório com % -->
+                <!-- Botões Rápidos de Estado do Cartório -->
                 <div class="flex flex-wrap gap-1 pb-1">
-                  <button type="button" onclick="selecionarUfCartorioModal('BA')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">BA (1,2%)</button>
-                  <button type="button" onclick="selecionarUfCartorioModal('SP')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">SP (1,0%)</button>
-                  <button type="button" onclick="selecionarUfCartorioModal('RJ')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">RJ (1,3%)</button>
-                  <button type="button" onclick="selecionarUfCartorioModal('MG')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">MG (1,1%)</button>
-                  <button type="button" onclick="selecionarUfCartorioModal('PR')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">PR (0,9%)</button>
-                  <button type="button" onclick="selecionarUfCartorioModal('RS')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">RS (1,0%)</button>
-                  <button type="button" onclick="selecionarUfCartorioModal('SC')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">SC (0,8%)</button>
-                  <button type="button" onclick="selecionarUfCartorioModal('GO')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">GO (1,0%)</button>
-                  <button type="button" onclick="selecionarUfCartorioModal('DF')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">DF (0,7%)</button>
+                  <button type="button" onclick="selecionarUfCartorioModal('BA')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">BA</button>
+                  <button type="button" onclick="selecionarUfCartorioModal('SP')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">SP</button>
+                  <button type="button" onclick="selecionarUfCartorioModal('RJ')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">RJ</button>
+                  <button type="button" onclick="selecionarUfCartorioModal('MG')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">MG</button>
+                  <button type="button" onclick="selecionarUfCartorioModal('PR')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">PR</button>
+                  <button type="button" onclick="selecionarUfCartorioModal('RS')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">RS</button>
+                  <button type="button" onclick="selecionarUfCartorioModal('SC')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">SC</button>
+                  <button type="button" onclick="selecionarUfCartorioModal('GO')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">GO</button>
+                  <button type="button" onclick="selecionarUfCartorioModal('DF')" class="px-2 py-0.5 rounded-lg bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-[10px] border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 transition cursor-pointer">DF</button>
                 </div>
                 <select id="modal-sel-cartorio-uf" onchange="selecionarUfCartorioModal(this.value)" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-bold text-xs focus:outline-none cursor-pointer">
-                  <option value="SP">SP - São Paulo • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="RJ">RJ - Rio de Janeiro • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="MG">MG - Minas Gerais • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="RS">RS - Rio Grande do Sul • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="PR">PR - Paraná • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="SC">SC - Santa Catarina • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="BA">BA - Bahia • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="PE">PE - Pernambuco • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="CE">CE - Ceará • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="GO">GO - Goiás • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="DF">DF - Distrito Federal • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="ES">ES - Espírito Santo • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="MT">MT - Mato Grosso • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="MS">MS - Mato Grosso do Sul • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="AM">AM - Amazonas • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="PA">PA - Pará • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="MA">MA - Maranhão • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="PB">PB - Paraíba • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="RN">RN - Rio Grande do Norte • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="AL">AL - Alagoas • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="PI">PI - Piauí • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="SE">SE - Sergipe • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="RO">RO - Rondônia • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="TO">TO - Tocantins • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="AC">AC - Acre • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="AP">AP - Amapá • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="RR">RR - Roraima • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option><option value="OUTROS">OUTROS - Outros Estados • Custas de Cartório: ~1,0% (R$ 1.500 fixo/ref)</option>
+                  <option value="SP">SP - São Paulo</option><option value="RJ">RJ - Rio de Janeiro</option><option value="MG">MG - Minas Gerais</option><option value="RS">RS - Rio Grande do Sul</option><option value="PR">PR - Paraná</option><option value="SC">SC - Santa Catarina</option><option value="BA">BA - Bahia</option><option value="PE">PE - Pernambuco</option><option value="CE">CE - Ceará</option><option value="GO">GO - Goiás</option><option value="DF">DF - Distrito Federal</option><option value="ES">ES - Espírito Santo</option><option value="MT">MT - Mato Grosso</option><option value="MS">MS - Mato Grosso do Sul</option><option value="AM">AM - Amazonas</option><option value="PA">PA - Pará</option><option value="MA">MA - Maranhão</option><option value="PB">PB - Paraíba</option><option value="RN">RN - Rio Grande do Norte</option><option value="AL">AL - Alagoas</option><option value="PI">PI - Piauí</option><option value="SE">SE - Sergipe</option><option value="RO">RO - Rondônia</option><option value="TO">TO - Tocantins</option><option value="AC">AC - Acre</option><option value="AP">AP - Amapá</option><option value="RR">RR - Roraima</option><option value="OUTROS">Outros Estados</option>
                 </select>
               </div>
 
@@ -2343,7 +2351,88 @@
       }
     }
 
-    function sincronizarImoveisComTotais(rebuild = true) { let totAquisicao = 0, totItbiAquisicao = 0, totCorretagemAquisicao = 0, totReformas = 0, totCusto = 0, totMercado = 0, totAluguelAquisicao = 0, totAluguel = 0, totIptu = 0, totCondominio = 0, totSaldoDevedor = 0, totVacanciaSoma = 0, totAluguelAnualEfetivo = 0; let somaAnosPonderados = 0; let temFinanciado = false; state.imoveis.forEach(im => { totAquisicao += (im.aquisicao || 0); totItbiAquisicao += (im.itbiAquisicao || 0); totCorretagemAquisicao += (im.corretagemAquisicao || 0); totReformas += (im.reformaGasto || 0); totCusto += (im.custo || 0); totMercado += (im.mercado || 0); totAluguelAquisicao += (im.aluguelAquisicao || 0); totAluguel += (im.aluguel || 0); totIptu += (im.iptu || 0); totCondominio += (im.condominio || 0); const vac = (im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0); totVacanciaSoma += vac; totAluguelAnualEfetivo += (im.aluguel || 0) * Math.max(0, 12 - vac); if (im.financiado === 'SIM') { totSaldoDevedor += (im.saldoDevedor || 0); temFinanciado = true; } somaAnosPonderados += ((im.ano || 2010) * (im.mercado || 1)); }); state.imovelFinanciado = temFinanciado ? 'SIM' : 'NAO'; const anoMedioPonderado = totMercado > 0 ? Math.round(somaAnosPonderados / totMercado) : 2010; const elInpAq = document.getElementById('inp-aquisicao-declarado'); if (elInpAq) elInpAq.value = formatMoney(totAquisicao); const elInpCusto = document.getElementById('inp-custo-declarado'); if (elInpCusto) elInpCusto.value = formatMoney(totCusto); const elInpMercado = document.getElementById('inp-valor-mercado-master'); if (elInpMercado) elInpMercado.value = formatMoney(totMercado); const elInpAluguel = document.getElementById('inp-renda-aluguel-master'); if (elInpAluguel) elInpAluguel.value = totAluguel; const elInpIptu = document.getElementById('inp-iptu-master'); if (elInpIptu) elInpIptu.value = totIptu; const elInpIptuDed = document.getElementById('inp-deducao-iptu-anual'); if (elInpIptuDed && (!elInpIptuDed.value || elInpIptuDed.value === '0' || elInpIptuDed.value === '0,00' || elInpIptuDed.getAttribute('data-auto') === 'true')) { elInpIptuDed.value = formatMoneyBR(totIptu * 12); elInpIptuDed.setAttribute('data-auto', 'true'); } const elInpQtd = document.getElementById('inp-qtd-imoveis'); if (elInpQtd) elInpQtd.value = state.imoveis.length; const elInpAno = document.getElementById('inp-ano-aquisicao-master'); if (elInpAno) elInpAno.value = anoMedioPonderado; const elSaldoTot = document.getElementById('inp-saldo-devedor'); if (elSaldoTot) elSaldoTot.value = formatMoney(totSaldoDevedor); const elLblSaldo = document.getElementById('lbl-tot-saldo-devedor-condensado'); if (elLblSaldo) { if (totSaldoDevedor > 0) { let somaPonderadaTaxa = 0; state.imoveis.forEach(im => { if (im.financiado === 'SIM') { const saldo = im.saldoDevedor || 0; const taxa = (im.taxaFinanciamento !== undefined) ? im.taxaFinanciamento : 9.5; somaPonderadaTaxa += (saldo * taxa); } }); const taxaMediaPonderada = somaPonderadaTaxa / totSaldoDevedor; elLblSaldo.innerHTML = '<span class="font-mono font-bold text-xs">' + formatMoney(totSaldoDevedor) + '</span><span class="block text-[9px] text-amber-600 dark:text-amber-400 font-bold">Méd. ' + taxaMediaPonderada.toFixed(2).replace('.', ',') + '% a.a.</span>'; elLblSaldo.title = 'Saldo devedor total: ' + formatMoney(totSaldoDevedor) + ' com taxa de juros média ponderada de ' + taxaMediaPonderada.toFixed(2).replace('.', ',') + '% a.a.'; } else { elLblSaldo.innerText = formatMoney(0); elLblSaldo.title = 'Nenhum imóvel financiado'; } } const elRendaBloco = document.getElementById('lbl-tot-renda-bloco-consolidados'); if (elRendaBloco) elRendaBloco.value = `${formatMoney(totAluguel)}/m`; const elQtd = document.getElementById('lbl-tot-imoveis-qtd'); if (elQtd) elQtd.innerText = state.imoveis.length; const elAq = document.getElementById('lbl-tot-aquisicao-condensado'); if (elAq) elAq.innerText = formatMoney(totAquisicao); const elItbiTot = document.getElementById('lbl-tot-itbi-aquisicao-condensado'); if (elItbiTot) { const pctItbi = totAquisicao > 0 ? ((totItbiAquisicao / totAquisicao) * 100) : 0; elItbiTot.innerHTML = '<span class="font-mono font-bold text-xs">' + formatMoney(totItbiAquisicao) + '</span><span class="block text-[9px] text-slate-500 dark:text-slate-400 font-bold">Méd. ' + pctItbi.toFixed(1).replace('.', ',') + '%</span>'; elItbiTot.title = 'Total ITBI de aquisição: ' + formatMoney(totItbiAquisicao) + ' (Alíquota média de ' + pctItbi.toFixed(1).replace('.', ',') + '%)'; } atualizarTotalItcmdFooter(totMercado); const elCorretagemTot = document.getElementById('lbl-tot-corretagem-aquisicao-condensado'); if (elCorretagemTot) elCorretagemTot.innerText = formatMoney(totCorretagemAquisicao); const elRefTot = document.getElementById('lbl-tot-reformas-condensado'); if (elRefTot) elRefTot.innerText = formatMoney(totReformas); const elCusto = document.getElementById('lbl-tot-custo-condensado'); if (elCusto) elCusto.innerText = formatMoney(totCusto); const elMerc = document.getElementById('lbl-tot-mercado-condensado'); if (elMerc) elMerc.innerText = formatMoney(totMercado); const elAlugAq = document.getElementById('lbl-tot-aluguel-aquisicao-condensado'); if (elAlugAq) elAlugAq.innerText = `${formatMoney(totAluguelAquisicao)}/m`; const elAlug = document.getElementById('lbl-tot-aluguel-condensado'); if (elAlug) elAlug.innerText = `${formatMoney(totAluguel)}/m`; const elAnual = document.getElementById('lbl-tot-aluguel-anual-condensado'); if (elAnual) elAnual.innerText = `${formatMoney(totAluguelAnualEfetivo)}/ano`; let totCustoVacanciaConsolidado = 0; state.imoveis.forEach(im => { const v = (im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0); const alug = (im.aluguel || 0); const iptu = (im.iptu || 0); const cond = (im.condominio || 0); totCustoVacanciaConsolidado += (alug + iptu + cond) * v; }); const elVacTot = document.getElementById('lbl-tot-vacancia-condensado'); if (elVacTot) elVacTot.innerText = formatMoney(totCustoVacanciaConsolidado); const elIptu = document.getElementById('lbl-tot-iptu-condensado'); if (elIptu) elIptu.innerText = `${formatMoney(totIptu)}/m`; const elCond = document.getElementById('lbl-tot-condominio-condensado'); if (elCond) elCond.innerText = `${formatMoney(totCondominio)}/m`; const btnN = document.getElementById('btn-financiado-nao'); const btnS = document.getElementById('btn-financiado-sim'); const boxSaldo = document.getElementById('box-saldo-devedor'); if (btnN && btnS) { if (temFinanciado) { btnS.className = 'flex-1 py-1.5 rounded-lg font-black text-xs bg-black text-white dark:bg-white dark:text-black text-white shadow-sm transition'; btnN.className = 'flex-1 py-1.5 rounded-lg font-bold text-xs bg-transparent text-white border border-slate-700 hover:bg-slate-800 transition'; if (boxSaldo) boxSaldo.classList.remove('hidden'); } else { btnN.className = 'flex-1 py-1.5 rounded-lg font-black text-xs bg-black text-white dark:bg-white dark:text-black text-white shadow-sm transition'; btnS.className = 'flex-1 py-1.5 rounded-lg font-bold text-xs bg-transparent text-white border border-slate-700 hover:bg-slate-800 transition'; if (boxSaldo) boxSaldo.classList.add('hidden'); } } if (rebuild) { renderizarImoveis(); } recalcularTudo(); } 
+    function atualizarTotalCartorioFooter(totMercado) {
+      const elCartTot = document.getElementById('lbl-tot-cartorio-condensado');
+      if (!elCartTot) return;
+
+      const ufsUnicas = [];
+      let somaPonderadaCartorio = 0;
+      let totalBase = 0;
+
+      (state.imoveis || []).forEach(im => {
+        const uf = im.ufCartorio || im.uf || 'SP';
+        if (!ufsUnicas.includes(uf)) {
+          ufsUnicas.push(uf);
+        }
+        const dadosUF = (typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[uf]) 
+          ? TABELA_ITCMD_ESTADOS[uf] 
+          : { escrPfPct: 0.0100, nome: uf, tjNome: 'TJ' };
+        const valBase = (im.mercado || im.custo || 1);
+        somaPonderadaCartorio += (valBase * (dadosUF.escrPfPct || 0.0100));
+        totalBase += valBase;
+      });
+
+      const aliqCartMedia = (totMercado && totMercado > 0) 
+        ? ((somaPonderadaCartorio / totMercado) * 100) 
+        : (totalBase > 0 ? ((somaPonderadaCartorio / totalBase) * 100) : 1.0);
+      const aliqCartMediaStr = aliqCartMedia.toFixed(1).replace('.', ',');
+
+      if (ufsUnicas.length === 0) {
+        elCartTot.innerHTML = '<div class="flex flex-col items-center justify-center text-center"><span class="font-mono font-bold text-xs">1,0%</span><span class="block text-[9px] text-slate-500 dark:text-slate-400 font-bold">São Paulo (Cartório)</span></div>';
+        elCartTot.title = 'Nenhum imóvel cadastrado';
+        return;
+      }
+
+      if (ufsUnicas.length === 1) {
+        const uf = ufsUnicas[0];
+        const dadosUF = (typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[uf]) 
+          ? TABELA_ITCMD_ESTADOS[uf] 
+          : { escrPfPct: 0.0100, nome: uf, tjNome: 'TJ' };
+        const pct = ((dadosUF.escrPfPct || 0.0100) * 100).toFixed(1).replace('.', ',');
+        const nome = dadosUF.nome || uf;
+        const labelUf = uf === 'OUTROS' ? 'OUT' : uf;
+        elCartTot.innerHTML = `
+          <div class="flex flex-col items-center justify-center text-center">
+            <div class="text-[11px] font-mono font-bold whitespace-nowrap text-black dark:text-white">
+              <span class="font-black">${labelUf}:</span> ${pct}%
+            </div>
+            <span class="block text-[9px] text-slate-500 dark:text-slate-400 font-bold">${nome} (Cartório)</span>
+          </div>
+        `;
+        elCartTot.title = `Custas Notariais e Registrais: ${nome} (${labelUf}): ${pct}% (${dadosUF.tjNome || 'TJ'})`;
+      } else {
+        const linhas = ufsUnicas.map(uf => {
+          const dadosUF = (typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[uf]) 
+            ? TABELA_ITCMD_ESTADOS[uf] 
+            : { escrPfPct: 0.0100, nome: uf, tjNome: 'TJ' };
+          const pct = ((dadosUF.escrPfPct || 0.0100) * 100).toFixed(1).replace('.', ',');
+          const nome = dadosUF.nome || uf;
+          const labelUf = uf === 'OUTROS' ? 'OUT' : uf;
+          return `<div class="text-[10px] font-mono font-bold whitespace-nowrap text-slate-900 dark:text-zinc-100">
+            <span class="font-black">${labelUf}:</span> ${pct}% <span class="font-normal text-[9px] text-slate-500 dark:text-slate-400">(${nome})</span>
+          </div>`;
+        }).join('');
+
+        elCartTot.innerHTML = `
+          <div class="flex flex-col items-center justify-center text-center gap-0.5 py-0.5">
+            ${linhas}
+            <span class="block text-[9px] text-blue-600 dark:text-blue-400 font-black">Méd. ${aliqCartMediaStr}%</span>
+          </div>
+        `;
+
+        const tooltipDet = ufsUnicas.map(uf => {
+          const dadosUF = (typeof TABELA_ITCMD_ESTADOS !== 'undefined' && TABELA_ITCMD_ESTADOS[uf]) 
+            ? TABELA_ITCMD_ESTADOS[uf] 
+            : { escrPfPct: 0.0100, nome: uf, tjNome: 'TJ' };
+          const pct = ((dadosUF.escrPfPct || 0.0100) * 100).toFixed(1).replace('.', ',');
+          const labelUf = uf === 'OUTROS' ? 'OUT' : uf;
+          return `${dadosUF.nome || uf} (${labelUf}: ${pct}% - ${dadosUF.tjNome || 'TJ'})`;
+        }).join(', ');
+        elCartTot.title = `Custas de Cartório por Estado Selecionado: ${tooltipDet} | Média Ponderada da Carteira: ${aliqCartMediaStr}%`;
+      }
+    }
+
+    function sincronizarImoveisComTotais(rebuild = true) { let totAquisicao = 0, totItbiAquisicao = 0, totCorretagemAquisicao = 0, totReformas = 0, totCusto = 0, totMercado = 0, totAluguelAquisicao = 0, totAluguel = 0, totIptu = 0, totCondominio = 0, totSaldoDevedor = 0, totVacanciaSoma = 0, totAluguelAnualEfetivo = 0; let somaAnosPonderados = 0; let temFinanciado = false; state.imoveis.forEach(im => { totAquisicao += (im.aquisicao || 0); totItbiAquisicao += (im.itbiAquisicao || 0); totCorretagemAquisicao += (im.corretagemAquisicao || 0); totReformas += (im.reformaGasto || 0); totCusto += (im.custo || 0); totMercado += (im.mercado || 0); totAluguelAquisicao += (im.aluguelAquisicao || 0); totAluguel += (im.aluguel || 0); totIptu += (im.iptu || 0); totCondominio += (im.condominio || 0); const vac = (im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0); totVacanciaSoma += vac; totAluguelAnualEfetivo += (im.aluguel || 0) * Math.max(0, 12 - vac); if (im.financiado === 'SIM') { totSaldoDevedor += (im.saldoDevedor || 0); temFinanciado = true; } somaAnosPonderados += ((im.ano || 2010) * (im.mercado || 1)); }); state.imovelFinanciado = temFinanciado ? 'SIM' : 'NAO'; const anoMedioPonderado = totMercado > 0 ? Math.round(somaAnosPonderados / totMercado) : 2010; const elInpAq = document.getElementById('inp-aquisicao-declarado'); if (elInpAq) elInpAq.value = formatMoney(totAquisicao); const elInpCusto = document.getElementById('inp-custo-declarado'); if (elInpCusto) elInpCusto.value = formatMoney(totCusto); const elInpMercado = document.getElementById('inp-valor-mercado-master'); if (elInpMercado) elInpMercado.value = formatMoney(totMercado); const elInpAluguel = document.getElementById('inp-renda-aluguel-master'); if (elInpAluguel) elInpAluguel.value = totAluguel; const elInpIptu = document.getElementById('inp-iptu-master'); if (elInpIptu) elInpIptu.value = totIptu; const elInpIptuDed = document.getElementById('inp-deducao-iptu-anual'); if (elInpIptuDed && (!elInpIptuDed.value || elInpIptuDed.value === '0' || elInpIptuDed.value === '0,00' || elInpIptuDed.getAttribute('data-auto') === 'true')) { elInpIptuDed.value = formatMoneyBR(totIptu * 12); elInpIptuDed.setAttribute('data-auto', 'true'); } const elInpQtd = document.getElementById('inp-qtd-imoveis'); if (elInpQtd) elInpQtd.value = state.imoveis.length; const elInpAno = document.getElementById('inp-ano-aquisicao-master'); if (elInpAno) elInpAno.value = anoMedioPonderado; const elSaldoTot = document.getElementById('inp-saldo-devedor'); if (elSaldoTot) elSaldoTot.value = formatMoney(totSaldoDevedor); const elLblSaldo = document.getElementById('lbl-tot-saldo-devedor-condensado'); if (elLblSaldo) { if (totSaldoDevedor > 0) { let somaPonderadaTaxa = 0; state.imoveis.forEach(im => { if (im.financiado === 'SIM') { const saldo = im.saldoDevedor || 0; const taxa = (im.taxaFinanciamento !== undefined) ? im.taxaFinanciamento : 9.5; somaPonderadaTaxa += (saldo * taxa); } }); const taxaMediaPonderada = somaPonderadaTaxa / totSaldoDevedor; elLblSaldo.innerHTML = '<span class="font-mono font-bold text-xs">' + formatMoney(totSaldoDevedor) + '</span><span class="block text-[9px] text-amber-600 dark:text-amber-400 font-bold">Méd. ' + taxaMediaPonderada.toFixed(2).replace('.', ',') + '% a.a.</span>'; elLblSaldo.title = 'Saldo devedor total: ' + formatMoney(totSaldoDevedor) + ' com taxa de juros média ponderada de ' + taxaMediaPonderada.toFixed(2).replace('.', ',') + '% a.a.'; } else { elLblSaldo.innerText = formatMoney(0); elLblSaldo.title = 'Nenhum imóvel financiado'; } } const elRendaBloco = document.getElementById('lbl-tot-renda-bloco-consolidados'); if (elRendaBloco) elRendaBloco.value = `${formatMoney(totAluguel)}/m`; const elQtd = document.getElementById('lbl-tot-imoveis-qtd'); if (elQtd) elQtd.innerText = state.imoveis.length; const elAq = document.getElementById('lbl-tot-aquisicao-condensado'); if (elAq) elAq.innerText = formatMoney(totAquisicao); const elItbiTot = document.getElementById('lbl-tot-itbi-aquisicao-condensado'); if (elItbiTot) { const pctItbi = totAquisicao > 0 ? ((totItbiAquisicao / totAquisicao) * 100) : 0; elItbiTot.innerHTML = '<span class="font-mono font-bold text-xs">' + formatMoney(totItbiAquisicao) + '</span><span class="block text-[9px] text-slate-500 dark:text-slate-400 font-bold">Méd. ' + pctItbi.toFixed(1).replace('.', ',') + '%</span>'; elItbiTot.title = 'Total ITBI de aquisição: ' + formatMoney(totItbiAquisicao) + ' (Alíquota média de ' + pctItbi.toFixed(1).replace('.', ',') + '%)'; } atualizarTotalItcmdFooter(totMercado); atualizarTotalCartorioFooter(totMercado); const elCorretagemTot = document.getElementById('lbl-tot-corretagem-aquisicao-condensado'); if (elCorretagemTot) elCorretagemTot.innerText = formatMoney(totCorretagemAquisicao); const elRefTot = document.getElementById('lbl-tot-reformas-condensado'); if (elRefTot) elRefTot.innerText = formatMoney(totReformas); const elCusto = document.getElementById('lbl-tot-custo-condensado'); if (elCusto) elCusto.innerText = formatMoney(totCusto); const elMerc = document.getElementById('lbl-tot-mercado-condensado'); if (elMerc) elMerc.innerText = formatMoney(totMercado); const elAlugAq = document.getElementById('lbl-tot-aluguel-aquisicao-condensado'); if (elAlugAq) elAlugAq.innerText = `${formatMoney(totAluguelAquisicao)}/m`; const elAlug = document.getElementById('lbl-tot-aluguel-condensado'); if (elAlug) elAlug.innerText = `${formatMoney(totAluguel)}/m`; const elAnual = document.getElementById('lbl-tot-aluguel-anual-condensado'); if (elAnual) elAnual.innerText = `${formatMoney(totAluguelAnualEfetivo)}/ano`; let totCustoVacanciaConsolidado = 0; state.imoveis.forEach(im => { const v = (im.vacanciaMeses !== undefined ? im.vacanciaMeses : 0); const alug = (im.aluguel || 0); const iptu = (im.iptu || 0); const cond = (im.condominio || 0); totCustoVacanciaConsolidado += (alug + iptu + cond) * v; }); const elVacTot = document.getElementById('lbl-tot-vacancia-condensado'); if (elVacTot) elVacTot.innerText = formatMoney(totCustoVacanciaConsolidado); const elIptu = document.getElementById('lbl-tot-iptu-condensado'); if (elIptu) elIptu.innerText = `${formatMoney(totIptu)}/m`; const elCond = document.getElementById('lbl-tot-condominio-condensado'); if (elCond) elCond.innerText = `${formatMoney(totCondominio)}/m`; const btnN = document.getElementById('btn-financiado-nao'); const btnS = document.getElementById('btn-financiado-sim'); const boxSaldo = document.getElementById('box-saldo-devedor'); if (btnN && btnS) { if (temFinanciado) { btnS.className = 'flex-1 py-1.5 rounded-lg font-black text-xs bg-black text-white dark:bg-white dark:text-black text-white shadow-sm transition'; btnN.className = 'flex-1 py-1.5 rounded-lg font-bold text-xs bg-transparent text-white border border-slate-700 hover:bg-slate-800 transition'; if (boxSaldo) boxSaldo.classList.remove('hidden'); } else { btnN.className = 'flex-1 py-1.5 rounded-lg font-black text-xs bg-black text-white dark:bg-white dark:text-black text-white shadow-sm transition'; btnS.className = 'flex-1 py-1.5 rounded-lg font-bold text-xs bg-transparent text-white border border-slate-700 hover:bg-slate-800 transition'; if (boxSaldo) boxSaldo.classList.add('hidden'); } } if (rebuild) { renderizarImoveis(); } recalcularTudo(); } 
 
 function alterarFinanciamentoImovel(idx, val) {
   if (state.imoveis[idx]) {
@@ -2753,20 +2842,17 @@ function renderizarImoveis() {
         </div>
       </td>
 
-      <!-- 5. CARTÓRIO (ESTADO DO CARTÓRIO COM % CUSTO DE CARTÓRIO + SELETOR DE RGI) -->
+      <!-- 5. CARTÓRIO (ESTADO DO CARTÓRIO + SELETOR DE RGI) -->
       <td class="p-2 text-center whitespace-nowrap">
         <div class="flex items-center justify-center gap-1">
-          <!-- 1. Estado do Cartório com % de Custo Notarial/Registral por Estado -->
-          <select onchange="alterarUfCartorio(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-1.5 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer" title="Estado do Cartório e % de Custas Notariais e Registrais do Tribunal de Justiça">
-            ${Object.keys(TABELA_ITCMD_ESTADOS).filter(k => k !== 'OUTROS').map(uf => {
-              const pctCartorio = ((TABELA_ITCMD_ESTADOS[uf].escrPfPct || 0.01) * 100).toFixed(1).replace('.', ',');
-              return `<option value="${uf}" ${(im.ufCartorio || im.uf || 'SP') === uf ? 'selected' : ''}>${uf} (${pctCartorio}%)</option>`;
-            }).join('')}
-            <option value="OUTROS" ${(im.ufCartorio || im.uf) === 'OUTROS' ? 'selected' : ''}>OUT (1,0%)</option>
+          <!-- 1. Estado do Cartório -->
+          <select onchange="alterarUfCartorio(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-left cursor-pointer min-w-[65px]" title="Selecione o Estado do Cartório (Tribunal de Justiça)">
+            ${Object.keys(TABELA_ITCMD_ESTADOS).filter(k => k !== 'OUTROS').map(uf => `<option value="${uf}" ${(im.ufCartorio || im.uf || 'SP') === uf ? 'selected' : ''}>${uf}</option>`).join('')}
+            <option value="OUTROS" ${(im.ufCartorio || im.uf) === 'OUTROS' ? 'selected' : ''}>OUT</option>
           </select>
 
           <!-- 2. Cartório / RGI daquele Estado -->
-          <select onchange="alterarRgiImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-center cursor-pointer max-w-[210px]" title="Cartório / Circunscrição do Estado ${im.ufCartorio || im.uf || 'SP'}">
+          <select onchange="alterarRgiImovel(${idx}, this.value)" class="bg-white dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg px-2 py-1 text-black dark:text-white font-bold text-xs focus:outline-none shadow-2xs text-left cursor-pointer max-w-[210px]" title="Cartório / Circunscrição do Estado ${im.ufCartorio || im.uf || 'SP'}">
             ${obterOpcoesCartoriosSelect(im.ufCartorio || im.uf || 'SP', im.rgi || '13º RGI de São Paulo')}
           </select>
         </div>
@@ -2966,6 +3052,7 @@ function renderizarImoveis() {
     elItbi.title = `Total ITBI de aquisição: ${formatMoney(totItbiAquisicao)} (Alíquota média de ${pctItbi.toFixed(1).replace('.', ',')}%)`;
   }
   atualizarTotalItcmdFooter(totMercado);
+  atualizarTotalCartorioFooter(totMercado);
   const elCorr = document.getElementById('lbl-tot-corretagem-aquisicao-condensado');
   if (elCorr) elCorr.innerText = formatMoney(totCorretagemAquisicao);
   const elRef = document.getElementById('lbl-tot-reformas-condensado');
