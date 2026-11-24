@@ -625,7 +625,7 @@
               <div class="grid grid-cols-2 gap-1.5">
                 <div>
                   <span class="font-bold text-slate-700 dark:text-slate-300 block mb-1">Ramo de Atividade:</span>
-                  <select id="sel-governanca-pj-ramo" onchange="atualizarGovernancaPJ()" class="w-full p-1 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-slate-900 dark:text-white font-bold text-[10px] cursor-pointer">
+                  <select id="sel-governanca-pj-ramo" onchange="tratarMudancaRamoPJ(this.value)" class="w-full p-1 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-slate-900 dark:text-white font-bold text-[10px] cursor-pointer">
                     <option value="holding_patrimonial">Holding Patrimonial</option>
                     <option value="comercio_varejo">Comércio / Varejo</option>
                     <option value="industria">Indústria / Manufatura</option>
@@ -634,6 +634,7 @@
                     <option value="saude_medico">Saúde / Clínicas</option>
                     <option value="agropecuaria">Agropecuária</option>
                     <option value="transporte_logistica">Transporte / Logística</option>
+                    <option value="outro">✏️ Outro (Especificar)</option>
                   </select>
                 </div>
                 <div>
@@ -643,6 +644,20 @@
                     <option value="medio">🟡 Médio (Serviços)</option>
                     <option value="alto">🔴 Alto (Passivo/Trabalhista)</option>
                   </select>
+                </div>
+              </div>
+
+              <!-- Quadrado aberto para especificar ramo quando diferente ou personalizado -->
+              <div id="box-governanca-pj-ramo-outro" class="hidden pt-1">
+                <label class="block text-[10px] font-black uppercase text-slate-700 dark:text-slate-300 mb-0.5">
+                  ✏️ Especifique o Ramo de Atividade:
+                </label>
+                <div class="flex items-center gap-1.5">
+                  <input type="text" id="inp-governanca-pj-ramo-outro"
+                    placeholder="Ex.: Tecnologia, Mineração, Hotelaria..."
+                    oninput="atualizarGovernancaPJ()"
+                    class="w-full p-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-slate-900 dark:text-white font-bold text-[10px] shadow-2xs">
+                  <span class="text-xs text-slate-400 select-none flex-shrink-0">✏️</span>
                 </div>
               </div>
             </div>
@@ -5695,10 +5710,39 @@ function toggleGovernancaPJTitular(quem) {
   atualizarGovernancaPJ();
 }
 
+function tratarMudancaRamoPJ(val) {
+  const boxOutro = document.getElementById('box-governanca-pj-ramo-outro');
+  const inpOutro = document.getElementById('inp-governanca-pj-ramo-outro');
+  if (val === 'outro') {
+    if (boxOutro) boxOutro.classList.remove('hidden');
+    if (inpOutro) {
+      inpOutro.focus();
+      inpOutro.select();
+    }
+  } else {
+    if (boxOutro) boxOutro.classList.add('hidden');
+  }
+  atualizarGovernancaPJ();
+}
+
 function atualizarGovernancaPJ() {
   const selRamo = document.getElementById('sel-governanca-pj-ramo');
   const selRisco = document.getElementById('sel-governanca-pj-risco');
-  if (selRamo) state.governancaPJ.ramo = selRamo.value;
+  const inpOutro = document.getElementById('inp-governanca-pj-ramo-outro');
+
+  let ramoNome = 'Holding Patrimonial';
+  if (selRamo) {
+    if (selRamo.value === 'outro') {
+      const customVal = inpOutro?.value?.trim();
+      ramoNome = customVal ? customVal : 'Outro (Personalizado)';
+      state.governancaPJ.ramo = 'outro';
+      state.governancaPJ.ramoPersonalizado = customVal || '';
+    } else {
+      ramoNome = selRamo.options[selRamo.selectedIndex]?.text || 'Holding Patrimonial';
+      state.governancaPJ.ramo = selRamo.value;
+      state.governancaPJ.ramoPersonalizado = '';
+    }
+  }
   if (selRisco) state.governancaPJ.risco = selRisco.value;
 
   const desc = document.getElementById('lbl-governanca-pj-desc');
@@ -5716,7 +5760,7 @@ function atualizarGovernancaPJ() {
         ? '<b class="text-rose-600 dark:text-rose-400">Risco Alto (blindagem recomendada)</b>' 
         : (state.governancaPJ.risco === 'medio' ? '<b class="text-amber-600 dark:text-amber-400">Risco Médio</b>' : '<b class="text-emerald-600 dark:text-emerald-400">Risco Baixo</b>');
 
-      desc.innerHTML = `Titulares: <b>${titularesTxt}</b> • Ramo: <b>${selRamo ? selRamo.options[selRamo.selectedIndex].text : 'Holding'}</b> • ${riscoTxt}`;
+      desc.innerHTML = `Titulares: <b>${titularesTxt}</b> • Ramo: <b>${ramoNome}</b> • ${riscoTxt}`;
     }
   }
   atualizarResumoGovernanca();
