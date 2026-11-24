@@ -574,7 +574,84 @@
             </p>
           </div>
 
-          <!-- ── P3: TEM EMPRESAS (PJ)? ── -->
+          <!-- ── P3: FILHOS & RELACIONAMENTO / COMUNICAÇÃO DE BENS ── -->
+          <div class="p-3 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 flex flex-col gap-2 shadow-2xs">
+            <div class="flex justify-between items-center">
+              <label class="text-[11px] font-black uppercase text-slate-900 dark:text-white leading-tight">
+                👶 Tem filhos? E os filhos namoram?
+              </label>
+              <span class="text-[9px] px-1.5 py-0.5 rounded font-black bg-slate-100 dark:bg-zinc-900 border border-black dark:border-zinc-700 text-black dark:text-white whitespace-nowrap ml-1" id="lbl-governanca-filhos-badge">Sem Filhos</span>
+            </div>
+
+            <!-- Pergunta 1: Tem filhos? -->
+            <div class="space-y-1">
+              <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300 block">Possui filhos:</span>
+              <div class="flex items-center gap-1.5">
+                <button type="button" id="btn-filhos-status-nao"
+                  onclick="setGovernancaFilhosStatus('nao')"
+                  class="flex-1 py-1.5 px-2 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs border border-black dark:border-white shadow-xs transition cursor-pointer flex items-center justify-center gap-1">
+                  ✗ Não tem
+                </button>
+                <button type="button" id="btn-filhos-status-sim"
+                  onclick="setGovernancaFilhosStatus('sim')"
+                  class="flex-1 py-1.5 px-2 rounded-xl bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-xs border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer flex items-center justify-center gap-1">
+                  ✓ Sim, tem filhos
+                </button>
+              </div>
+            </div>
+
+            <!-- Painel Expansível: Detalhes dos Filhos e Namoro / Comunicação de Bens -->
+            <div id="painel-governanca-filhos-detalhes" class="hidden space-y-2 pt-1 border-t border-slate-100 dark:border-zinc-800 text-[10px]">
+              <!-- Quantidade de filhos -->
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-700 dark:text-slate-300">Quantidade de filhos:</span>
+                <div class="flex items-center gap-1">
+                  <button type="button" onclick="ajustarQtdFilhos(-1)"
+                    class="w-6 h-6 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-black text-xs flex items-center justify-center hover:bg-slate-100 transition cursor-pointer">−</button>
+                  <span id="lbl-governanca-qtd-filhos" class="w-8 text-center font-black font-mono text-xs text-slate-900 dark:text-white">1</span>
+                  <button type="button" onclick="ajustarQtdFilhos(+1)"
+                    class="w-6 h-6 rounded-lg bg-black dark:bg-white border border-black dark:border-white text-white dark:text-black font-black text-xs flex items-center justify-center hover:bg-zinc-800 dark:hover:bg-zinc-200 transition cursor-pointer">+</button>
+                </div>
+              </div>
+
+              <!-- Status de Relacionamento / Namoro dos Filhos -->
+              <div>
+                <div class="flex justify-between items-center mb-1">
+                  <span class="font-bold text-slate-700 dark:text-slate-300">Situação de relacionamento:</span>
+                  <span class="text-[8px] font-black uppercase text-amber-600 dark:text-amber-400" id="lbl-governanca-namoro-alerta">Risco União Estável</span>
+                </div>
+                <div class="grid grid-cols-3 gap-1">
+                  <button type="button" id="btn-filhos-rel-solteiro"
+                    onclick="setGovernancaFilhosRelacionamento('solteiro')"
+                    class="py-1 px-1 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-slate-700 dark:text-slate-300 font-bold text-[9px] hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer text-center">
+                    Solteiros
+                  </button>
+                  <button type="button" id="btn-filhos-rel-namoro"
+                    onclick="setGovernancaFilhosRelacionamento('namoro')"
+                    class="py-1 px-1 rounded-lg border border-black dark:border-white bg-black dark:bg-white text-white dark:text-black font-black text-[9px] transition cursor-pointer text-center">
+                    💍 Namoram
+                  </button>
+                  <button type="button" id="btn-filhos-rel-casado"
+                    onclick="setGovernancaFilhosRelacionamento('casado')"
+                    class="py-1 px-1 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-slate-700 dark:text-slate-300 font-bold text-[9px] hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer text-center">
+                    Casados / UE
+                  </button>
+                </div>
+              </div>
+
+              <!-- Alerta Jurídico sobre Comunicação de Bens -->
+              <div class="p-1.5 rounded-lg bg-amber-50 dark:bg-zinc-900 border border-amber-300 dark:border-zinc-700 text-[9px] text-amber-950 dark:text-amber-200 leading-tight" id="box-alerta-comunicacao-bens">
+                ⚠️ <b>Atenção à Comunicação de Bens:</b> Namoro prolongado com coabitação pode ser caracterizado como <b>União Estável</b> (Art. 1.723 CC), aplicando o regime da comunhão parcial (Art. 1.658 CC). <b>Recomendação:</b> Cláusula de Incomunicabilidade (Art. 1.911 CC) e Contrato de Namoro/Holding.
+              </div>
+            </div>
+
+            <!-- Resumo inferior -->
+            <div class="text-[9px] text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-100 dark:border-zinc-800" id="lbl-governanca-filhos-desc">
+              Sem filhos informados no planejamento.
+            </div>
+          </div>
+
+          <!-- ── P4: TEM EMPRESAS (PJ)? ── -->
           <div class="p-3 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 flex flex-col gap-2 shadow-2xs">
             <div class="flex justify-between items-center">
               <label class="text-[11px] font-black uppercase text-slate-900 dark:text-white leading-tight">
@@ -679,83 +756,6 @@
             <!-- Resumo inferior de risco e proteção -->
             <div class="text-[9px] text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-100 dark:border-zinc-800" id="lbl-governanca-pj-desc">
               Sem empresas vinculadas ao núcleo familiar.
-            </div>
-          </div>
-
-          <!-- ── P4: FILHOS & RELACIONAMENTO / COMUNICAÇÃO DE BENS ── -->
-          <div class="p-3 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 flex flex-col gap-2 shadow-2xs">
-            <div class="flex justify-between items-center">
-              <label class="text-[11px] font-black uppercase text-slate-900 dark:text-white leading-tight">
-                👶 Tem filhos? E os filhos namoram?
-              </label>
-              <span class="text-[9px] px-1.5 py-0.5 rounded font-black bg-slate-100 dark:bg-zinc-900 border border-black dark:border-zinc-700 text-black dark:text-white whitespace-nowrap ml-1" id="lbl-governanca-filhos-badge">Sem Filhos</span>
-            </div>
-
-            <!-- Pergunta 1: Tem filhos? -->
-            <div class="space-y-1">
-              <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300 block">Possui filhos:</span>
-              <div class="flex items-center gap-1.5">
-                <button type="button" id="btn-filhos-status-nao"
-                  onclick="setGovernancaFilhosStatus('nao')"
-                  class="flex-1 py-1.5 px-2 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs border border-black dark:border-white shadow-xs transition cursor-pointer flex items-center justify-center gap-1">
-                  ✗ Não tem
-                </button>
-                <button type="button" id="btn-filhos-status-sim"
-                  onclick="setGovernancaFilhosStatus('sim')"
-                  class="flex-1 py-1.5 px-2 rounded-xl bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-xs border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer flex items-center justify-center gap-1">
-                  ✓ Sim, tem filhos
-                </button>
-              </div>
-            </div>
-
-            <!-- Painel Expansível: Detalhes dos Filhos e Namoro / Comunicação de Bens -->
-            <div id="painel-governanca-filhos-detalhes" class="hidden space-y-2 pt-1 border-t border-slate-100 dark:border-zinc-800 text-[10px]">
-              <!-- Quantidade de filhos -->
-              <div class="flex items-center justify-between">
-                <span class="font-bold text-slate-700 dark:text-slate-300">Quantidade de filhos:</span>
-                <div class="flex items-center gap-1">
-                  <button type="button" onclick="ajustarQtdFilhos(-1)"
-                    class="w-6 h-6 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-black text-xs flex items-center justify-center hover:bg-slate-100 transition cursor-pointer">−</button>
-                  <span id="lbl-governanca-qtd-filhos" class="w-8 text-center font-black font-mono text-xs text-slate-900 dark:text-white">1</span>
-                  <button type="button" onclick="ajustarQtdFilhos(+1)"
-                    class="w-6 h-6 rounded-lg bg-black dark:bg-white border border-black dark:border-white text-white dark:text-black font-black text-xs flex items-center justify-center hover:bg-zinc-800 dark:hover:bg-zinc-200 transition cursor-pointer">+</button>
-                </div>
-              </div>
-
-              <!-- Status de Relacionamento / Namoro dos Filhos -->
-              <div>
-                <div class="flex justify-between items-center mb-1">
-                  <span class="font-bold text-slate-700 dark:text-slate-300">Situação de relacionamento:</span>
-                  <span class="text-[8px] font-black uppercase text-amber-600 dark:text-amber-400" id="lbl-governanca-namoro-alerta">Risco União Estável</span>
-                </div>
-                <div class="grid grid-cols-3 gap-1">
-                  <button type="button" id="btn-filhos-rel-solteiro"
-                    onclick="setGovernancaFilhosRelacionamento('solteiro')"
-                    class="py-1 px-1 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-slate-700 dark:text-slate-300 font-bold text-[9px] hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer text-center">
-                    Solteiros
-                  </button>
-                  <button type="button" id="btn-filhos-rel-namoro"
-                    onclick="setGovernancaFilhosRelacionamento('namoro')"
-                    class="py-1 px-1 rounded-lg border border-black dark:border-white bg-black dark:bg-white text-white dark:text-black font-black text-[9px] transition cursor-pointer text-center">
-                    💍 Namoram
-                  </button>
-                  <button type="button" id="btn-filhos-rel-casado"
-                    onclick="setGovernancaFilhosRelacionamento('casado')"
-                    class="py-1 px-1 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-slate-700 dark:text-slate-300 font-bold text-[9px] hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer text-center">
-                    Casados / UE
-                  </button>
-                </div>
-              </div>
-
-              <!-- Alerta Jurídico sobre Comunicação de Bens -->
-              <div class="p-1.5 rounded-lg bg-amber-50 dark:bg-zinc-900 border border-amber-300 dark:border-zinc-700 text-[9px] text-amber-950 dark:text-amber-200 leading-tight" id="box-alerta-comunicacao-bens">
-                ⚠️ <b>Atenção à Comunicação de Bens:</b> Namoro prolongado com coabitação pode ser caracterizado como <b>União Estável</b> (Art. 1.723 CC), aplicando o regime da comunhão parcial (Art. 1.658 CC). <b>Recomendação:</b> Cláusula de Incomunicabilidade (Art. 1.911 CC) e Contrato de Namoro/Holding.
-              </div>
-            </div>
-
-            <!-- Resumo inferior -->
-            <div class="text-[9px] text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-100 dark:border-zinc-800" id="lbl-governanca-filhos-desc">
-              Sem filhos informados no planejamento.
             </div>
           </div>
 
