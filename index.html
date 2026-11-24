@@ -601,8 +601,16 @@
             <div id="painel-governanca-pj-detalhes" class="hidden space-y-2 pt-1 border-t border-slate-100 dark:border-zinc-800 text-[10px]">
               <!-- Em nome de quem? -->
               <div>
-                <span class="font-bold text-slate-700 dark:text-slate-300 block mb-1">Titularidade / Em nome de quem:</span>
-                <div class="grid grid-cols-3 gap-1">
+                <div class="flex justify-between items-center mb-1">
+                  <span class="font-bold text-slate-700 dark:text-slate-300">Titularidade / Em nome de quem:</span>
+                  <button type="button" id="btn-pj-titular-todos"
+                    onclick="setGovernancaPJTitularesTodos()"
+                    class="text-[9px] px-1.5 py-0.2 rounded font-black border border-black dark:border-white bg-white dark:bg-zinc-950 text-black dark:text-white hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer"
+                    title="Marcar / Desmarcar os 3 ao mesmo tempo">
+                    ⚡ Marcar os 3
+                  </button>
+                </div>
+                <div class="grid grid-cols-4 gap-1">
                   <button type="button" id="btn-pj-titular-proprio"
                     onclick="toggleGovernancaPJTitular('proprio')"
                     class="py-1 px-1 rounded-lg border border-black dark:border-white bg-black dark:bg-white text-white dark:text-black font-black text-[9px] transition cursor-pointer text-center">
@@ -617,6 +625,12 @@
                     onclick="toggleGovernancaPJTitular('filhos')"
                     class="py-1 px-1 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-slate-700 dark:text-slate-300 font-bold text-[9px] hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer text-center">
                     Filhos
+                  </button>
+                  <button type="button" id="btn-pj-titular-os-tres"
+                    onclick="setGovernancaPJTitularesTodos(true)"
+                    class="py-1 px-1 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-slate-700 dark:text-slate-300 font-bold text-[9px] hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer text-center"
+                    title="Selecionar Próprio, Cônjuge e Filhos ao mesmo tempo">
+                    Os 3 Juntos
                   </button>
                 </div>
               </div>
@@ -5745,6 +5759,58 @@ function toggleGovernancaPJTitular(quem) {
       btn.className = 'py-1 px-1 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-slate-700 dark:text-slate-300 font-bold text-[9px] hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer text-center';
     }
   }
+
+  // Sincroniza botão "Os 3 Juntos"
+  const todosAtivos = state.governancaPJ.titulares.proprio && state.governancaPJ.titulares.conjuge && state.governancaPJ.titulares.filhos;
+  const btnTres = document.getElementById('btn-pj-titular-os-tres');
+  if (btnTres) {
+    if (todosAtivos) {
+      btnTres.className = 'py-1 px-1 rounded-lg border border-black dark:border-white bg-black dark:bg-white text-white dark:text-black font-black text-[9px] transition cursor-pointer text-center';
+    } else {
+      btnTres.className = 'py-1 px-1 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-slate-700 dark:text-slate-300 font-bold text-[9px] hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer text-center';
+    }
+  }
+
+  atualizarGovernancaPJ();
+}
+
+function setGovernancaPJTitularesTodos(forcarTodos) {
+  if (!state.governancaPJ.titulares) {
+    state.governancaPJ.titulares = { proprio: true, conjuge: false, filhos: false };
+  }
+
+  const estaoTodosAtivos = state.governancaPJ.titulares.proprio && state.governancaPJ.titulares.conjuge && state.governancaPJ.titulares.filhos;
+  const novoEstado = (forcarTodos === true) ? true : !estaoTodosAtivos;
+
+  state.governancaPJ.titulares.proprio = novoEstado;
+  state.governancaPJ.titulares.conjuge = novoEstado;
+  state.governancaPJ.titulares.filhos = novoEstado;
+
+  ['proprio', 'conjuge', 'filhos'].forEach(k => {
+    const b = document.getElementById(`btn-pj-titular-${k}`);
+    if (b) {
+      if (novoEstado) {
+        b.className = 'py-1 px-1 rounded-lg border border-black dark:border-white bg-black dark:bg-white text-white dark:text-black font-black text-[9px] transition cursor-pointer text-center';
+      } else {
+        b.className = 'py-1 px-1 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-slate-700 dark:text-slate-300 font-bold text-[9px] hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer text-center';
+      }
+    }
+  });
+
+  const btnTres = document.getElementById('btn-pj-titular-os-tres');
+  if (btnTres) {
+    if (novoEstado) {
+      btnTres.className = 'py-1 px-1 rounded-lg border border-black dark:border-white bg-black dark:bg-white text-white dark:text-black font-black text-[9px] transition cursor-pointer text-center';
+    } else {
+      btnTres.className = 'py-1 px-1 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-slate-700 dark:text-slate-300 font-bold text-[9px] hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer text-center';
+    }
+  }
+
+  const btnTodosTopo = document.getElementById('btn-pj-titular-todos');
+  if (btnTodosTopo) {
+    btnTodosTopo.innerText = novoEstado ? '✗ Desmarcar os 3' : '⚡ Marcar os 3';
+  }
+
   atualizarGovernancaPJ();
 }
 
