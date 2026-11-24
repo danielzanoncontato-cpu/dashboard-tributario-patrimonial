@@ -511,89 +511,203 @@
           </tr>
         </tfoot> </table> </div> <!-- ========================================================================= --> <!-- CAIXA INTEGRADA: RECEITA FEDERAL • SIMULADOR DE DEDUÇÕES & LIQUIDEZ ESTRATÉGICA --> <!-- ========================================================================= --> <div class="p-4 rounded-2xl bg-white border border-black dark:border-zinc-700 space-y-4 shadow-sm"> <!-- Cabeçalho do Módulo --> <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pb-3 border-b border-slate-200"> <div class="flex items-center gap-2 flex-wrap"> <span class="px-2.5 py-0.5 rounded-full bg-black text-white dark:bg-white dark:text-black text-white font-black text-[10px] uppercase shadow-xs"> Receita Federal • Simulador de Deduções </span> </div> </div>
       
-      <!-- PAINEL DE PERGUNTAS INICIAIS: PERFIL, REGIME DE CASAMENTO & RENDA BRUTA TRIBUTÁVEL -->
-      <div class="p-4 rounded-xl bg-slate-50 dark:bg-zinc-900/50 border border-black dark:border-zinc-700 space-y-3.5 shadow-2xs">
+      <!-- =========================================================== -->
+      <!-- GOVERNANÇA: WIZARD DE PERFIL FAMILIAR & ESTRUTURA PATRIMONIAL -->
+      <!-- =========================================================== -->
+      <div class="p-4 rounded-xl bg-slate-50 dark:bg-zinc-900/50 border border-black dark:border-zinc-700 space-y-4 shadow-2xs">
+
+        <!-- CABEÇALHO DA SEÇÃO -->
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pb-2 border-b border-slate-200 dark:border-zinc-700">
           <div>
             <span class="font-black text-xs text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
-              <span>📋 1. Configuração Inicial: Perfil, Regime de Casamento &amp; Renda</span>
+              <span>🏛️ 1. Governança</span>
             </span>
             <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5 leading-tight">
-              Defina a estrutura familiar, regime de bens e a renda tributável para calibrar os limites legais de meação, dedução e proteção patrimonial.
+              Responda as perguntas abaixo para calibrar o planejamento tributário, sucessório e de proteção patrimonial de forma personalizada.
             </p>
           </div>
-          <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-black text-white dark:bg-white dark:text-black font-black uppercase shrink-0">
-            Passo 1 • Premissas Estruturais
+          <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-black text-white dark:bg-white dark:text-black font-black uppercase shrink-0 whitespace-nowrap">
+            Premissas Estruturais
           </span>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
-          <!-- PERGUNTA 1: INDIVIDUAL OU CASAL -->
-          <div class="p-3 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 space-y-2 flex flex-col justify-between shadow-2xs">
-            <div>
-              <div class="flex justify-between items-center mb-1">
-                <label class="block text-slate-900 dark:text-white text-[11px] font-black uppercase">
-                  👤 Estrutura da Declaração:
-                </label>
-                <span class="text-[10px] text-slate-500 dark:text-slate-400 font-bold" id="lbl-perfil-status">Casal (Conjunta)</span>
-              </div>
-              <p class="text-[10px] text-slate-600 dark:text-slate-400 mb-2 leading-tight">
-                Planejamento individual (1 titular) ou conjunto do casal / família.
-              </p>
+        <!-- GRID DE PERGUNTAS -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 text-xs">
+
+          <!-- ── P1: ESTADO CIVIL / CASADO? ── -->
+          <div class="p-3 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 flex flex-col gap-2 shadow-2xs">
+            <div class="flex justify-between items-center">
+              <label class="text-[11px] font-black uppercase text-slate-900 dark:text-white">💍 É casado(a)?</label>
+              <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400" id="lbl-perfil-status">Casal (Conjunta)</span>
             </div>
-            
-            <div class="flex items-center gap-2 pt-1">
-              <button type="button" id="btn-perfil-individual" onclick="setPerfilDeclaracao('individual')" class="flex-1 py-2 px-2.5 rounded-xl bg-white text-black dark:bg-zinc-950 dark:text-white font-bold text-xs border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer flex items-center justify-center gap-1" title="Declaração Individual (1 Titular)">
-                <span>👤 Individual</span>
+            <p class="text-[10px] text-slate-600 dark:text-slate-400 leading-tight -mt-1">
+              Determina meação, regime de bens e concorrência hereditária do cônjuge.
+            </p>
+            <div class="flex items-center gap-2 mt-auto pt-1">
+              <button type="button" id="btn-perfil-individual"
+                onclick="setPerfilDeclaracao('individual')"
+                class="flex-1 py-2 px-2 rounded-xl bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-xs border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer flex items-center justify-center gap-1">
+                👤 Não / Individual
               </button>
-              <button type="button" id="btn-perfil-casal" onclick="setPerfilDeclaracao('casal')" class="flex-1 py-2 px-2.5 rounded-xl bg-black text-white dark:bg-white dark:text-black font-black text-xs border border-black dark:border-white shadow-xs transition cursor-pointer flex items-center justify-center gap-1" title="Declaração de Casal / Conjunta (Titular + Cônjuge)">
-                <span>👥 Casal</span>
+              <button type="button" id="btn-perfil-casal"
+                onclick="setPerfilDeclaracao('casal')"
+                class="flex-1 py-2 px-2 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs border border-black dark:border-white shadow-xs transition cursor-pointer flex items-center justify-center gap-1">
+                👥 Sim / Casal
               </button>
             </div>
           </div>
 
-          <!-- PERGUNTA 2: REGIME DE CASAMENTO / BENS -->
-          <div class="p-3 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 space-y-2 flex flex-col justify-between shadow-2xs">
-            <div>
-              <div class="flex justify-between items-center mb-1">
-                <label class="block text-slate-900 dark:text-white text-[11px] font-black uppercase">
-                  💍 Regime de Casamento:
-                </label>
-                <span class="text-[9px] px-1.5 py-0.5 rounded font-black bg-slate-100 dark:bg-zinc-900 border border-black dark:border-zinc-700 text-black dark:text-white" id="lbl-regime-casamento-badge">Meação 50% + Concorrência</span>
-              </div>
-              <select id="sel-regime-casamento" onchange="setRegimeCasamento(this.value)" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-slate-900 dark:text-white font-bold text-xs shadow-2xs cursor-pointer focus:outline-none">
-                <option value="comunhao_parcial" selected>Comunhão Parcial de Bens (Art. 1.658 CC)</option>
-                <option value="separacao_total">Separação Total de Bens (Art. 1.687 CC)</option>
-                <option value="comunhao_universal">Comunhão Universal de Bens (Art. 1.667 CC)</option>
-                <option value="separacao_obrigatoria">Separação Obrigatória / Legal (Art. 1.641 CC)</option>
-                <option value="uniao_estavel">União Estável (Equiparada Parcial)</option>
-                <option value="individual_solteiro">Solteiro / Não Aplicável</option>
-              </select>
-              <p class="text-[9px] text-slate-600 dark:text-slate-400 mt-1.5 leading-tight" id="lbl-regime-casamento-desc">
-                Meação de 50% nos bens comuns onerosos + concorrência na herança sobre particulares (Art. 1.829, I CC).
-              </p>
+          <!-- ── P2: REGIME DE BENS ── -->
+          <div class="p-3 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 flex flex-col gap-2 shadow-2xs">
+            <div class="flex justify-between items-center">
+              <label class="text-[11px] font-black uppercase text-slate-900 dark:text-white">⚖️ Regime de Bens:</label>
+              <span class="text-[9px] px-1.5 py-0.5 rounded font-black bg-slate-100 dark:bg-zinc-900 border border-black dark:border-zinc-700 text-black dark:text-white" id="lbl-regime-casamento-badge">Meação 50%</span>
+            </div>
+            <select id="sel-regime-casamento" onchange="setRegimeCasamento(this.value)"
+              class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-slate-900 dark:text-white font-bold text-xs shadow-2xs cursor-pointer focus:outline-none">
+              <option value="comunhao_parcial" selected>Comunhão Parcial (Art. 1.658 CC)</option>
+              <option value="separacao_total">Separação Total (Art. 1.687 CC)</option>
+              <option value="comunhao_universal">Comunhão Universal (Art. 1.667 CC)</option>
+              <option value="separacao_obrigatoria">Separação Obrigatória/Legal (Art. 1.641 CC)</option>
+              <option value="uniao_estavel">União Estável (Equiparada Parcial)</option>
+              <option value="individual_solteiro">Solteiro / Não Aplicável</option>
+            </select>
+            <p class="text-[9px] text-slate-600 dark:text-slate-400 leading-tight" id="lbl-regime-casamento-desc">
+              Meação de 50% nos bens comuns onerosos + concorrência na herança sobre particulares (Art. 1.829, I CC).
+            </p>
+          </div>
+
+          <!-- ── P3: TEM EMPRESAS (PJ)? ── -->
+          <div class="p-3 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 flex flex-col gap-2 shadow-2xs">
+            <div class="flex justify-between items-center">
+              <label class="text-[11px] font-black uppercase text-slate-900 dark:text-white">🏢 Tem Empresa(s) PJ?</label>
+              <span class="text-[9px] px-1.5 py-0.5 rounded font-black bg-slate-100 dark:bg-zinc-900 border border-black dark:border-zinc-700 text-black dark:text-white" id="lbl-governanca-pj-badge">Nenhuma</span>
+            </div>
+            <p class="text-[10px] text-slate-600 dark:text-slate-400 leading-tight -mt-1">
+              Holding familiar, operacional ou investimentos via PJ impacta ITBI, ITCMD, GCAP e distribuição de lucros.
+            </p>
+            <div class="flex items-center gap-2 mt-auto pt-1">
+              <button type="button" id="btn-pj-nao"
+                onclick="setGovernancaPJ('nao')"
+                class="flex-1 py-2 px-2 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs border border-black dark:border-white shadow-xs transition cursor-pointer flex items-center justify-center gap-1">
+                ✗ Não
+              </button>
+              <button type="button" id="btn-pj-holding"
+                onclick="setGovernancaPJ('holding')"
+                class="flex-1 py-2 px-2 rounded-xl bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-xs border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer flex items-center justify-center gap-1">
+                🏛️ Holding
+              </button>
+              <button type="button" id="btn-pj-operacional"
+                onclick="setGovernancaPJ('operacional')"
+                class="flex-1 py-2 px-2 rounded-xl bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-xs border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer flex items-center justify-center gap-1">
+                🔧 Operac.
+              </button>
             </div>
           </div>
 
-          <!-- PERGUNTA 3: RENDA BRUTA ANUAL TRIBUTÁVEL -->
-          <div class="p-3 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 space-y-2 flex flex-col justify-between shadow-2xs">
-            <div>
-              <div class="flex justify-between items-center mb-1">
-                <label class="block text-slate-900 dark:text-white text-[11px] font-black uppercase">
-                  💰 Renda Bruta Tributável:
-                </label>
-              </div>
-              <p class="text-[10px] text-slate-600 dark:text-slate-400 mb-2 leading-tight">
-                Renda anual tributável na declaração de IRPF para calibração das deduções.
-              </p>
+          <!-- ── P4: FILHOS DEPENDENTES OU DOENTES? ── -->
+          <div class="p-3 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 flex flex-col gap-2 shadow-2xs">
+            <div class="flex justify-between items-center">
+              <label class="text-[11px] font-black uppercase text-slate-900 dark:text-white">👶 Filhos / Dependentes?</label>
+              <span class="text-[9px] px-1.5 py-0.5 rounded font-black bg-slate-100 dark:bg-zinc-900 border border-black dark:border-zinc-700 text-black dark:text-white" id="lbl-governanca-filhos-badge">0 dep.</span>
             </div>
-            <div class="flex items-center gap-2 pt-1">
-              <input type="text" inputmode="numeric" id="inp-deducao-renda-bruta" value="350.000,00" onfocus="this.select()" oninput="aplicarMascaraMoedaInput(this, () => recalcularTudo())" onblur="formatarMoedaBlur(this, () => recalcularTudo())" class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-slate-900 dark:text-white font-black text-xs font-mono text-right" placeholder="350.000,00" title="Digite a sua renda bruta tributável anual no IRPF">
-              <span class="text-xs text-slate-400 select-none flex-shrink-0" title="Preenchimento editável">✏️</span>
+            <p class="text-[10px] text-slate-600 dark:text-slate-400 leading-tight -mt-1">
+              Dependentes legais (R$ 2.275,08/ano) e portadores de moléstia grave geram isenção de IR sobre aposentadoria e deduções ilimitadas de saúde.
+            </p>
+            <div class="grid grid-cols-2 gap-1.5 mt-auto pt-1">
+              <!-- Qtde dependentes normais -->
+              <div class="flex flex-col gap-1">
+                <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Qtde dependentes:</span>
+                <div class="flex items-center gap-1">
+                  <button type="button" onclick="ajustarDependentes(-1)"
+                    class="w-7 h-7 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-black text-sm flex items-center justify-center hover:bg-slate-100 transition cursor-pointer">−</button>
+                  <span id="lbl-governanca-qtd-dependentes" class="flex-1 text-center font-black font-mono text-sm text-slate-900 dark:text-white">0</span>
+                  <button type="button" onclick="ajustarDependentes(+1)"
+                    class="w-7 h-7 rounded-lg bg-black dark:bg-white border border-black dark:border-white text-white dark:text-black font-black text-sm flex items-center justify-center hover:bg-zinc-800 dark:hover:bg-zinc-200 transition cursor-pointer">+</button>
+                </div>
+              </div>
+              <!-- Doentes / moléstia grave -->
+              <div class="flex flex-col gap-1">
+                <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Doentes (moléstia grave):</span>
+                <div class="flex items-center gap-1">
+                  <button type="button" onclick="ajustarDependentesDoentes(-1)"
+                    class="w-7 h-7 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-black text-sm flex items-center justify-center hover:bg-slate-100 transition cursor-pointer">−</button>
+                  <span id="lbl-governanca-qtd-doentes" class="flex-1 text-center font-black font-mono text-sm text-slate-900 dark:text-white">0</span>
+                  <button type="button" onclick="ajustarDependentesDoentes(+1)"
+                    class="w-7 h-7 rounded-lg bg-black dark:bg-white border border-black dark:border-white text-white dark:text-black font-black text-sm flex items-center justify-center hover:bg-zinc-800 dark:hover:bg-zinc-200 transition cursor-pointer">+</button>
+                </div>
+              </div>
+            </div>
+            <!-- Badge resumo -->
+            <div class="text-[9px] text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-100 dark:border-zinc-800" id="lbl-governanca-filhos-desc">
+              Deduções IRPF: R$ 0,00/ano • Moléstia grave: 0 isenção
             </div>
           </div>
-        </div>
-      </div>
+
+          <!-- ── P5: RENDA TOTAL PESSOA FÍSICA ── -->
+          <div class="p-3 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 flex flex-col gap-2 shadow-2xs">
+            <div class="flex justify-between items-center">
+              <label class="text-[11px] font-black uppercase text-slate-900 dark:text-white">💰 Renda Total PF (Anual):</label>
+            </div>
+            <p class="text-[10px] text-slate-600 dark:text-slate-400 leading-tight -mt-1">
+              Renda bruta tributável na DIRPF — base para alíquota progressiva, PGBL 12%, deduções e Carnê-Leão.
+            </p>
+            <!-- Faixas rápidas de renda -->
+            <div class="grid grid-cols-3 gap-1 text-[9px]">
+              <button type="button" onclick="setRendaRapidaPF(60000)"
+                class="py-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 font-bold text-black dark:text-white hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer"
+                title="Até R$ 60 mil/ano — alíquota efetiva ~7,5%">≤ 60k</button>
+              <button type="button" onclick="setRendaRapidaPF(150000)"
+                class="py-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 font-bold text-black dark:text-white hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer"
+                title="Até R$ 150 mil/ano — alíquota efetiva ~15%">≤ 150k</button>
+              <button type="button" onclick="setRendaRapidaPF(350000)"
+                class="py-1.5 rounded-lg bg-black dark:bg-white border border-black dark:border-white font-black text-white dark:text-black shadow-xs transition cursor-pointer"
+                title="Até R$ 350 mil/ano — alíquota efetiva ~20–22%">≤ 350k</button>
+              <button type="button" onclick="setRendaRapidaPF(600000)"
+                class="py-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 font-bold text-black dark:text-white hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer"
+                title="Até R$ 600 mil/ano — alíquota efetiva ~25%">≤ 600k</button>
+              <button type="button" onclick="setRendaRapidaPF(1200000)"
+                class="py-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 font-bold text-black dark:text-white hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer"
+                title="Até R$ 1,2 mi/ano — teto 27,5%">≤ 1,2M</button>
+              <button type="button" onclick="setRendaRapidaPF(0)"
+                class="py-1.5 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 font-bold text-black dark:text-white hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer"
+                title="Digitar valor personalizado">✏️ Outro</button>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="text" inputmode="numeric" id="inp-deducao-renda-bruta" value="350.000,00"
+                onfocus="this.select()"
+                oninput="aplicarMascaraMoedaInput(this, () => recalcularTudo())"
+                onblur="formatarMoedaBlur(this, () => recalcularTudo())"
+                class="w-full p-2 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-slate-900 dark:text-white font-black text-xs font-mono text-right"
+                placeholder="350.000,00" title="Renda bruta tributável anual no IRPF">
+              <span class="text-xs text-slate-400 select-none flex-shrink-0">✏️</span>
+            </div>
+            <!-- Alíquota efetiva estimada -->
+            <div class="text-[9px] text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-100 dark:border-zinc-800" id="lbl-governanca-aliquota-efetiva">
+              Alíquota efetiva estimada: ~22,5% · Faixa: 27,5% (teto progressivo)
+            </div>
+          </div>
+
+          <!-- ── RESUMO COMPACTO DA GOVERNANÇA ── -->
+          <div class="p-3 rounded-xl bg-black dark:bg-white border border-black dark:border-white flex flex-col gap-2 shadow-2xs">
+            <span class="text-[11px] font-black uppercase text-white dark:text-black tracking-wider">📊 Perfil Consolidado</span>
+            <div class="space-y-1 text-[10px] text-slate-300 dark:text-slate-700 leading-snug" id="lbl-governanca-resumo">
+              <div>👥 <b class="text-white dark:text-black">Casal</b> · Comunhão Parcial</div>
+              <div>🏢 <b class="text-white dark:text-black">Sem PJ</b> ativa</div>
+              <div>👶 <b class="text-white dark:text-black">0</b> dep. · <b class="text-white dark:text-black">0</b> moléstia grave</div>
+              <div>💰 Renda PF: <b class="text-white dark:text-black font-mono">R$ 350.000,00</b></div>
+              <div>📌 Dedução máx. PGBL: <b class="text-white dark:text-black font-mono" id="lbl-governanca-pgbl-max">R$ 42.000,00</b></div>
+              <div>📌 Dep. IRPF: <b class="text-white dark:text-black font-mono" id="lbl-governanca-dep-total">R$ 0,00/ano</b></div>
+            </div>
+            <div class="mt-auto pt-2 border-t border-zinc-700 dark:border-slate-300">
+              <span class="text-[9px] text-slate-400 dark:text-slate-600 leading-tight block">
+                As premissas acima calibram automaticamente os módulos de dedução, seguros, previdência e sucessão abaixo.
+              </span>
+            </div>
+          </div>
+
+        </div><!-- /grid perguntas -->
+      </div><!-- /governança -->
       <!-- SEPARADOR PARA OS CARDS DE SEGUROS E PREVIDÊNCIA -->
       <div class="flex items-center gap-2 pt-1">
         <span class="font-black text-xs text-slate-900 dark:text-white uppercase tracking-wider">
