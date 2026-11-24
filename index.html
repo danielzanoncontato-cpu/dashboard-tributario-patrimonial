@@ -577,28 +577,79 @@
           <!-- ── P3: TEM EMPRESAS (PJ)? ── -->
           <div class="p-3 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 flex flex-col gap-2 shadow-2xs">
             <div class="flex justify-between items-center">
-              <label class="text-[11px] font-black uppercase text-slate-900 dark:text-white">🏢 Tem Empresa(s) PJ?</label>
-              <span class="text-[9px] px-1.5 py-0.5 rounded font-black bg-slate-100 dark:bg-zinc-900 border border-black dark:border-zinc-700 text-black dark:text-white" id="lbl-governanca-pj-badge">Nenhuma</span>
+              <label class="text-[11px] font-black uppercase text-slate-900 dark:text-white leading-tight">
+                🏢 Tem empresa(s) PJ, em nome próprio, do cônjuge ou filhos?
+              </label>
+              <span class="text-[9px] px-1.5 py-0.5 rounded font-black bg-slate-100 dark:bg-zinc-900 border border-black dark:border-zinc-700 text-black dark:text-white whitespace-nowrap ml-1" id="lbl-governanca-pj-badge">Não</span>
             </div>
-            <p class="text-[10px] text-slate-600 dark:text-slate-400 leading-tight -mt-1">
-              Holding familiar, operacional ou investimentos via PJ impacta ITBI, ITCMD, GCAP e distribuição de lucros.
-            </p>
-            <div class="flex items-center gap-2 mt-auto pt-1">
-              <button type="button" id="btn-pj-nao"
-                onclick="setGovernancaPJ('nao')"
-                class="flex-1 py-2 px-2 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs border border-black dark:border-white shadow-xs transition cursor-pointer flex items-center justify-center gap-1">
-                ✗ Não
+
+            <!-- Botões Principais: Não vs Sim -->
+            <div class="flex items-center gap-1.5 pt-0.5">
+              <button type="button" id="btn-pj-status-nao"
+                onclick="setGovernancaPJStatus('nao')"
+                class="flex-1 py-1.5 px-2 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs border border-black dark:border-white shadow-xs transition cursor-pointer flex items-center justify-center gap-1">
+                ✗ Não possui
               </button>
-              <button type="button" id="btn-pj-holding"
-                onclick="setGovernancaPJ('holding')"
-                class="flex-1 py-2 px-2 rounded-xl bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-xs border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer flex items-center justify-center gap-1">
-                🏛️ Holding
+              <button type="button" id="btn-pj-status-sim"
+                onclick="setGovernancaPJStatus('sim')"
+                class="flex-1 py-1.5 px-2 rounded-xl bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-xs border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer flex items-center justify-center gap-1">
+                ✓ Sim, possui PJ
               </button>
-              <button type="button" id="btn-pj-operacional"
-                onclick="setGovernancaPJ('operacional')"
-                class="flex-1 py-2 px-2 rounded-xl bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-xs border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer flex items-center justify-center gap-1">
-                🔧 Operac.
-              </button>
+            </div>
+
+            <!-- Painel Expansível de Detalhes da PJ (visível quando SIM) -->
+            <div id="painel-governanca-pj-detalhes" class="hidden space-y-2 pt-1 border-t border-slate-100 dark:border-zinc-800 text-[10px]">
+              <!-- Em nome de quem? -->
+              <div>
+                <span class="font-bold text-slate-700 dark:text-slate-300 block mb-1">Titularidade / Em nome de quem:</span>
+                <div class="grid grid-cols-3 gap-1">
+                  <button type="button" id="btn-pj-titular-proprio"
+                    onclick="toggleGovernancaPJTitular('proprio')"
+                    class="py-1 px-1 rounded-lg border border-black dark:border-white bg-black dark:bg-white text-white dark:text-black font-black text-[9px] transition cursor-pointer text-center">
+                    Próprio
+                  </button>
+                  <button type="button" id="btn-pj-titular-conjuge"
+                    onclick="toggleGovernancaPJTitular('conjuge')"
+                    class="py-1 px-1 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-slate-700 dark:text-slate-300 font-bold text-[9px] hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer text-center">
+                    Cônjuge
+                  </button>
+                  <button type="button" id="btn-pj-titular-filhos"
+                    onclick="toggleGovernancaPJTitular('filhos')"
+                    class="py-1 px-1 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-slate-700 dark:text-slate-300 font-bold text-[9px] hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer text-center">
+                    Filhos
+                  </button>
+                </div>
+              </div>
+
+              <!-- Ramo de Atividade & Risco -->
+              <div class="grid grid-cols-2 gap-1.5">
+                <div>
+                  <span class="font-bold text-slate-700 dark:text-slate-300 block mb-1">Ramo de Atividade:</span>
+                  <select id="sel-governanca-pj-ramo" onchange="atualizarGovernancaPJ()" class="w-full p-1 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-slate-900 dark:text-white font-bold text-[10px] cursor-pointer">
+                    <option value="holding_patrimonial">Holding Patrimonial</option>
+                    <option value="comercio_varejo">Comércio / Varejo</option>
+                    <option value="industria">Indústria / Manufatura</option>
+                    <option value="servicos_gerais">Serviços / Consultoria</option>
+                    <option value="construcao_civil">Construção Civil / Imob.</option>
+                    <option value="saude_medico">Saúde / Clínicas</option>
+                    <option value="agropecuaria">Agropecuária</option>
+                    <option value="transporte_logistica">Transporte / Logística</option>
+                  </select>
+                </div>
+                <div>
+                  <span class="font-bold text-slate-700 dark:text-slate-300 block mb-1">Grau de Risco:</span>
+                  <select id="sel-governanca-pj-risco" onchange="atualizarGovernancaPJ()" class="w-full p-1 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-slate-900 dark:text-white font-black text-[10px] cursor-pointer">
+                    <option value="baixo">🟢 Baixo (Patrimonial)</option>
+                    <option value="medio">🟡 Médio (Serviços)</option>
+                    <option value="alto">🔴 Alto (Passivo/Trabalhista)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Resumo inferior de risco e proteção -->
+            <div class="text-[9px] text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-100 dark:border-zinc-800" id="lbl-governanca-pj-desc">
+              Sem empresas vinculadas ao núcleo familiar.
             </div>
           </div>
 
@@ -5575,6 +5626,176 @@ function setRendaBrutaAluguelAcervo() {
   }
   recalcularTudo();
 }
+
+/* ========================================================================= */
+/* ENGINE INTERATIVA: GOVERNANÇA FAMILIAR & EMPRESAS PJ                      */
+/* ========================================================================= */
+if (!state.governancaPJ) {
+  state.governancaPJ = {
+    temPJ: false,
+    titulares: { proprio: true, conjuge: false, filhos: false },
+    ramo: 'holding_patrimonial',
+    risco: 'baixo'
+  };
+}
+if (state.governancaDependentes === undefined) state.governancaDependentes = 0;
+if (state.governancaDoentes === undefined) state.governancaDoentes = 0;
+
+function setGovernancaPJStatus(status) {
+  const tem = (status === 'sim');
+  state.governancaPJ.temPJ = tem;
+  const painel = document.getElementById('painel-governanca-pj-detalhes');
+  const btnNao = document.getElementById('btn-pj-status-nao');
+  const btnSim = document.getElementById('btn-pj-status-sim');
+  const badge = document.getElementById('lbl-governanca-pj-badge');
+
+  if (tem) {
+    if (painel) painel.classList.remove('hidden');
+    if (badge) {
+      badge.innerText = 'Sim (PJ Ativa)';
+      badge.className = 'text-[9px] px-1.5 py-0.5 rounded font-black bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white whitespace-nowrap ml-1';
+    }
+    if (btnSim) {
+      btnSim.className = 'flex-1 py-1.5 px-2 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs border border-black dark:border-white shadow-xs transition cursor-pointer flex items-center justify-center gap-1';
+    }
+    if (btnNao) {
+      btnNao.className = 'flex-1 py-1.5 px-2 rounded-xl bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-xs border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer flex items-center justify-center gap-1';
+    }
+  } else {
+    if (painel) painel.classList.add('hidden');
+    if (badge) {
+      badge.innerText = 'Não';
+      badge.className = 'text-[9px] px-1.5 py-0.5 rounded font-black bg-slate-100 dark:bg-zinc-900 border border-black dark:border-zinc-700 text-black dark:text-white whitespace-nowrap ml-1';
+    }
+    if (btnNao) {
+      btnNao.className = 'flex-1 py-1.5 px-2 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs border border-black dark:border-white shadow-xs transition cursor-pointer flex items-center justify-center gap-1';
+    }
+    if (btnSim) {
+      btnSim.className = 'flex-1 py-1.5 px-2 rounded-xl bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-xs border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer flex items-center justify-center gap-1';
+    }
+  }
+  atualizarGovernancaPJ();
+}
+
+function toggleGovernancaPJTitular(quem) {
+  if (!state.governancaPJ.titulares) {
+    state.governancaPJ.titulares = { proprio: true, conjuge: false, filhos: false };
+  }
+  state.governancaPJ.titulares[quem] = !state.governancaPJ.titulares[quem];
+
+  const btn = document.getElementById(`btn-pj-titular-${quem}`);
+  if (btn) {
+    const ativo = state.governancaPJ.titulares[quem];
+    if (ativo) {
+      btn.className = 'py-1 px-1 rounded-lg border border-black dark:border-white bg-black dark:bg-white text-white dark:text-black font-black text-[9px] transition cursor-pointer text-center';
+    } else {
+      btn.className = 'py-1 px-1 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-slate-700 dark:text-slate-300 font-bold text-[9px] hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer text-center';
+    }
+  }
+  atualizarGovernancaPJ();
+}
+
+function atualizarGovernancaPJ() {
+  const selRamo = document.getElementById('sel-governanca-pj-ramo');
+  const selRisco = document.getElementById('sel-governanca-pj-risco');
+  if (selRamo) state.governancaPJ.ramo = selRamo.value;
+  if (selRisco) state.governancaPJ.risco = selRisco.value;
+
+  const desc = document.getElementById('lbl-governanca-pj-desc');
+  if (desc) {
+    if (!state.governancaPJ.temPJ) {
+      desc.innerHTML = 'Sem empresas vinculadas ao núcleo familiar.';
+    } else {
+      const titularesAtivos = [];
+      if (state.governancaPJ.titulares.proprio) titularesAtivos.push('Próprio');
+      if (state.governancaPJ.titulares.conjuge) titularesAtivos.push('Cônjuge');
+      if (state.governancaPJ.titulares.filhos) titularesAtivos.push('Filhos');
+      const titularesTxt = titularesAtivos.length > 0 ? titularesAtivos.join(', ') : 'Nenhum';
+
+      const riscoTxt = state.governancaPJ.risco === 'alto' 
+        ? '<b class="text-rose-600 dark:text-rose-400">Risco Alto (blindagem recomendada)</b>' 
+        : (state.governancaPJ.risco === 'medio' ? '<b class="text-amber-600 dark:text-amber-400">Risco Médio</b>' : '<b class="text-emerald-600 dark:text-emerald-400">Risco Baixo</b>');
+
+      desc.innerHTML = `Titulares: <b>${titularesTxt}</b> • Ramo: <b>${selRamo ? selRamo.options[selRamo.selectedIndex].text : 'Holding'}</b> • ${riscoTxt}`;
+    }
+  }
+  atualizarResumoGovernanca();
+}
+
+function ajustarDependentes(delta) {
+  state.governancaDependentes = Math.max(0, (state.governancaDependentes || 0) + delta);
+  const lblQtd = document.getElementById('lbl-governanca-qtd-dependentes');
+  const lblBadge = document.getElementById('lbl-governanca-filhos-badge');
+  if (lblQtd) lblQtd.innerText = state.governancaDependentes;
+  if (lblBadge) lblBadge.innerText = `${state.governancaDependentes} dep.`;
+
+  const desc = document.getElementById('lbl-governanca-filhos-desc');
+  const deducaoTotal = state.governancaDependentes * 2275.08;
+  if (desc) {
+    desc.innerText = `Deduções IRPF: ${formatMoney(deducaoTotal)}/ano • Moléstia grave: ${state.governancaDoentes || 0} isenção`;
+  }
+  atualizarResumoGovernanca();
+  recalcularTudo();
+}
+
+function ajustarDependentesDoentes(delta) {
+  state.governancaDoentes = Math.max(0, (state.governancaDoentes || 0) + delta);
+  const lblQtd = document.getElementById('lbl-governanca-qtd-doentes');
+  if (lblQtd) lblQtd.innerText = state.governancaDoentes;
+
+  const desc = document.getElementById('lbl-governanca-filhos-desc');
+  const deducaoTotal = (state.governancaDependentes || 0) * 2275.08;
+  if (desc) {
+    desc.innerText = `Deduções IRPF: ${formatMoney(deducaoTotal)}/ano • Moléstia grave: ${state.governancaDoentes} isenção`;
+  }
+  atualizarResumoGovernanca();
+  recalcularTudo();
+}
+
+function setRendaRapidaPF(valor) {
+  const inp = document.getElementById('inp-deducao-renda-bruta');
+  if (inp) {
+    if (valor > 0) {
+      inp.value = formatMoneyBR(valor);
+    } else {
+      inp.focus();
+      inp.select();
+    }
+  }
+  atualizarResumoGovernanca();
+  recalcularTudo();
+}
+
+function atualizarResumoGovernanca() {
+  const resumo = document.getElementById('lbl-governanca-resumo');
+  if (!resumo) return;
+
+  const perfilTxt = (state.perfilDeclaracao === 'individual') ? 'Individual (1 Titular)' : 'Casal';
+  const regimeTxt = document.getElementById('sel-regime-casamento')?.options[document.getElementById('sel-regime-casamento')?.selectedIndex]?.text || 'Comunhão Parcial';
+  
+  let pjTxt = 'Sem PJ ativa';
+  if (state.governancaPJ && state.governancaPJ.temPJ) {
+    const tit = [];
+    if (state.governancaPJ.titulares.proprio) tit.push('Próprio');
+    if (state.governancaPJ.titulares.conjuge) tit.push('Cônjuge');
+    if (state.governancaPJ.titulares.filhos) tit.push('Filhos');
+    pjTxt = `PJ (${tit.join('/') || 'Família'}) - ${state.governancaPJ.risco.toUpperCase()}`;
+  }
+
+  const rendaVal = parseMoneyBR(document.getElementById('inp-deducao-renda-bruta')?.value) || 350000;
+  const pgblMax = rendaVal * 0.12;
+  const depDeducao = (state.governancaDependentes || 0) * 2275.08;
+
+  resumo.innerHTML = `
+    <div>👥 <b class="text-white dark:text-black">${perfilTxt}</b> · ${regimeTxt.split('(')[0]}</div>
+    <div>🏢 <b class="text-white dark:text-black">${pjTxt}</b></div>
+    <div>👶 <b class="text-white dark:text-black">${state.governancaDependentes || 0}</b> dep. · <b class="text-white dark:text-black">${state.governancaDoentes || 0}</b> moléstia grave</div>
+    <div>💰 Renda PF: <b class="text-white dark:text-black font-mono">${formatMoney(rendaVal)}</b></div>
+    <div>📌 Dedução máx. PGBL: <b class="text-white dark:text-black font-mono">${formatMoney(pgblMax)}</b></div>
+    <div>📌 Dep. IRPF: <b class="text-white dark:text-black font-mono">${formatMoney(depDeducao)}/ano</b></div>
+  `;
+}
+
 function atualizarSeguroPatrimonial() {
   const sel = document.getElementById('sel-deducao-seguro-ativo') || document.getElementById('sel-seguro-ativo');
   const ativo = sel ? (sel.value === 'SIM') : true;
