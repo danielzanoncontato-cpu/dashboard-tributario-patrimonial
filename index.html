@@ -668,42 +668,80 @@
             </div>
           </div>
 
-          <!-- ── P4: FILHOS DEPENDENTES OU DOENTES? ── -->
+          <!-- ── P4: FILHOS & RELACIONAMENTO / COMUNICAÇÃO DE BENS ── -->
           <div class="p-3 rounded-xl bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 flex flex-col gap-2 shadow-2xs">
             <div class="flex justify-between items-center">
-              <label class="text-[11px] font-black uppercase text-slate-900 dark:text-white">👶 Filhos / Dependentes?</label>
-              <span class="text-[9px] px-1.5 py-0.5 rounded font-black bg-slate-100 dark:bg-zinc-900 border border-black dark:border-zinc-700 text-black dark:text-white" id="lbl-governanca-filhos-badge">0 dep.</span>
+              <label class="text-[11px] font-black uppercase text-slate-900 dark:text-white leading-tight">
+                👶 Tem filhos? E os filhos namoram?
+              </label>
+              <span class="text-[9px] px-1.5 py-0.5 rounded font-black bg-slate-100 dark:bg-zinc-900 border border-black dark:border-zinc-700 text-black dark:text-white whitespace-nowrap ml-1" id="lbl-governanca-filhos-badge">Sem Filhos</span>
             </div>
-            <p class="text-[10px] text-slate-600 dark:text-slate-400 leading-tight -mt-1">
-              Dependentes legais (R$ 2.275,08/ano) e portadores de moléstia grave geram isenção de IR sobre aposentadoria e deduções ilimitadas de saúde.
-            </p>
-            <div class="grid grid-cols-2 gap-1.5 mt-auto pt-1">
-              <!-- Qtde dependentes normais -->
-              <div class="flex flex-col gap-1">
-                <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Qtde dependentes:</span>
-                <div class="flex items-center gap-1">
-                  <button type="button" onclick="ajustarDependentes(-1)"
-                    class="w-7 h-7 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-black text-sm flex items-center justify-center hover:bg-slate-100 transition cursor-pointer">−</button>
-                  <span id="lbl-governanca-qtd-dependentes" class="flex-1 text-center font-black font-mono text-sm text-slate-900 dark:text-white">0</span>
-                  <button type="button" onclick="ajustarDependentes(+1)"
-                    class="w-7 h-7 rounded-lg bg-black dark:bg-white border border-black dark:border-white text-white dark:text-black font-black text-sm flex items-center justify-center hover:bg-zinc-800 dark:hover:bg-zinc-200 transition cursor-pointer">+</button>
-                </div>
-              </div>
-              <!-- Doentes / moléstia grave -->
-              <div class="flex flex-col gap-1">
-                <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Doentes (moléstia grave):</span>
-                <div class="flex items-center gap-1">
-                  <button type="button" onclick="ajustarDependentesDoentes(-1)"
-                    class="w-7 h-7 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-black text-sm flex items-center justify-center hover:bg-slate-100 transition cursor-pointer">−</button>
-                  <span id="lbl-governanca-qtd-doentes" class="flex-1 text-center font-black font-mono text-sm text-slate-900 dark:text-white">0</span>
-                  <button type="button" onclick="ajustarDependentesDoentes(+1)"
-                    class="w-7 h-7 rounded-lg bg-black dark:bg-white border border-black dark:border-white text-white dark:text-black font-black text-sm flex items-center justify-center hover:bg-zinc-800 dark:hover:bg-zinc-200 transition cursor-pointer">+</button>
-                </div>
+
+            <!-- Pergunta 1: Tem filhos? -->
+            <div class="space-y-1">
+              <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300 block">Possui filhos:</span>
+              <div class="flex items-center gap-1.5">
+                <button type="button" id="btn-filhos-status-nao"
+                  onclick="setGovernancaFilhosStatus('nao')"
+                  class="flex-1 py-1.5 px-2 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs border border-black dark:border-white shadow-xs transition cursor-pointer flex items-center justify-center gap-1">
+                  ✗ Não tem
+                </button>
+                <button type="button" id="btn-filhos-status-sim"
+                  onclick="setGovernancaFilhosStatus('sim')"
+                  class="flex-1 py-1.5 px-2 rounded-xl bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-xs border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer flex items-center justify-center gap-1">
+                  ✓ Sim, tem filhos
+                </button>
               </div>
             </div>
-            <!-- Badge resumo -->
+
+            <!-- Painel Expansível: Detalhes dos Filhos e Namoro / Comunicação de Bens -->
+            <div id="painel-governanca-filhos-detalhes" class="hidden space-y-2 pt-1 border-t border-slate-100 dark:border-zinc-800 text-[10px]">
+              <!-- Quantidade de filhos -->
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-700 dark:text-slate-300">Quantidade de filhos:</span>
+                <div class="flex items-center gap-1">
+                  <button type="button" onclick="ajustarQtdFilhos(-1)"
+                    class="w-6 h-6 rounded-lg bg-white dark:bg-zinc-950 border border-black dark:border-zinc-700 text-black dark:text-white font-black text-xs flex items-center justify-center hover:bg-slate-100 transition cursor-pointer">−</button>
+                  <span id="lbl-governanca-qtd-filhos" class="w-8 text-center font-black font-mono text-xs text-slate-900 dark:text-white">1</span>
+                  <button type="button" onclick="ajustarQtdFilhos(+1)"
+                    class="w-6 h-6 rounded-lg bg-black dark:bg-white border border-black dark:border-white text-white dark:text-black font-black text-xs flex items-center justify-center hover:bg-zinc-800 dark:hover:bg-zinc-200 transition cursor-pointer">+</button>
+                </div>
+              </div>
+
+              <!-- Status de Relacionamento / Namoro dos Filhos -->
+              <div>
+                <div class="flex justify-between items-center mb-1">
+                  <span class="font-bold text-slate-700 dark:text-slate-300">Situação de relacionamento:</span>
+                  <span class="text-[8px] font-black uppercase text-amber-600 dark:text-amber-400" id="lbl-governanca-namoro-alerta">Risco União Estável</span>
+                </div>
+                <div class="grid grid-cols-3 gap-1">
+                  <button type="button" id="btn-filhos-rel-solteiro"
+                    onclick="setGovernancaFilhosRelacionamento('solteiro')"
+                    class="py-1 px-1 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-slate-700 dark:text-slate-300 font-bold text-[9px] hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer text-center">
+                    Solteiros
+                  </button>
+                  <button type="button" id="btn-filhos-rel-namoro"
+                    onclick="setGovernancaFilhosRelacionamento('namoro')"
+                    class="py-1 px-1 rounded-lg border border-black dark:border-white bg-black dark:bg-white text-white dark:text-black font-black text-[9px] transition cursor-pointer text-center">
+                    💍 Namoram
+                  </button>
+                  <button type="button" id="btn-filhos-rel-casado"
+                    onclick="setGovernancaFilhosRelacionamento('casado')"
+                    class="py-1 px-1 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-slate-700 dark:text-slate-300 font-bold text-[9px] hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer text-center">
+                    Casados / UE
+                  </button>
+                </div>
+              </div>
+
+              <!-- Alerta Jurídico sobre Comunicação de Bens -->
+              <div class="p-1.5 rounded-lg bg-amber-50 dark:bg-zinc-900 border border-amber-300 dark:border-zinc-700 text-[9px] text-amber-950 dark:text-amber-200 leading-tight" id="box-alerta-comunicacao-bens">
+                ⚠️ <b>Atenção à Comunicação de Bens:</b> Namoro prolongado com coabitação pode ser caracterizado como <b>União Estável</b> (Art. 1.723 CC), aplicando o regime da comunhão parcial (Art. 1.658 CC). <b>Recomendação:</b> Cláusula de Incomunicabilidade (Art. 1.911 CC) e Contrato de Namoro/Holding.
+              </div>
+            </div>
+
+            <!-- Resumo inferior -->
             <div class="text-[9px] text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-100 dark:border-zinc-800" id="lbl-governanca-filhos-desc">
-              Deduções IRPF: R$ 0,00/ano • Moléstia grave: 0 isenção
+              Sem filhos informados no planejamento.
             </div>
           </div>
 
@@ -5766,34 +5804,118 @@ function atualizarGovernancaPJ() {
   atualizarResumoGovernanca();
 }
 
-function ajustarDependentes(delta) {
-  state.governancaDependentes = Math.max(0, (state.governancaDependentes || 0) + delta);
-  const lblQtd = document.getElementById('lbl-governanca-qtd-dependentes');
-  const lblBadge = document.getElementById('lbl-governanca-filhos-badge');
-  if (lblQtd) lblQtd.innerText = state.governancaDependentes;
-  if (lblBadge) lblBadge.innerText = `${state.governancaDependentes} dep.`;
+if (!state.governancaFilhos) {
+  state.governancaFilhos = {
+    temFilhos: false,
+    qtdFilhos: 1,
+    relacionamento: 'namoro'
+  };
+}
 
+function setGovernancaFilhosStatus(status) {
+  const tem = (status === 'sim');
+  state.governancaFilhos.temFilhos = tem;
+  const painel = document.getElementById('painel-governanca-filhos-detalhes');
+  const btnNao = document.getElementById('btn-filhos-status-nao');
+  const btnSim = document.getElementById('btn-filhos-status-sim');
+  const badge = document.getElementById('lbl-governanca-filhos-badge');
+
+  if (tem) {
+    if (painel) painel.classList.remove('hidden');
+    if (badge) {
+      badge.innerText = `${state.governancaFilhos.qtdFilhos} Filho(s)`;
+      badge.className = 'text-[9px] px-1.5 py-0.5 rounded font-black bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white whitespace-nowrap ml-1';
+    }
+    if (btnSim) {
+      btnSim.className = 'flex-1 py-1.5 px-2 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs border border-black dark:border-white shadow-xs transition cursor-pointer flex items-center justify-center gap-1';
+    }
+    if (btnNao) {
+      btnNao.className = 'flex-1 py-1.5 px-2 rounded-xl bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-xs border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer flex items-center justify-center gap-1';
+    }
+  } else {
+    if (painel) painel.classList.add('hidden');
+    if (badge) {
+      badge.innerText = 'Sem Filhos';
+      badge.className = 'text-[9px] px-1.5 py-0.5 rounded font-black bg-slate-100 dark:bg-zinc-900 border border-black dark:border-zinc-700 text-black dark:text-white whitespace-nowrap ml-1';
+    }
+    if (btnNao) {
+      btnNao.className = 'flex-1 py-1.5 px-2 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs border border-black dark:border-white shadow-xs transition cursor-pointer flex items-center justify-center gap-1';
+    }
+    if (btnSim) {
+      btnSim.className = 'flex-1 py-1.5 px-2 rounded-xl bg-white dark:bg-zinc-950 text-black dark:text-white font-bold text-xs border border-black dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer flex items-center justify-center gap-1';
+    }
+  }
+  atualizarGovernancaFilhos();
+}
+
+function ajustarQtdFilhos(delta) {
+  state.governancaFilhos.qtdFilhos = Math.max(1, (state.governancaFilhos.qtdFilhos || 1) + delta);
+  const lblQtd = document.getElementById('lbl-governanca-qtd-filhos');
+  const lblBadge = document.getElementById('lbl-governanca-filhos-badge');
+  if (lblQtd) lblQtd.innerText = state.governancaFilhos.qtdFilhos;
+  if (lblBadge && state.governancaFilhos.temFilhos) {
+    lblBadge.innerText = `${state.governancaFilhos.qtdFilhos} Filho(s)`;
+  }
+  atualizarGovernancaFilhos();
+}
+
+function setGovernancaFilhosRelacionamento(tipo) {
+  state.governancaFilhos.relacionamento = tipo;
+  ['solteiro', 'namoro', 'casado'].forEach(t => {
+    const btn = document.getElementById(`btn-filhos-rel-${t}`);
+    if (btn) {
+      if (t === tipo) {
+        btn.className = 'py-1 px-1 rounded-lg border border-black dark:border-white bg-black dark:bg-white text-white dark:text-black font-black text-[9px] transition cursor-pointer text-center';
+      } else {
+        btn.className = 'py-1 px-1 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-slate-700 dark:text-slate-300 font-bold text-[9px] hover:bg-slate-100 dark:hover:bg-zinc-900 transition cursor-pointer text-center';
+      }
+    }
+  });
+  atualizarGovernancaFilhos();
+}
+
+function atualizarGovernancaFilhos() {
   const desc = document.getElementById('lbl-governanca-filhos-desc');
-  const deducaoTotal = state.governancaDependentes * 2275.08;
-  if (desc) {
-    desc.innerText = `Deduções IRPF: ${formatMoney(deducaoTotal)}/ano • Moléstia grave: ${state.governancaDoentes || 0} isenção`;
+  const alerta = document.getElementById('lbl-governanca-namoro-alerta');
+  const boxAlerta = document.getElementById('box-alerta-comunicacao-bens');
+
+  if (!state.governancaFilhos.temFilhos) {
+    if (desc) desc.innerText = 'Sem filhos informados no planejamento.';
+    if (alerta) alerta.innerText = 'Sem Risco';
+    if (boxAlerta) boxAlerta.classList.add('hidden');
+  } else {
+    if (boxAlerta) boxAlerta.classList.remove('hidden');
+    const rel = state.governancaFilhos.relacionamento;
+    if (rel === 'namoro') {
+      if (alerta) {
+        alerta.innerText = '⚠️ Risco União Estável';
+        alerta.className = 'text-[8px] font-black uppercase text-amber-600 dark:text-amber-400';
+      }
+      if (desc) desc.innerHTML = `${state.governancaFilhos.qtdFilhos} filho(s) <b>namorando</b> • <b class="text-amber-600 dark:text-amber-400">Risco de comunicação em eventual união estável</b>.`;
+    } else if (rel === 'casado') {
+      if (alerta) {
+        alerta.innerText = '💍 Casados / Formalizados';
+        alerta.className = 'text-[8px] font-black uppercase text-blue-600 dark:text-blue-400';
+      }
+      if (desc) desc.innerHTML = `${state.governancaFilhos.qtdFilhos} filho(s) <b>casados/união formal</b> • Observar regime de bens dos genros/noras.`;
+    } else {
+      if (alerta) {
+        alerta.innerText = '🟢 Solteiros';
+        alerta.className = 'text-[8px] font-black uppercase text-emerald-600 dark:text-emerald-400';
+      }
+      if (desc) desc.innerHTML = `${state.governancaFilhos.qtdFilhos} filho(s) <b>solteiros</b> • Sem risco imediato de meação/genros/noras.`;
+    }
   }
   atualizarResumoGovernanca();
   recalcularTudo();
 }
 
-function ajustarDependentesDoentes(delta) {
-  state.governancaDoentes = Math.max(0, (state.governancaDoentes || 0) + delta);
-  const lblQtd = document.getElementById('lbl-governanca-qtd-doentes');
-  if (lblQtd) lblQtd.innerText = state.governancaDoentes;
+function ajustarDependentes(delta) {
+  ajustarQtdFilhos(delta);
+}
 
-  const desc = document.getElementById('lbl-governanca-filhos-desc');
-  const deducaoTotal = (state.governancaDependentes || 0) * 2275.08;
-  if (desc) {
-    desc.innerText = `Deduções IRPF: ${formatMoney(deducaoTotal)}/ano • Moléstia grave: ${state.governancaDoentes} isenção`;
-  }
-  atualizarResumoGovernanca();
-  recalcularTudo();
+function ajustarDependentesDoentes(delta) {
+  // Mantido para compatibilidade retroativa
 }
 
 function setRendaRapidaPF(valor) {
@@ -5826,17 +5948,18 @@ function atualizarResumoGovernanca() {
     pjTxt = `PJ (${tit.join('/') || 'Família'}) - ${state.governancaPJ.risco.toUpperCase()}`;
   }
 
-  const rendaVal = parseMoneyBR(document.getElementById('inp-deducao-renda-bruta')?.value) || 350000;
-  const pgblMax = rendaVal * 0.12;
-  const depDeducao = (state.governancaDependentes || 0) * 2275.08;
+  let filhosTxt = 'Sem filhos';
+  if (state.governancaFilhos && state.governancaFilhos.temFilhos) {
+    const r = state.governancaFilhos.relacionamento === 'namoro' ? 'Namoram (Risco UE)' : (state.governancaFilhos.relacionamento === 'casado' ? 'Casados' : 'Solteiros');
+    filhosTxt = `${state.governancaFilhos.qtdFilhos} filho(s) · ${r}`;
+  }
 
   resumo.innerHTML = `
     <div>👥 <b class="text-white dark:text-black">${perfilTxt}</b> · ${regimeTxt.split('(')[0]}</div>
     <div>🏢 <b class="text-white dark:text-black">${pjTxt}</b></div>
-    <div>👶 <b class="text-white dark:text-black">${state.governancaDependentes || 0}</b> dep. · <b class="text-white dark:text-black">${state.governancaDoentes || 0}</b> moléstia grave</div>
+    <div>👶 <b class="text-white dark:text-black">${filhosTxt}</b></div>
     <div>💰 Renda PF: <b class="text-white dark:text-black font-mono">${formatMoney(rendaVal)}</b></div>
     <div>📌 Dedução máx. PGBL: <b class="text-white dark:text-black font-mono">${formatMoney(pgblMax)}</b></div>
-    <div>📌 Dep. IRPF: <b class="text-white dark:text-black font-mono">${formatMoney(depDeducao)}/ano</b></div>
   `;
 }
 
